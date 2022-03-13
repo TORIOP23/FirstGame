@@ -1,0 +1,237 @@
+#include <iostream>
+#include <SDL.h>
+#include <SDL_image.h>
+#include <SDL_mixer.h>
+#include <vector>
+
+using namespace std;
+
+#define window_width 800
+#define window_height 640
+#define fps 60	
+
+class Sprite
+{
+protected:
+	SDL_Surface* image;
+	SDL_Rect rect;
+
+	int origin_x, origin_y;
+public:
+
+	Sprite(Uint32 color, int x, int y, int w = 48, int h = 64)
+	{
+		image = SDL_CreateRGBSurface(0, w, h, 32, 0, 0, 0, 0);
+
+		SDL_FillRect(image, NULL, color);
+
+		rect = image->clip_rect;
+
+		origin_x = rect.w / 2;
+		origin_y = rect.h / 2;
+		rect.x = x;
+		rect.y = y;
+	}
+
+	void update()
+	{
+
+	}
+
+	void draw(SDL_Surface* des)
+	{
+		SDL_BlitSurface(image, NULL, des, &rect);
+	}
+
+	SDL_Surface* get_image() const {
+		return image;
+	}
+
+	bool operator == (const Sprite& other) const {
+		return (image == other.get_image());
+	}
+};
+
+class SpriteGroup
+{
+private:
+	vector <Sprite*> sprites;
+	unsigned int sprites_size;
+
+public:
+
+	SpriteGroup copy() {
+		SpriteGroup new_group;
+		for (int i = 0; i < sprites_size; i++) {
+			new_group.add(sprites[i]);
+		}
+		return new_group;
+
+	}
+
+	void add(Sprite* sprite) {
+		sprites.push_back(sprite);
+		sprites_size = sprites.size();
+	}
+
+
+	bool has(Sprite sprite_object) {
+		for (int i = 0; i < sprites_size; i++) {
+			if (*sprites[i] == sprite_object) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	void update() {
+		if (!sprites.empty()) {
+			for (int i = 0; i < sprites_size; i++) {
+				sprites[i]->update();
+
+			}
+		}
+	}
+
+	void draw( SDL_Surface* des) {
+		if (!sprites.empty()) {
+
+			for (int i = 0; i < sprites_size; i++) {
+				sprites[i]->draw(des);
+			}
+		}
+	}
+
+	void empty() {
+		sprites.clear();
+		sprites_size = sprites.size();
+	}
+
+	void remove(Sprite sprite_object) {
+		for (int i = 0; i < sprites.size(); i++) {
+			if (*sprites[i] == sprite_object) {
+				sprites.erase(sprites.begin() + i);
+			}
+		}
+
+		sprites_size = sprites.size();
+	}
+
+	int size() { return sprites_size; }
+
+	vector <Sprite*> get_sprites() { return sprites; }
+
+
+};
+
+class Block : public Sprite {
+
+public:
+	Block(Uint32 color, int x, int y, int w = 48, int h = 64) : Sprite(color, x, y, w, h) {
+		update_properties();
+	}
+
+	void update_properties() {
+		origin_x = 0;
+		origin_y = 0;
+
+		set_position(rect.x, rect.y);
+	}
+
+	void set_position(int x, int y) {
+		rect.x = x - origin_x;
+		rect.y = y - origin_y;
+	}
+
+	void set_image(const char* filename = NULL) {
+		if (filename != NULL) {
+			SDL_Surface* load_image = NULL;
+
+			load_image = IMG_Load(filename);
+			if (load_image != NULL) {
+				image = load_image;
+
+				int old_x = rect.x, old_y = rect.y;
+				
+				rect = image->clip_rect;
+
+				rect.x = old_x;
+				rect.y = old_y;
+
+				update_properties();
+			}
+		}
+	}
+};
+
+int main(int argc, char* argv[])
+{
+	SDL_Init(SDL_INIT_EVERYTHING);
+
+	SDL_Window* window = SDL_CreateWindow("Racing Car", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, window_width, window_height, SDL_WINDOW_RESIZABLE);
+
+	if (window == NULL)
+	{
+		std::cout << "Error to initialized : " << SDL_GetError() << std::endl;
+	}
+
+	SDL_Surface* screen = SDL_GetWindowSurface(window);
+
+	Uint32 white = SDL_MapRGB(screen->format, 255, 255, 255);
+	Uint32 red = SDL_MapRGB(screen->format, 255, 0, 0);
+	Uint32 blue = SDL_MapRGB(screen->format, 0, 0, 255);
+	SDL_FillRect(screen, NULL, white);
+
+	Block block(red, 0, 0);
+	block.set_image("assets/sprite.jpg");
+
+	SpriteGroup active_sprites;
+
+	active_sprites.add(&block);
+
+
+	active_sprites.draw(screen);
+
+	SDL_UpdateWindowSurface(window);
+
+	// Initialize mixer
+	Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2 ,4096);
+	Mix_Chunk* sound = NULL;
+	sound = Mix_LoadWAV("bonk.wav");
+	Mix_PlayChannel(-1, sound, 0);
+
+	Mix_Music* music = NULL;
+	music = Mix_LoadMUS("beat.wav");
+	Mix_PlayMusic(music, -1);	
+
+	SDL_Event e;
+	bool running = true;
+	Uint32 frameTime;
+
+	while (running)
+	{
+		frameTime = SDL_GetTicks();
+		while (SDL_PollEvent(&e)) {
+			if (e.type == SDL_QUIT) {
+				running = false;
+			}
+		}
+
+
+
+		if ((1000 / fps) > ( SDL_GetTicks() - frameTime ))
+		{
+			SDL_Delay((1000 / fps) - (SDL_GetTicks() - frameTime));
+		}
+
+	}
+
+	Mix_FreeChunk(sound);
+	sound = NULL;
+	Mix_CloseAudio();
+	
+	SDL_DestroyWindow(window);
+
+	SDL_Quit();
+	return 0;
+}
