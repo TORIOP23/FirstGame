@@ -1,32 +1,45 @@
 #include "GameObject.h"
-#include "TextureManager.h"
+#include "TextureManager.h"	
+#include "Game.h"
 
-GameObject::GameObject(const char* textureSheet, int x, int y)
+GameObject::GameObject(Colors color)
 {
-	objTexture = TextureManager::LoadTexture(textureSheet);
-	xpos = x;
-	ypos = y;
-
+	std::string filename = "assets/PNG/Cars/car_";
+	switch (color)
+	{
+	case BLACK:
+		filename += "black_1.png";
+		break;
+	case BLUE:
+		filename += "blue_1.png";
+		break;
+	case GREEN:
+		filename += "green_1.png";
+		break;
+	case RED:
+		filename += "red_1.png";
+		break;
+	case YELLOW:
+		filename += "yellow_1.png";
+		break;
+	default:
+		break;
+	}
+	objTexture = TextureManager::LoadTexture(filename.c_str());
 }
 
-void GameObject::Update()
+GameObject::~GameObject()
 {
-	/*xpos++;
-	ypos++;*/
-
-	srcRect.h = 32;
-	srcRect.w = 32;
-	srcRect.x = 0;
-	srcRect.y = 0;
-
-	destRect.x = xpos;
-	destRect.y = ypos;
-	destRect.h = srcRect.h;
-	destRect.w = srcRect.w;
+	free();
 }
 
-void GameObject::Render()
-{
-	SDL_RenderCopy(Game::renderer, objTexture, &srcRect, &destRect);
 
+void GameObject::free()
+{
+	//Free texture if it exists
+	if (objTexture != NULL)
+	{
+		SDL_DestroyTexture(objTexture);
+		objTexture = NULL;
+	}
 }

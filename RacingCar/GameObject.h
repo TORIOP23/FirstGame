@@ -4,16 +4,12 @@
 class GameObject
 {
 public:
-	GameObject(const char* textureSheet, int x, int y);
+	GameObject(Colors color);
 	~GameObject();
-	void Update();   // di chuyen 
-	void Render();
-private:
-	// vị trí ban đầu của bức ảnh
-	int xpos;
-	int ypos;
 
+	void free();
+
+protected:
 	SDL_Texture* objTexture;
-	SDL_Rect srcRect, destRect;
 };
 

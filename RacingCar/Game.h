@@ -6,6 +6,14 @@
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
 
+enum Colors
+{
+	BLACK,
+	BLUE,
+	GREEN,
+	RED,
+	YELLOW
+};
 
 class Game
 {
@@ -21,18 +29,11 @@ public:
 	bool running() { return isRunning; }
 
 
-	static SDL_Renderer* renderer; // sẽ dùng ở nhiều nơi 
+	static SDL_Renderer* renderer; // su dung chung
 	static SDL_Event event;			// khong khoi tao dc bien static trong class
 	static bool isRunning;
 	//static SDL_Rect camera;
 
-	/*enum groupLabels : std::size_t
-	{
-		groupMap,
-		groupPlayers,
-		groupColliders,
-		groupProjectiles
-	};*/
 
 private:
 	SDL_Window* window;

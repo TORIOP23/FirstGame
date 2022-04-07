@@ -1,12 +1,14 @@
 #include "Game.h"
-#include "TextureManager.h"
 #include "GameObject.h"
+#include "Player.h"
+#include "Map.h"
 
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
 bool Game::isRunning = false;
 
-GameObject* player;
+Map* map;
+Player* player;
 
 Game::Game()
 {}
@@ -21,6 +23,11 @@ void Game::init(const char* title, int width, int height)
 	// Initialize SDL
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
 	{
+		//Set texture filtering to linear
+		/*if (!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1"))
+		{
+			printf("Warning: Linear texture filtering not enabled!");
+		}*/
 		window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, flags);
 		renderer = SDL_CreateRenderer(window, -1, 0);
 		if (renderer)
@@ -46,9 +53,8 @@ void Game::init(const char* title, int width, int height)
 	}
 
 	//
-	player = new GameObject("assets/car2.png", 300, 200);
-
-
+	map = new Map();
+	player = new Player(RED);
 }
 
 void Game::handleEvents()
@@ -62,6 +68,7 @@ void Game::handleEvents()
 	default:
 		break;
 	}
+	player->HandleInput();
 }
 
 void Game::update()
@@ -71,8 +78,10 @@ void Game::update()
 
 void Game::render()
 {
+	SDL_SetRenderDrawColor(Game::renderer, 50, 160, 97, 255);
 	SDL_RenderClear(renderer);
-	player->Render();
+	map->DrawMap();
+	player->Draw();
 	SDL_RenderPresent(renderer);
 }
 
@@ -80,6 +89,9 @@ void Game::clean()
 {
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
+	window = NULL;
+	renderer = NULL;
+	IMG_Quit();
 	SDL_Quit();
 }
 

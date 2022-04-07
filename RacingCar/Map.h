@@ -8,9 +8,11 @@ class Map
 public:
 
 	Map();
+	//Map(std::string tID, int ms, int ts);
 	~Map();
 
-	void LoadMap();
+
+	void LoadMap(std::string filename);
 	//void AddTile();
 	void DrawMap();
 private:
@@ -20,10 +22,9 @@ private:
 	int scaledSize;*/
 
 	SDL_Rect src, dest;
-	SDL_Texture* dirt;
-	SDL_Texture* grass;
-	SDL_Texture* water;
-	int map[20][25];
+	SDL_Texture* road[92];
+	SDL_Texture* grass[14];
+	int map[15][25];
 
 };
 

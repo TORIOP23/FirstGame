@@ -10,12 +10,13 @@ int main(int argc, char* argv[])
 	Uint32 frameStart;
 	int frameTime;
 
+
 	game = new Game();
-	game->init("Racing Car", 960, 640);
+	game->init("Racing Car", 1600, 960);
 
 	while (game->running()) {
 
-		frameStart = SDL_GetTicks();  // trả về số mili giây kể từ khi SDL được tạo
+		frameStart = SDL_GetTicks();  // tra ve so milisecond tu khi SDL duoc tao
 
 		game->handleEvents();
 		game->update();
