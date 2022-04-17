@@ -7,19 +7,19 @@ GameObject::GameObject(Colors color)
 	std::string filename = "assets/PNG/Cars/car_";
 	switch (color)
 	{
-	case BLACK:
+	case Colors::BLACK:
 		filename += "black_1.png";
 		break;
-	case BLUE:
+	case Colors::BLUE:
 		filename += "blue_1.png";
 		break;
-	case GREEN:
+	case Colors::GREEN:
 		filename += "green_1.png";
 		break;
-	case RED:
+	case Colors::RED:
 		filename += "red_1.png";
 		break;
-	case YELLOW:
+	case Colors::YELLOW:
 		filename += "yellow_1.png";
 		break;
 	default:

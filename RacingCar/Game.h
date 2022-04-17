@@ -6,7 +6,7 @@
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
 
-enum Colors
+enum class Colors
 {
 	BLACK,
 	BLUE,
@@ -28,7 +28,7 @@ public:
 	void clean();
 	bool running() { return isRunning; }
 
-
+	static int SCREEN_WIDTH, SCREEN_HEIGHT;
 	static SDL_Renderer* renderer; // su dung chung
 	static SDL_Event event;			// khong khoi tao dc bien static trong class
 	static bool isRunning;

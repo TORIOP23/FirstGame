@@ -11,10 +11,11 @@ public:
 	//Map(std::string tID, int ms, int ts);
 	~Map();
 
+	int map[15][25];
 
 	void LoadMap(std::string filename);
-	//void AddTile();
 	void DrawMap();
+	
 private:
 	/*std::string texID;
 	int mapScale;
@@ -24,8 +25,8 @@ private:
 	SDL_Rect src, dest;
 	SDL_Texture* road[92];
 	SDL_Texture* grass[14];
-	int map[15][25];
 
+	//int map[15][25];
 };
 
 

@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
 
 	game = new Game();
 	game->init("Racing Car", 1600, 960);
-
+	std::cout << Game::SCREEN_WIDTH << " " << Game::SCREEN_HEIGHT << std::endl;
 	while (game->running()) {
 
 		frameStart = SDL_GetTicks();  // tra ve so milisecond tu khi SDL duoc tao

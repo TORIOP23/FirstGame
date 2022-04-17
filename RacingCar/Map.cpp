@@ -13,6 +13,11 @@ Map::Map()
 		road[i] = TextureManager::LoadTexture(temp.c_str());
 	}
 
+	for (int i = 0; i < 14; i++)
+	{
+		grass[i] = NULL;
+	}
+
 	LoadMap("assets/map.txt");
 	src.x = src.y = 0;
 	src.w = src.h = 128;
@@ -22,7 +27,25 @@ Map::Map()
 }
 
 Map::~Map()
-{}
+{
+	for (int i = 0; i < 92; i++)
+	{
+		if (road[i] != NULL)
+		{
+			SDL_DestroyTexture(road[i]);
+			road[i] = NULL;
+		}
+	}
+
+	for (int i = 0; i < 14; i++)
+	{
+		if (grass[i] != NULL)
+		{
+			SDL_DestroyTexture(grass[i]);
+			grass[i] = NULL;
+		}
+	}
+}
 
 void Map::LoadMap(std::string filename)
 {

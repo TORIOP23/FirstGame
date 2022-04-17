@@ -1,12 +1,16 @@
 #include "Player.h"
 #include "TextureManager.h"
+#include "Collision.h"
 
 Player::Player(Colors color) : GameObject(color)
 {
-	x_pos = 450;
-	y_pos = 600;
+	desR.x = 385;
+	desR.y = 389;
+	desR.w = desR.h = 64;
 	speed = 10;
-	angle = 0.0;
+	angle = 90.0;
+	velocX = 0;
+	velocY = 0;
 }
 
 Player::~Player()
@@ -20,35 +24,19 @@ void Player::HandleInput()
 		switch (Game::event.key.keysym.sym)
 		{
 		case SDLK_w:
-			if (angle != 0) {
-				if (angle > 0 && angle <= 180)
-					angle -= INCREASE_ANGLE;
-				else angle += INCREASE_ANGLE;
-			}
+			angle = 0;
 			velocY = -1;
 			break;
 		case SDLK_a:
-			if (angle != 270) {
-				if (angle >= 90 && angle < 270)
-					angle += INCREASE_ANGLE;
-				else angle -= INCREASE_ANGLE;
-			}
+			angle = 270;
 			velocX = -1;
 			break;
 		case SDLK_d:
-			if (angle != 90) {
-				if (angle > 90 && angle <= 270)
-					angle -= INCREASE_ANGLE;
-				else angle += INCREASE_ANGLE;
-			}
+			angle = 90;
 			velocX = 1;
 			break;
 		case SDLK_s:
-			if (angle != 180) {
-				if (angle >= 0 && angle < 180)
-					angle += INCREASE_ANGLE;
-				else angle -= INCREASE_ANGLE;
-			}
+			angle = 180;
 			velocY = 1;
 			break;
 		default:
@@ -80,26 +68,43 @@ void Player::HandleInput()
 	}
 }
 
-void Player::Update()
+void Player::Update(const Map* data)
 {
-	if (angle >= 360) angle = 0;
-	else if (angle < 0) angle += 360;
+	SDL_Rect preR = desR;
+	desR.x += (velocX * speed);
+	desR.y += (velocY * speed);
 
-	x_pos += (velocX * speed);
-	y_pos += (velocY * speed);
+	// check cham bien cua so
+	if (desR.x >= (Game::SCREEN_WIDTH - 64)) desR.x = Game::SCREEN_WIDTH - 64 - 10;
+	else if (desR.x <= 0) desR.x = 0 + 10;
 
-	if (x_pos >= (1600 - 64)) x_pos = 1600 - 64;
-	else if (x_pos <= 0) x_pos = 0;
-	
+	if (desR.y >= (Game::SCREEN_HEIGHT - 64)) desR.y = Game::SCREEN_HEIGHT - 64 - 10;
+	else if (desR.y <= 0) desR.y = 0 + 10;
 
-	if (y_pos >= (960 - 64)) y_pos = 960 - 64;
-	else if (y_pos <= 0) y_pos = 0;
+	// check di tren duong
+	int startX = desR.x / 64;
+	int endX = desR.x / 64 + 1;
+
+	int startY = desR.y / 64;
+	int endY = desR.y / 64 + 1;
+
+	for (int row = startY; row <= endY; ++row) {
+		for (int col = startX; col <= endX; ++col) {
+			if (data->map[row][col] == 0) {
+				SDL_Rect mapR = { col * 64, row * 64, 64, 64 };
+				if (Collision::AABB(mapR, desR))
+				{
+					//std::cout << "k o duong" << " mapR: " << mapR.x << " " << mapR.y << " desR: " << desR.x << " " << desR.y << '\n';
+					desR = preR;
+				}
+			}
+		}
+	}
 
 }
 
 void Player::Draw()
 {
-	SDL_Rect desR = { x_pos, y_pos, 64, 64 };
 	SDL_RenderCopyEx(Game::renderer, objTexture, NULL, &desR, angle, NULL, SDL_FLIP_NONE);
 }
 

@@ -2,8 +2,8 @@
 
 #include "GameObject.h"
 #include "Game.h"
+#include "Map.h"
 
-static const double INCREASE_ANGLE = 45;
 
 class Player : public GameObject
 {
@@ -13,7 +13,7 @@ public:
 	~Player();
 
 	void HandleInput();
-	void Update();
+	void Update(const Map* data);
 	void Draw();
 
 	/*void DoPlayer(Map& map_data);
@@ -27,13 +27,11 @@ private:
 
 	double angle;
 
-	int x_pos; // vi tri
-	int y_pos; // vi tri
-
+	SDL_Rect desR;
 	//Input input_type;    // luu trang thai di chuyen
-	int frame;  // frame hien tai
-	int status;  // status hien tai
-	bool on_ground;
+
+	//int status;  // status hien tai
+	//bool on_ground;
 
 
 };

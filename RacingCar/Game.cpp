@@ -6,6 +6,7 @@
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
 bool Game::isRunning = false;
+int Game::SCREEN_HEIGHT, Game::SCREEN_WIDTH;
 
 Map* map;
 Player* player;
@@ -18,7 +19,9 @@ Game::~Game()
 
 void Game::init(const char* title, int width, int height)
 {
-	int flags = SDL_WINDOW_SHOWN;
+	Game::SCREEN_HEIGHT = height;
+	Game::SCREEN_WIDTH = width;
+	Uint32 flags = SDL_WINDOW_SHOWN;
 
 	// Initialize SDL
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
@@ -54,7 +57,8 @@ void Game::init(const char* title, int width, int height)
 
 	//
 	map = new Map();
-	player = new Player(RED);
+	player = new Player(Colors::RED);
+	
 }
 
 void Game::handleEvents()
@@ -73,7 +77,7 @@ void Game::handleEvents()
 
 void Game::update()
 {
-	player->Update();
+	player->Update(map);
 }
 
 void Game::render()
@@ -91,6 +95,12 @@ void Game::clean()
 	SDL_DestroyRenderer(renderer);
 	window = NULL;
 	renderer = NULL;
+
+	delete player;
+	player = NULL;
+	delete map;
+	map = NULL;
+
 	IMG_Quit();
 	SDL_Quit();
 }
