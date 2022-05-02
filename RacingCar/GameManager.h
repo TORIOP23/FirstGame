@@ -13,7 +13,7 @@
 #include "AudioManager.h"
 #include "Timer.h"
 #include "Texture.h"
-#include "AnimatedTexture.h"
+#include "ScreenManager.h"
 //----------------------------------------------------------------
 // GameManager                                                          
 //----------------------------------------------------------------
@@ -24,7 +24,7 @@ private:
 	static GameManager* sInstance;
 
 	//The target frame rate of the game 
-	const int FRAME_RATE = 60;
+	const int FRAME_RATE = 120;
 
 	//Used to exit the game loop
 	bool mQuit;
@@ -40,9 +40,8 @@ private:
 
 	// Used to catch the event when the user exits the game
 	SDL_Event mEvents;
-
-	Texture* mTex;
-	Texture* mTex2;
+	
+	ScreenManager* mScreenMgr;
 
 public:
 	//Returns a pointer to the class instance  

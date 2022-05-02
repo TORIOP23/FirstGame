@@ -45,19 +45,14 @@ GameManager::GameManager()
 	////Initialize Timer
 	mTimer = Timer::Instance();
 
-	mTex = new Texture("Leagua of legend", "LOL1.ttf", 60, {0, 255, 0});
-	mTex->Pos(Vector2(300, 300));
-	mTex->Scale(Vector2(1.0f, 0.5f));
-
-	mTex2 = new Texture("Welcome to summoner's rift", "LOL2.ttf", 60, { 255, 0, 0 });
-	mTex2->Pos(Vector2(450, 600));
-
-
-	mTex2->Parent(mTex);
+	mScreenMgr = ScreenManager::Instance();
 }
 
 GameManager::~GameManager()
 {
+	ScreenManager::Release();
+	mScreenMgr = NULL;
+
 	AudioManager::Release();
 	mAudioMgr = NULL;
 
@@ -72,12 +67,7 @@ GameManager::~GameManager()
 
 	Timer::Release();
 	mTimer = NULL;
-
-	delete mTex;
-	mTex = NULL;
-
-	delete mTex2;
-	mTex2 = NULL;
+	
 }
 
 void GameManager::EarlyUpdate()
@@ -91,6 +81,8 @@ void GameManager::EarlyUpdate()
 void GameManager::Update()
 {
 	//GameEntity Update should happen here;
+	mScreenMgr->Update();
+
 	if (mInputMgr->KeyDown(SDL_SCANCODE_1))
 	{
 		mAudioMgr->PlayMusic("URF.wav");
@@ -112,11 +104,7 @@ void GameManager::Update()
 	{
 		printf("left mouse button released\n");
 	}
-
-	mTex->Rotate(30.0f * mTimer->DeltaTime());
-	mTex2->Rotate(-30.0f * mTimer->DeltaTime());
-	printf("mTex rotation: %f\n", mTex->Rotation(GameEntity::world));
-	//mTex->Update();
+	
 }
 
 void GameManager::LateUpdate()
@@ -134,8 +122,7 @@ void GameManager::Render()
 	mGraphics->ClearBackBuffer();
 
 	//All other rendering is happen here
-	mTex->Render();
-	mTex2->Render();
+	mScreenMgr->Render();
 
 	//Renders the current frame
 	mGraphics->Render();
@@ -157,6 +144,7 @@ void GameManager::Run()
 
 		if (mTimer->DeltaTime() >= (1.0f / FRAME_RATE))
 		{
+			
 			EarlyUpdate();
 			Update();
 			LateUpdate();
