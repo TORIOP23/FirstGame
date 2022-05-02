@@ -1,6 +1,6 @@
 #include "GameObject.h"
 #include "TextureManager.h"	
-#include "Game.h"
+#include "GameManager.h"
 
 GameObject::GameObject(Colors color)
 {

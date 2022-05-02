@@ -1,13 +1,14 @@
 #include "Player.h"
 #include "TextureManager.h"
 #include "Collision.h"
+#include <cmath>
 
 Player::Player(Colors color) : GameObject(color)
 {
 	desR.x = 385;
 	desR.y = 389;
 	desR.w = desR.h = 64;
-	speed = 10;
+	speed = 5;
 	angle = 90.0;
 	velocX = 0;
 	velocY = 0;
@@ -19,48 +20,50 @@ Player::~Player()
 
 void Player::HandleInput()
 {
-	if (Game::event.type == SDL_KEYDOWN)
+	if (GameManager::event.type == SDL_KEYDOWN)
 	{
-		switch (Game::event.key.keysym.sym)
+		switch (GameManager::event.key.keysym.sym)
 		{
 		case SDLK_w:
-			angle = 0;
-			velocY = -1;
+			std::cout << "W\n";
+			velocX = sin(angle * M_PI / 180);
+			velocY = -cos(angle * M_PI / 180);
 			break;
 		case SDLK_a:
-			angle = 270;
-			velocX = -1;
+			std::cout << "A\n";
+			angle -= 30;
 			break;
 		case SDLK_d:
-			angle = 90;
-			velocX = 1;
+			std::cout << "D\n";
+			angle += 30;
 			break;
 		case SDLK_s:
-			angle = 180;
-			velocY = 1;
+			std::cout << "S\n";
+			velocX = -sin(angle * M_PI / 180);
+			velocY = +cos(angle * M_PI / 180);
 			break;
 		default:
 			break;
 		}
 	}
-	if (Game::event.type == SDL_KEYUP)
+	if (GameManager::event.type == SDL_KEYUP)
 	{
-		switch (Game::event.key.keysym.sym)
+		switch (GameManager::event.key.keysym.sym)
 		{
 		case SDLK_w:
 			velocY = 0;
+			velocX = 0;
 			break;
 		case SDLK_a:
-			velocX = 0;
 			break;
 		case SDLK_d:
-			velocX = 0;
 			break;
 		case SDLK_s:
+			velocX = 0;
 			velocY = 0;
 			break;
 		case SDLK_ESCAPE:
-			Game::isRunning = false;
+			GameManager::isRunning = false;
 			break;
 		default:
 			break;
@@ -70,15 +73,18 @@ void Player::HandleInput()
 
 void Player::Update(const Map* data)
 {
+	if (angle > 360) angle -= 360;
+	else if (angle < 0) angle += 360;
+
 	SDL_Rect preR = desR;
-	desR.x += (velocX * speed);
-	desR.y += (velocY * speed);
+	desR.x += static_cast<int>(velocX * speed);
+	desR.y += static_cast<int>(velocY * speed);
 
 	// check cham bien cua so
-	if (desR.x >= (Game::SCREEN_WIDTH - 64)) desR.x = Game::SCREEN_WIDTH - 64 - 10;
+	if (desR.x >= (GameManager::SCREEN_WIDTH - 64)) desR.x = GameManager::SCREEN_WIDTH - 64 - 10;
 	else if (desR.x <= 0) desR.x = 0 + 10;
 
-	if (desR.y >= (Game::SCREEN_HEIGHT - 64)) desR.y = Game::SCREEN_HEIGHT - 64 - 10;
+	if (desR.y >= (GameManager::SCREEN_HEIGHT - 64)) desR.y = GameManager::SCREEN_HEIGHT - 64 - 10;
 	else if (desR.y <= 0) desR.y = 0 + 10;
 
 	// check di tren duong
@@ -105,6 +111,6 @@ void Player::Update(const Map* data)
 
 void Player::Draw()
 {
-	SDL_RenderCopyEx(Game::renderer, objTexture, NULL, &desR, angle, NULL, SDL_FLIP_NONE);
+	SDL_RenderCopyEx(GameManager::renderer, objTexture, NULL, &desR, angle, NULL, SDL_FLIP_NONE);
 }
 

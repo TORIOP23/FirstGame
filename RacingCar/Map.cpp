@@ -1,4 +1,4 @@
-#include "Game.h"
+#include "GameManager.h"
 #include "Map.h"
 #include "TextureManager.h"
 #include <fstream>

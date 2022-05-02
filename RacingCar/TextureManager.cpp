@@ -13,7 +13,7 @@ SDL_Texture* TextureManager::LoadTexture(const char* fileName)
     else
     {
         SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 0, 0xFF, 0));
-        newTexture = SDL_CreateTextureFromSurface(Game::renderer, loadedSurface);
+        newTexture = SDL_CreateTextureFromSurface(GameManager::renderer, loadedSurface);
         if (newTexture == NULL)
         {
             printf("Unable to create texture from %s! SDL Error: %s\n", fileName, SDL_GetError());
@@ -25,7 +25,7 @@ SDL_Texture* TextureManager::LoadTexture(const char* fileName)
 
 void TextureManager::Draw(SDL_Texture*& tex, SDL_Rect src, SDL_Rect dest)
 {
-    SDL_RenderCopy(Game::renderer, tex, &src, &dest);
+    SDL_RenderCopy(GameManager::renderer, tex, &src, &dest);
 }
 
 //void TextureManager::Draw(SDL_Texture* tex, SDL_Rect src, SDL_Rect dest, SDL_RendererFlip flip)

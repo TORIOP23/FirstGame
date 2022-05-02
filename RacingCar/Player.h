@@ -1,9 +1,8 @@
 #pragma once
 
 #include "GameObject.h"
-#include "Game.h"
+#include "GameManager.h"
 #include "Map.h"
-
 
 class Player : public GameObject
 {
@@ -22,8 +21,8 @@ public:
 private:
 	int speed;
 
-	int velocX;
-	int velocY;
+	double velocX;
+	double velocY;
 
 	double angle;
 
