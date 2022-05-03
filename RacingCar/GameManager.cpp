@@ -42,9 +42,10 @@ GameManager::GameManager()
 	//Initialize AudioManager
 	mAudioMgr = AudioManager::Instance();
 
-	////Initialize Timer
+	//Initialize Timer
 	mTimer = Timer::Instance();
 
+	// Manager screen 
 	mScreenMgr = ScreenManager::Instance();
 }
 
@@ -82,28 +83,6 @@ void GameManager::Update()
 {
 	//GameEntity Update should happen here;
 	mScreenMgr->Update();
-
-	if (mInputMgr->KeyDown(SDL_SCANCODE_1))
-	{
-		mAudioMgr->PlayMusic("URF.wav");
-	}
-	else if (mInputMgr->KeyPressed(SDL_SCANCODE_W))
-	{
-		printf("W key pressed\n");
-	} 
-	else if (mInputMgr->KeyReleased(SDL_SCANCODE_W))
-	{
-		printf("W key released\n");
-	}
-
-	if (mInputMgr->MouseButtonPressed(InputManager::left))
-	{
-		printf("left mouse button pressed\n");
-	}
-	else if (mInputMgr->MouseButtonReleased(InputManager::left))
-	{
-		printf("left mouse button released\n");
-	}
 	
 }
 

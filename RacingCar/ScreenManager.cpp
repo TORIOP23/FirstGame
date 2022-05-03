@@ -50,6 +50,7 @@ void ScreenManager::Update()
 		{
 			mCurrentScreen = play;
 			mStartScreen->ResetAnimation();
+			mPlayScreen->StartNewGame();
 		}
 		break;
 	case ScreenManager::play:

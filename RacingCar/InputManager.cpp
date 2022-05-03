@@ -3,7 +3,8 @@
 // Handles all Input related functionality for keyboard and mouse.     //
 //---------------------------------------------------------------------//
 #include <string.h>
-//---------------------------------------------------------------
+#include <cstdio>
+
 #include "InputManager.h"
 
 //Initializing to NULL

@@ -1,5 +1,5 @@
 // StartScreen.h
-// Menu
+// Menu Screen
 // 
 
 #pragma once
@@ -12,10 +12,10 @@ class StartScreen : public GameEntity
 private:
 	Timer* mTimer;
 	InputManager* mInput;
-
+		
 	// Top Bar Entities
 	GameEntity* mTopBar;
-	Texture* mHiScore;
+	Texture* mVersion;
 
 	//logo Entities
 	Texture* mLogo;
@@ -23,8 +23,8 @@ private:
 
 	//Play Mode Entities
 	GameEntity* mPlayModes;
-	Texture* mOnePlayerMode;
-	Texture* mTwoPlayerMode;
+	Texture* mPlayMode;
+	Texture* mExitMode;
 	Texture* mCursor;
 
 	Vector2 mCursorStartPos;
@@ -34,7 +34,7 @@ private:
 	//Bottom Bar Entities
 	GameEntity* mBotBar;
 	Texture* mDates;
-	Texture* mNamco;
+	Texture* mCompany;
 	Texture* mRights;
 
 	//Screen Animation Variables

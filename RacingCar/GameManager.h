@@ -41,6 +41,7 @@ private:
 	// Used to catch the event when the user exits the game
 	SDL_Event mEvents;
 	
+	// Used to switch screen 
 	ScreenManager* mScreenMgr;
 
 public:

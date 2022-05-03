@@ -20,9 +20,9 @@ class Graphics
 public:
 
 	//The Width of the game's window 
-	const int SCREEN_WIDTH = 1600;
+	static const int SCREEN_WIDTH = 1600;
 	//The Height of the game's window
-	const int SCREEN_HEIGHT = 960;
+	static const int SCREEN_HEIGHT = 960;
 	//The title of the game's window
 	const char* WINDOW_TITLE = "Racing Game";
 

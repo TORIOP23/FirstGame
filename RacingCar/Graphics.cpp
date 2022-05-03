@@ -83,7 +83,7 @@ bool Graphics::Init()
 	}
 
 	//Setting with window creation errors 
-	SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 0xFF);
+	SDL_SetRenderDrawColor(mRenderer, 0x00, 0x00, 0x00, 0xFF);
 
 	//Initializing the SDL_image library and handling initialization errors
 	int flags = IMG_INIT_PNG;

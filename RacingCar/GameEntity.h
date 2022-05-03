@@ -26,7 +26,7 @@ private:
 	// used instead                                                                                                 
 	//--------------------------------------------------------------------------------------------------------------
 	Vector2 mPos;
-	// clockwise
+	// clockwise, degree
 	float mRotation;
 	Vector2 mScale;
 

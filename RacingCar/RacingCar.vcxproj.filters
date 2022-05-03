@@ -42,9 +42,6 @@
     <ClCompile Include="Timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AnimatedTexture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="StartScreen.cpp">
       <Filter>Source Files\Racing</Filter>
     </ClCompile>
@@ -74,6 +71,15 @@
     </ClCompile>
     <ClCompile Include="PlayScreen.cpp">
       <Filter>Source Files\Racing</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Source Files\Racing</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimatedTexture.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -117,6 +123,12 @@
       <Filter>Header Files\Racing</Filter>
     </ClInclude>
     <ClInclude Include="PlayScreen.h">
+      <Filter>Header Files\Racing</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Header Files\Racing</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
       <Filter>Header Files\Racing</Filter>
     </ClInclude>
   </ItemGroup>

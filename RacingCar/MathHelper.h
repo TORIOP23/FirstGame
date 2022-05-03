@@ -23,7 +23,7 @@ struct Vector2
 	//Calculates the square of the magnitude (preferably used instead of Magnitude if possible) 
 	//We can test things much faster   
 	//--------------------------------------------------------------------------------------------
-	float MagnitudeSqr() 
+	float MagnitudeSqr() const
 	{
 		return x * x + y * y;
 	}
@@ -31,7 +31,7 @@ struct Vector2
 	//-------------------------------------------
 	//Calculates the magnitude of the vector     
 	//-------------------------------------------
-	float Magnitude() 
+	float Magnitude() const
 	{
 		return static_cast<float>(sqrt(x * x + y * y));
 	}
@@ -40,7 +40,7 @@ struct Vector2
 	//Returns a directional Vector2 with the same direction as the Vector2 but of length 1    
 	// (Does not change the x and y values of the original vector)                                       
 	//----------------------------------------------------------------------------------------
-	Vector2 Normalized() // const ?? 
+	Vector2 Normalized()  const 
 	{
 		float mag = Magnitude();
 		return Vector2(x / mag, y / mag);
@@ -62,6 +62,11 @@ struct Vector2
 		y -= rhs.y;
 
 		return *this;
+	}
+
+	Vector2 operator -() const
+	{
+		return Vector2(-x, -y);
 	}
 };
 
@@ -103,6 +108,12 @@ inline Vector2 Lerp(Vector2& start, Vector2& end, float time)
 	float mag = (end - start).Magnitude();
 
 	return start + dir * mag * time;
+}
+
+inline float AngleBetweenVector(const Vector2& lhs, const Vector2& rhs)
+{
+	float cos = (lhs.x * rhs.x + lhs.y * rhs.y) / (lhs.Magnitude() * rhs.Magnitude());
+	return acos(cos) / (DEG_TO_RAD);
 }
 
 const Vector2 VEC2_ZERO = { 0.0f, 0.0f };
