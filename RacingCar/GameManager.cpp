@@ -89,14 +89,11 @@ void GameManager::Update()
 void GameManager::LateUpdate()
 {
 	//Any collision detection should happen here
-
 	mInputMgr->UpdatePrevInput();
 }
 
 void GameManager::Render()
 {
-	//	SDL_SetRenderDrawColor(GameManager::renderer, 50, 160, 97, 255);
-
 	//Clears the last frame's render from the back buffer
 	mGraphics->ClearBackBuffer();
 

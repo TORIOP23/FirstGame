@@ -79,7 +79,10 @@
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Racing</Filter>
+    </ClCompile>
+    <ClCompile Include="Scoreboard.cpp">
+      <Filter>Source Files\Racing</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -129,6 +132,9 @@
       <Filter>Header Files\Racing</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
+      <Filter>Header Files\Racing</Filter>
+    </ClInclude>
+    <ClInclude Include="Scoreboard.h">
       <Filter>Header Files\Racing</Filter>
     </ClInclude>
   </ItemGroup>

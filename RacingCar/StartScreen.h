@@ -12,7 +12,7 @@ class StartScreen : public GameEntity
 private:
 	Timer* mTimer;
 	InputManager* mInput;
-		
+
 	// Top Bar Entities
 	GameEntity* mTopBar;
 	Texture* mVersion;

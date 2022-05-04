@@ -1,3 +1,6 @@
+// StartScreen.cpp
+// Menu Screen
+
 #include "StartScreen.h"
 
 StartScreen::StartScreen()
@@ -66,6 +69,7 @@ StartScreen::StartScreen()
 
 StartScreen::~StartScreen()
 {
+
 	// Freeing Top Bar Entities
 	delete mTopBar;
 	mTopBar = NULL;

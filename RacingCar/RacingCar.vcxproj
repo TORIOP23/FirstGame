@@ -154,6 +154,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayScreen.cpp" />
+    <ClCompile Include="Scoreboard.cpp" />
     <ClCompile Include="ScreenManager.cpp" />
     <ClCompile Include="StartScreen.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayScreen.h" />
+    <ClInclude Include="Scoreboard.h" />
     <ClInclude Include="ScreenManager.h" />
     <ClInclude Include="StartScreen.h" />
     <ClInclude Include="Texture.h" />

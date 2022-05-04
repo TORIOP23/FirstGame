@@ -5,6 +5,8 @@
 #include "Timer.h"
 #include "AudioManager.h"
 #include "Player.h"
+#include "Scoreboard.h"
+#include "Level.h"
 
 
 class PlayScreen : public GameEntity
@@ -14,6 +16,11 @@ private:
 	InputManager* mInput;
 	AudioManager* mAudio;
 
+	// Top bar
+	GameEntity* mTopBar;
+	Scoreboard* mScoreboard;
+
+	// 
 	Texture* mStartLabel;
 
 	float mLevelStartTimer;
@@ -21,7 +28,7 @@ private:
 
 	bool mGameStarted;
 
-	//Level* mLevel;
+	Level* mLevel;
 	bool mLevelStarted;
 	int mCurrentStage;
 

@@ -2,6 +2,7 @@
 #include "InputManager.h"
 #include "Texture.h"
 #include "Timer.h"
+#include "Scoreboard.h"
 
 class Level : public GameEntity
 {
@@ -14,6 +15,7 @@ private:
 	float mLabelTimer;
 
 	Texture* mStageLabel;
+	Scoreboard* mStageNumber;
 	float mStageLabelOnScreen;
 	float mStageLabelOffScreen;
 
@@ -23,6 +25,7 @@ private:
 
 
 private:
+
 	void StartStage();
 
 public:
@@ -30,6 +33,7 @@ public:
 	~Level();
 
 	void Update();
+
 	void Render();
 };
 

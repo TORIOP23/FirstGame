@@ -113,7 +113,7 @@ inline Vector2 Lerp(Vector2& start, Vector2& end, float time)
 inline float AngleBetweenVector(const Vector2& lhs, const Vector2& rhs)
 {
 	float cos = (lhs.x * rhs.x + lhs.y * rhs.y) / (lhs.Magnitude() * rhs.Magnitude());
-	return acos(cos) / (DEG_TO_RAD);
+	return static_cast<float>(acos(cos) / (DEG_TO_RAD));
 }
 
 const Vector2 VEC2_ZERO = { 0.0f, 0.0f };

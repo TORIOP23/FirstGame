@@ -9,7 +9,8 @@ class ScreenManager
 {
 private:
 	enum SCREENS { start, play };
-
+	
+	// make ScreenManager to be singleton class
 	static ScreenManager* sInstance;
 
 	InputManager* mInput;

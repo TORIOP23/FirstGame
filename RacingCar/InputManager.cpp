@@ -92,7 +92,7 @@ bool InputManager::MouseButtonDown(MOUSE_BUTTON button)
 		break;
 	}
 
-	//return true if the mask exists in the current mouse state
+	//return true if the mask exists in the current mouse statem, bitwise & 
 	return ((mMouseState & mask) != 0);
 }
 
