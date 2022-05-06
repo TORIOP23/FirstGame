@@ -1,32 +1,36 @@
 #pragma once
+#include <vector>
 #include "AnimatedTexture.h"
 #include "InputManager.h"
+#include "AudioManager.h"
 
 class Player : public GameEntity
 {
 private:
 	Timer* mTimer;
 	InputManager* mInput;
+	AudioManager* mAudio;
 
-
+	//Set to true if the object is to be updated and not rendered  
 	bool mVisible;
 	bool mAnimating;
 
 	int mScore;
-	int mLives;
+	int mHealth;;
 
+	// Tanks
 	Texture* mTank;
 	Texture* mBarrel;
+
+	// Death
+	AnimatedTexture* mDeathAnimation;
 
 	// Healthbar 
 	std::vector<Texture*> mHealthBar;
 
-	int mHealth;
-
-	float mRotation;
+	float mRotationSpeed;
 
 	float mMoveSpeed;
-	Vector2 mMoveBounds;
 
 private:
 
@@ -35,15 +39,20 @@ private:
 public:
 	
 	Player();
+
 	~Player();
 
 	void Visible(bool visible);
+
 	bool IsAnimating();
 
 	int Score();
-	int Lives();
+
+	int Health();
 
 	void AddScore(int change);
+
+	void WasHit();
 
 	void Update();
 

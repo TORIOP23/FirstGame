@@ -10,7 +10,7 @@
 class InputManager
 {
 public:
-	// MOUSE_BUTTON enum to discribe left mouse button, right mouse button, ...
+	
 	enum MOUSE_BUTTON { LEFT = 0, RIGHT, MIDDLE, BACK, FORWARD };
 
 private:

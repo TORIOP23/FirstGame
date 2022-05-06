@@ -32,6 +32,7 @@ private:
 
 	// Player Entitiy
 	Player* mPlayer;
+	Texture* mBoxCollision;
 
 
 private:
@@ -46,7 +47,7 @@ public:
 
 	void StartNewGame();
 
-	void SetHealth(int health);
+	bool GameOver();
 
 	void Update();
 

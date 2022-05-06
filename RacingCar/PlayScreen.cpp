@@ -25,16 +25,7 @@ PlayScreen::PlayScreen()
 
 	// Player 
 	mPlayer = NULL;
-	
-	std::string filename = "PNG/Health_Bars/health_";
-	for (int i = 0; i < 21; i++)
-	{
-		std::string file = filename + std::to_string(i) + ".png";
-		mHealthBar.push_back(new Texture(file));
-	}
-
-	// full = 20
-	mHealth = 20;
+	mBoxCollision = new Texture("PNG/boxCollision.png");
 
 	mLevel = NULL;
 	mLevelStartTimer = 0.0f;
@@ -61,12 +52,8 @@ PlayScreen::~PlayScreen()
 	delete mPlayer;
 	mPlayer = NULL;
 
-	for (int i = 0; i < 21; i++)
-	{
-		delete mHealthBar[i];
-		mHealthBar[i] = NULL;
-	}
-	mHealthBar.clear();
+	delete mBoxCollision;
+	mBoxCollision = NULL;
 
 	delete mLevel;
 	mLevel = NULL;
@@ -79,41 +66,46 @@ void PlayScreen::StartNextLevel()
 	mLevelStarted = true;
 
 	delete mLevel;
-	mLevel = new Level(mCurrentStage, mTopBar);
+	mLevel = new Level(mCurrentStage, mTopBar, mPlayer);
+
+	//mAudio->PlaySFX("SFX/levelUp.wav");
 }
 
 void PlayScreen::StartNewGame()
 {
-	// Top Bar
-	mTopBar->SetHightScore(3000);
-	mTopBar->SetPlayerScore(0);
-	mTopBar->SetLevel(0);
-
-	mHealth = 20;
-
 	delete mPlayer;
 	mPlayer = new Player();
 	mPlayer->Parent(this);
 	mPlayer->Pos(Vector2(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.5f));
-	mPlayer->Active(false);
+	mPlayer->Active(true);
+	mPlayer->Visible(false);
+
+	// Top Bar
+	mTopBar->SetHightScore(3000);
+	mTopBar->SetPlayerScore(mPlayer->Score());
+	mTopBar->SetLevel(0);
+	
+	mBoxCollision->Parent(mPlayer);
+	mBoxCollision->Pos(Vector2(VEC2_ZERO));
+	mBoxCollision->Active(true);
+
 
 	mGameStarted = false;
-	mAudio->PlayMusic("Music/welcome.wav", 0);
+	mLevelStarted = false;
+	mLevelStartTimer = 0.0f;
 	mCurrentStage = 0;
 
+	mAudio->PlayMusic("Music/welcome.wav", 0);
+	
 
-	for (int i = 0; i < 21; i++)
-	{
-		mHealthBar[i]->Parent(mPlayer);
-		mHealthBar[i]->Pos(Vector2(0.0f, -50.0f));
-		mHealthBar[i]->Scale(Vector2(0.25f, 0.3f));
-	}
 }
 
-
-void PlayScreen::SetHealth(int health)
+bool PlayScreen::GameOver()
 {
-	mHealth = health;
+	if (!mLevelStarted)
+		return false;
+
+	return (mLevel->State() == Level::GAMEOVER);
 }
 
 void PlayScreen::Update()
@@ -142,17 +134,25 @@ void PlayScreen::Update()
 	{
 		if (mCurrentStage > 0)
 		{
-
+			mTopBar->Update();
 		}
 
 		if (mLevelStarted)
 		{
 			mLevel->Update();
-			mTopBar->Update();
+
+			if (mLevel->State() == Level::FINISHED)
+			{
+				mLevelStarted = false;
+			}
 		}
 
 		mPlayer->Update();
 
+		/*if (mInput->KeyPressed(SDL_SCANCODE_U))
+		{
+			mLevelStarted = false;
+		}*/
 	}
 }
 
@@ -170,8 +170,11 @@ void PlayScreen::Render()
 			mLevel->Render();
 		}
 
-
-		mHealthBar[mHealth]->Render();
+		if (mBoxCollision->Active())
+		{
+			mBoxCollision->Render();
+		}
 		mPlayer->Render();
+
 	}
 }

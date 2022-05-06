@@ -12,11 +12,11 @@ class AnimatedTexture : public Texture {
 public:
 	//WRAP_MODE enum - wrap mode used by the animation
 	//once / loop 
-	enum WRAP_MODE { once = 0, loop = 1 };
+	enum WRAP_MODE { ONCE = 0, LOOP = 1 };
 
 	//ANIM_DIR enum - The way the animation sprites are arranged in the spritesheet
 	//horizontal / vertical
-	enum ANIM_DIR { horizontal = 0, vertical = 1 };
+	enum ANIM_DIR { HORIZONTAL = 0, VERTICAL = 1 };
 
 private:
 
@@ -50,19 +50,23 @@ public:
 
 	//Loads a texture from from file (relative to the exe path)
 	//Supports spritesheets
-	//x - Starting pixel's X on the spritesheet
-	//y - Starting pixel's Y on the spritesheet
-	//w - The width of the clipped sprite
-	//h - The height of the clipped sprite
-	//frameCount - The number of frames in the animation
-	//animationSpeed - How long it takes to run the animation in seconds
-	//animationDirection - How the animation sprites are arranges in the spritesheet
-	
+	//x : Start X
+	//y : Start Y
+	//w : The width of 1 frame
+	//h : The height of 1 frame
+	//frameCount : The number of frames in the animation
+	//animationSpeed : How long it takes to run the animation in seconds
+	//animationDirection : How the animation sprites are arranges in the spritesheet
 	AnimatedTexture(std::string filename, int x, int y, int w, int h, int frameCount, float animationSpeed, ANIM_DIR animationDir);
+	
 	~AnimatedTexture();
 
 	//Sets the wrap mode of the animation
 	void WrapMode(WRAP_MODE mode);
+
+	void ResetAnimation();
+
+	bool IsAnimating();
 
 	//Used to update the animation frames and loop the animation if needed
 	void Update();

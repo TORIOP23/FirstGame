@@ -6,7 +6,6 @@
 
 #pragma once
 
-#include <cstdio>
 #include "InputManager.h"
 #include "AudioManager.h"
 #include "Timer.h"

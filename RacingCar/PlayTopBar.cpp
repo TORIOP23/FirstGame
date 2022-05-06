@@ -86,7 +86,6 @@ void PlayTopBar::Render()
 		mLevelLabel->Render();
 		mLevelScoreboard->Render();
 	}
-
 	mHighScoreLabel->Render();
 	mHighScoreboard->Render();
 

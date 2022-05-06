@@ -1,9 +1,15 @@
 #pragma once
 #include "InputManager.h"
 #include "PlayTopBar.h"
+#include "Player.h"
 
 class Level : public GameEntity
 {
+
+public:
+
+	enum LEVEL_STATES { RUNNING, FINISHED, GAMEOVER };
+
 private:
 	Timer* mTimer;
 
@@ -21,17 +27,38 @@ private:
 
 	Texture* mReadyLabel;
 	float mReadyLabelOnScreen;
-	float mReadtLabelOffScreen;
+	float mReadyLabelOffScreen;
 
+	Player* mPlayer;
+	bool mPlayerHit;
+	float mPlayerRespawnDelay;
+	float mPlayerRespawnTimer;
+	float mPlayerRespawnLabelOnScreen;
+
+	Texture* mGameOverLabel;
+	bool mGameOver;
+	float mGameOverDelay;
+	float mGameOverTimer;
+	float mGameOverLabelOnScreen;
+
+	LEVEL_STATES mCurrentState;
 
 private:
 
 	void StartStage();
 
+	void HandleStartLabels();
+
+	void HandleCollisions();
+
+	void HandlePlayerDeath();
+
 public:
-	Level(int stage, PlayTopBar* topBar);
+	Level(int stage, PlayTopBar* topBar, Player* player);
 
 	~Level();
+
+	LEVEL_STATES State();
 
 	void Update();
 

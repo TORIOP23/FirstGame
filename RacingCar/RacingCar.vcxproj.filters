@@ -13,12 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\Racing">
-      <UniqueIdentifier>{d8413970-a147-4ce1-b990-794d8100b344}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Racing">
-      <UniqueIdentifier>{eb47e243-4315-4d74-abb1-d62e510dc9a0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Manager">
       <UniqueIdentifier>{f4e72cf3-d72c-44bc-8eec-a2f2174c600f}</UniqueIdentifier>
     </Filter>
@@ -31,6 +25,18 @@
     <Filter Include="Source Files\Entities">
       <UniqueIdentifier>{24b36efb-9bb4-4e77-ba24-a40d387467a4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Tanks">
+      <UniqueIdentifier>{d8413970-a147-4ce1-b990-794d8100b344}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tanks">
+      <UniqueIdentifier>{eb47e243-4315-4d74-abb1-d62e510dc9a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Tanks\Screen">
+      <UniqueIdentifier>{46f82471-83d2-44d1-840b-72ce3845b8f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tanks\Screen">
+      <UniqueIdentifier>{a6693738-4541-431b-964d-0b1bee54373a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -38,12 +44,6 @@
     </ClCompile>
     <ClCompile Include="Collision.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Timer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="StartScreen.cpp">
-      <Filter>Source Files\Racing</Filter>
     </ClCompile>
     <ClCompile Include="AssetManager.cpp">
       <Filter>Source Files\Manager</Filter>
@@ -57,9 +57,6 @@
     <ClCompile Include="GameManager.cpp">
       <Filter>Source Files\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="ScreenManager.cpp">
-      <Filter>Source Files\Racing</Filter>
-    </ClCompile>
     <ClCompile Include="Graphics.cpp">
       <Filter>Source Files\Manager</Filter>
     </ClCompile>
@@ -69,37 +66,37 @@
     <ClCompile Include="Texture.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="PlayScreen.cpp">
-      <Filter>Source Files\Racing</Filter>
-    </ClCompile>
     <ClCompile Include="Level.cpp">
-      <Filter>Source Files\Racing</Filter>
+      <Filter>Source Files\Tanks</Filter>
     </ClCompile>
     <ClCompile Include="AnimatedTexture.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>Source Files\Racing</Filter>
+      <Filter>Source Files\Tanks</Filter>
     </ClCompile>
     <ClCompile Include="Scoreboard.cpp">
-      <Filter>Source Files\Racing</Filter>
+      <Filter>Source Files\Tanks</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Source Files\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="StartScreen.cpp">
+      <Filter>Source Files\Tanks\Screen</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenManager.cpp">
+      <Filter>Source Files\Tanks\Screen</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayScreen.cpp">
+      <Filter>Source Files\Tanks\Screen</Filter>
     </ClCompile>
     <ClCompile Include="PlayTopBar.cpp">
-      <Filter>Source Files\Racing</Filter>
+      <Filter>Source Files\Tanks\Screen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Collision.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Timer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MathHelper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="StartScreen.h">
-      <Filter>Header Files\Racing</Filter>
     </ClInclude>
     <ClInclude Include="AssetManager.h">
       <Filter>Header Files\Manager</Filter>
@@ -125,23 +122,32 @@
     <ClInclude Include="AnimatedTexture.h">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="ScreenManager.h">
-      <Filter>Header Files\Racing</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayScreen.h">
-      <Filter>Header Files\Racing</Filter>
-    </ClInclude>
     <ClInclude Include="Level.h">
-      <Filter>Header Files\Racing</Filter>
+      <Filter>Header Files\Tanks</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>Header Files\Racing</Filter>
+      <Filter>Header Files\Tanks</Filter>
     </ClInclude>
     <ClInclude Include="Scoreboard.h">
-      <Filter>Header Files\Racing</Filter>
+      <Filter>Header Files\Tanks</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Header Files\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="MathHelper.h">
+      <Filter>Header Files\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="StartScreen.h">
+      <Filter>Header Files\Tanks\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenManager.h">
+      <Filter>Header Files\Tanks\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayScreen.h">
+      <Filter>Header Files\Tanks\Screen</Filter>
     </ClInclude>
     <ClInclude Include="PlayTopBar.h">
-      <Filter>Header Files\Racing</Filter>
+      <Filter>Header Files\Tanks\Screen</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

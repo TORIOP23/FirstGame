@@ -21,7 +21,7 @@ AnimatedTexture::AnimatedTexture(std::string filename, int x, int y, int w, int 
 
 	mAnimationDone = false;
 
-	mWrapMode = loop;
+	mWrapMode = ONCE;
 }
 
 AnimatedTexture::~AnimatedTexture() 
@@ -33,6 +33,17 @@ void AnimatedTexture::WrapMode(WRAP_MODE mode)
 	mWrapMode = mode;
 }
 
+void AnimatedTexture::ResetAnimation()
+{
+	mAnimationTimer = 0.0f;
+	mAnimationDone = false;
+}
+
+bool AnimatedTexture::IsAnimating()
+{
+	return !mAnimationDone;
+}
+
 void AnimatedTexture::Update() 
 {
 	if(!mAnimationDone)
@@ -42,7 +53,7 @@ void AnimatedTexture::Update()
 		if(mAnimationTimer >= mAnimationSpeed) 
 		{
 			//Only loop if the wrap mode is loop
-			if(mWrapMode == loop) 
+			if(mWrapMode == LOOP) 
 			{
 				mAnimationTimer -= mAnimationSpeed;
 
@@ -54,7 +65,7 @@ void AnimatedTexture::Update()
 			}
 		}
 
-		if(mAnimationDirection == horizontal) 
+		if(mAnimationDirection == HORIZONTAL) 
 		{
 			mClipRect.x = mStartX + static_cast<int>(mAnimationTimer / mTimePerFrame) * mWidth;
 

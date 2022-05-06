@@ -64,7 +64,7 @@ void ScreenManager::Update()
 	case ScreenManager::PLAY:
 
 		mPlayScreen->Update();
-		if (mInput->KeyPressed(SDL_SCANCODE_ESCAPE))
+		if (mPlayScreen->GameOver())
 		{
 			mCurrentScreen = START;
 			mAudio->PlayMusic("Music/pickBan.wav");

@@ -1,6 +1,6 @@
 #include "Level.h"
 
-Level::Level(int stage, PlayTopBar* topBar)
+Level::Level(int stage, PlayTopBar* topBar, Player* player)
 {
 	mTimer = Timer::Instance();
 	mTopBar = topBar;
@@ -30,8 +30,25 @@ Level::Level(int stage, PlayTopBar* topBar)
 	mReadyLabel->Pos(Vector2(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.5f));
 
 	mReadyLabelOnScreen = mStageLabelOffScreen;
-	mReadtLabelOffScreen = mReadyLabelOnScreen + 3.0f;
+	mReadyLabelOffScreen = mReadyLabelOnScreen + 3.0f;
 
+
+	mPlayer = player;
+	mPlayerHit = false;
+	mPlayerRespawnDelay = 3.0f;
+	mPlayerRespawnTimer = 0.0f;
+	mPlayerRespawnLabelOnScreen = 2.0f;
+
+	mGameOverLabel = new Texture("GAME OVER!!", "fonts/lol1.ttf", 50, { 150, 0, 0 });
+	mGameOverLabel->Parent(this);
+	mGameOverLabel->Pos(Vector2(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.5f));
+
+	mGameOver = false;
+	mGameOverDelay = 6.0f;
+	mGameOverTimer = 0.0f;
+	mGameOverLabelOnScreen = 1.0f;
+
+	mCurrentState = RUNNING;
 }
 
 Level::~Level()
@@ -47,26 +64,107 @@ Level::~Level()
 
 	delete mReadyLabel;
 	mReadyLabel = NULL;
+
+	mPlayer = NULL;
+
+	delete mGameOverLabel;
+	mGameOverLabel = NULL;
 }
 
 void Level::StartStage()
 {
 	mStageStarted = true;
 }
+
+void Level::HandleStartLabels()
+{
+	mLabelTimer += mTimer->DeltaTime();
+	if (mLabelTimer >= mStageLabelOffScreen)
+	{
+		if (mStage > 1)
+		{
+			StartStage();
+		}
+		else {
+			if (mLabelTimer >= mReadyLabelOffScreen)
+			{
+				StartStage();
+				mPlayer->Active(true);
+				mPlayer->Visible(true);
+			}
+		}
+	}
+}
+
+void Level::HandleCollisions()
+{
+	if (!mPlayerHit)
+	{
+		if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_X))
+		{
+			mPlayer->WasHit();
+			mPlayerHit = true;
+			mPlayerRespawnTimer = 0.0f;
+			mPlayer->Active(false);
+
+		}
+	}
+}
+
+void Level::HandlePlayerDeath()
+{
+	if (!mPlayer->IsAnimating())
+	{
+		if (mPlayer->Health() > 0)
+		{
+			if (mPlayerRespawnTimer == 0.0f)
+			{
+				mPlayer->Visible(false);
+			}
+
+			mPlayerRespawnTimer += mTimer->DeltaTime();
+			if (mPlayerRespawnTimer >= mPlayerRespawnDelay)
+			{
+				mPlayer->Active(true);
+				mPlayer->Visible(true);
+				mPlayerHit = false;
+			}
+		}
+		else {
+			if (mGameOverTimer == 0.0f)
+				mPlayer->Visible(false);
+
+			mGameOverTimer += mTimer->DeltaTime();
+			if (mGameOverTimer >= mGameOverDelay)
+			{
+				mCurrentState = GAMEOVER;
+			}
+		}
+	}
+}
+
+Level::LEVEL_STATES Level::State()
+{
+	return mCurrentState;
+}
+
 void Level::Update()
 {
 	if (!mStageStarted)
 	{
-		mLabelTimer += mTimer->DeltaTime();
-		if (mLabelTimer >= mStageLabelOffScreen)
+		HandleStartLabels();
+	} 
+	else {
+		HandleCollisions();
+
+		if (mPlayerHit)
 		{
-			if (mStage > 1)
+			HandlePlayerDeath();
+		}
+		else {
+			if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_N))
 			{
-				StartStage();
-			}
-			else {
-				if (mLabelTimer >= mReadtLabelOffScreen)
-					StartStage();
+				mCurrentState = FINISHED;
 			}
 		}
 	}
@@ -81,9 +179,20 @@ void Level::Render()
 			mStageLabel->Render();
 			mStageNumber->Render();
 		} 
-		else if (mLabelTimer > mReadyLabelOnScreen && mLabelTimer < mReadtLabelOffScreen)
+		else if (mLabelTimer > mReadyLabelOnScreen && mLabelTimer < mReadyLabelOffScreen)
 		{
 			mReadyLabel->Render();
+		}
+	}
+	else
+	{
+		if (mPlayerHit)
+		{
+			if (mPlayerRespawnTimer >= mPlayerRespawnLabelOnScreen)
+				mReadyLabel->Render();
+
+			if (mGameOverTimer >= mGameOverLabelOnScreen)
+				mGameOverLabel->Render();
 		}
 	}
 }

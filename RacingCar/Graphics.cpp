@@ -3,6 +3,7 @@
 // Handle the initialization of the graphics related SDL libraries     //
 // and their release												   //
 // Also handles texture and text loading							   //
+
 #include "Graphics.h"
 
 //Initializing to NULL

@@ -4,30 +4,53 @@ Player::Player()
 {
 	mTimer = Timer::Instance();
 	mInput = InputManager::Instance();
+	mAudio = AudioManager::Instance();
 
 	mVisible = true;
 	mAnimating = false;
 
 	mScore = 0;
-	mLives = 2;
+	mHealth = 2; // full = 20
 
+	// Tanks
 	mTank = new Texture("PNG/tanks/tankBeige.png");
-	mBarrel = new Texture("PNG/tanks/barrelBeige.png");
 	mTank->Parent(this);
 	mTank->Pos(VEC2_ZERO);
+
+	mBarrel = new Texture("PNG/tanks/barrelBeige.png");
 	mBarrel->Parent(this);
 	mBarrel->Pos(Vector2(0.0f, 0.0f));
 
-	mRotation = 90.0f;
+	mDeathAnimation = new AnimatedTexture("PNG/Death/tankBeige.png", 0, 0, 100, 100, 4, 1.0f, AnimatedTexture::VERTICAL);
+	mDeathAnimation->Parent(this);
+	mDeathAnimation->Pos(VEC2_ZERO);
+	mDeathAnimation->WrapMode(AnimatedTexture::ONCE);
+
+	// Health Bar
+	std::string filename = "PNG/Health_Bars/health_";
+	for (int i = 0; i < 21; i++)
+	{
+		std::string file = filename + std::to_string(i) + ".png";
+		mHealthBar.push_back(new Texture(file));
+	}
+
+	for (int i = 0; i < 21; i++)
+	{
+		mHealthBar[i]->Parent(this);
+		mHealthBar[i]->Pos(Vector2(0.0f, -50.0f));
+		mHealthBar[i]->Scale(Vector2(0.25f, 0.3f));
+	}
+
+	mRotationSpeed = 90.0f;
 
 	mMoveSpeed = 300.0f;
-	mMoveBounds = Vector2(0.0f, 1600.0f);
 }
 
 Player::~Player()
 {
 	mTimer = NULL;
 	mInput = NULL;
+	mAudio = NULL;
 
 	// Free Player
 	delete mBarrel;
@@ -36,6 +59,15 @@ Player::~Player()
 	delete mTank;
 	mTank = NULL;
 
+	delete mDeathAnimation;
+	mDeathAnimation = NULL;
+
+	for (int i = 0; i < 21; i++)
+	{
+		delete mHealthBar[i];
+		mHealthBar[i] = NULL;
+	}
+	mHealthBar.clear();
 }
 
 void Player::HandleMovement()
@@ -58,34 +90,39 @@ void Player::HandleMovement()
 	{
 		Translate(VEC2_RIGHT * mMoveSpeed * mTimer->DeltaTime());
 		if (tankRotation != 90 && tankRotation != 270)
-			mTank->Rotate(mRotation * mTimer->DeltaTime());
+			mTank->Rotate(mRotationSpeed * mTimer->DeltaTime());
 	}
 	if (mInput->KeyDown(SDL_SCANCODE_LEFT))
 	{
 		Translate(-VEC2_RIGHT * mMoveSpeed * mTimer->DeltaTime());
 		if (tankRotation != 90 && tankRotation != 270)
-			mTank->Rotate(mRotation * mTimer->DeltaTime());
+			mTank->Rotate(mRotationSpeed * mTimer->DeltaTime());
 	}
 
 	if (mInput->KeyDown(SDL_SCANCODE_UP))
 	{
 		Translate(VEC2_UP * mMoveSpeed * mTimer->DeltaTime());
 		if (tankRotation != 0 && tankRotation != 180)
-			mTank->Rotate(-mRotation * mTimer->DeltaTime());
+			mTank->Rotate(-mRotationSpeed * mTimer->DeltaTime());
 	}
 	if (mInput->KeyDown(SDL_SCANCODE_DOWN))
 	{
 		Translate(VEC2_DOWN * mMoveSpeed * mTimer->DeltaTime());
 		if (tankRotation != 0 && tankRotation != 180)
-			mTank->Rotate(-mRotation * mTimer->DeltaTime());
+			mTank->Rotate(-mRotationSpeed * mTimer->DeltaTime());
 	}
 
 
 	Vector2 pos = Pos(local);
-	if (pos.x < mMoveBounds.x)
-		pos.x = mMoveBounds.x;
-	else if (pos.x > mMoveBounds.y)
-		pos.x = mMoveBounds.y;
+	if (pos.x < 0 + 50)
+		pos.x = 0 + 50;
+	else if (pos.x > Graphics::SCREEN_WIDTH - 50)
+		pos.x =	Graphics::SCREEN_WIDTH - 50;
+
+	if (pos.y < 0 + 50)
+		pos.y = 0 + 50;
+	else if (pos.y > Graphics::SCREEN_HEIGHT - 50)
+		pos.y = Graphics::SCREEN_HEIGHT - 50;
 
 	Pos(pos);
 }
@@ -105,9 +142,9 @@ int Player::Score()
 	return mScore;
 }
 
-int Player::Lives()
+int Player::Health()
 {
-	return mLives;
+	return mHealth;
 }
 
 void Player::AddScore(int change)
@@ -115,18 +152,29 @@ void Player::AddScore(int change)
 	mScore += change;
 }
 
+void Player::WasHit()
+{
+	mHealth--;
+	//if (mHealth == 0)
+	{
+		mDeathAnimation->ResetAnimation();
+		mAnimating = true;
+		mAudio->PlaySFX("SFX/tribe_d.wav");
+	}
+}
+
 void Player::Update()
 {
-	HandleMovement();
 	if (mAnimating)
 	{
-
+		mDeathAnimation->Update();
+		mAnimating = mDeathAnimation->IsAnimating();
 	}
 	else
 	{
 		if (Active())
 		{
-			//HandleMovement();
+			HandleMovement();
 		}
 	}
 }
@@ -137,10 +185,11 @@ void Player::Render()
 	{
 		if (mAnimating)
 		{
-
+			mDeathAnimation->Render();
 		}
 		else
 		{
+			mHealthBar[mHealth]->Render();
 			mTank->Render();
 			mBarrel->Render();
 		}
