@@ -1,9 +1,7 @@
-//---------------------------------------------------------------------//
 // GameManager.cpp                                                     //
 // Used to intialize and release all other manager                     //
 // Contains the game loop as well as the Update and Render functions   //
 // Used to make sure all functions are called in the correct order     //
-//---------------------------------------------------------------------//
 
 #include "GameManager.h"
 
@@ -76,14 +74,12 @@ void GameManager::EarlyUpdate()
 	//Updating the input state before any other updates are run to make sure the Input check is accrate
 	mTimer->Reset();
 	mInputMgr->Update();
-	
 }
 
 void GameManager::Update()
 {
 	//GameEntity Update should happen here;
 	mScreenMgr->Update();
-	
 }
 
 void GameManager::LateUpdate()
@@ -120,7 +116,6 @@ void GameManager::Run()
 
 		if (mTimer->DeltaTime() >= (1.0f / FRAME_RATE))
 		{
-			
 			EarlyUpdate();
 			Update();
 			LateUpdate();

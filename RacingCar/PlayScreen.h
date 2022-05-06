@@ -1,26 +1,23 @@
 #pragma once
 
-#include "InputManager.h"
-#include "Texture.h"
-#include "Timer.h"
-#include "AudioManager.h"
+#include <vector>
 #include "Player.h"
-#include "Scoreboard.h"
+#include "PlayTopBar.h"
 #include "Level.h"
 
 
 class PlayScreen : public GameEntity
 {
 private:
+	// Manager 
 	Timer* mTimer;
 	InputManager* mInput;
 	AudioManager* mAudio;
 
-	// Top bar
-	GameEntity* mTopBar;
-	Scoreboard* mScoreboard;
+	// Top bar Entities
+	PlayTopBar* mTopBar;
 
-	// 
+	// Start 
 	Texture* mStartLabel;
 
 	float mLevelStartTimer;
@@ -28,23 +25,31 @@ private:
 
 	bool mGameStarted;
 
+	// Level
 	Level* mLevel;
 	bool mLevelStarted;
-	int mCurrentStage;
+	int mCurrentStage; // Level
 
+	// Player Entitiy
 	Player* mPlayer;
 
-private:
 
+private:
+	// Load the next level after we just finished 
 	void StartNextLevel();
 
 public:
+
 	PlayScreen();
+
 	~PlayScreen();
 
 	void StartNewGame();
 
+	void SetHealth(int health);
+
 	void Update();
+
 	void Render();
 
 };

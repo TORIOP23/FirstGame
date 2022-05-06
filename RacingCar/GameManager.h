@@ -1,22 +1,18 @@
-﻿//---------------------------------------------------------------------//
-// GameManager.h                                                       //
+﻿// GameManager.h                                                       //
 // Singleton                                                           //
 // Used to intialize and release all other manager                     //
 // Contains the game loop as well as the Update and Render functions   //
 // Used to make sure all functions are called in the correct order     //
-//---------------------------------------------------------------------//
 
 #pragma once
-//-----------------------------------------------------------------
-#include <iostream>
+
+#include <cstdio>
 #include "InputManager.h"
 #include "AudioManager.h"
 #include "Timer.h"
 #include "Texture.h"
 #include "ScreenManager.h"
-//----------------------------------------------------------------
-// GameManager                                                          
-//----------------------------------------------------------------
+
 class GameManager
 {
 private:
@@ -24,7 +20,7 @@ private:
 	static GameManager* sInstance;
 
 	//The target frame rate of the game 
-	const int FRAME_RATE = 120;
+	const int FRAME_RATE = 60;
 
 	//Used to exit the game loop
 	bool mQuit;
@@ -58,33 +54,24 @@ public:
 
 private:
 
-	//------------------------------------------------------------------------------------------
 	//Contructor is private so that Instance() must be used to get an instance when needed  
-	//------------------------------------------------------------------------------------------
 	GameManager();
-	//-------------------------------------------------------------------------------------
+
 	//Destructor is private so that the instance can only be destroyed using Release()  
-	//-------------------------------------------------------------------------------------
 	~GameManager();
 
-	//--------------------------------------------------------------------------------
 	//Is called before Update(), and is used for things that need to be update first
-	//      for example: updating input state                           
-	//--------------------------------------------------------------------------------
+	//      for example: updating input state     
 	void EarlyUpdate();
-	//------------------------------------------------------------------------------
+
 	//Used to update entities, all transformations are to be done in this function
-	//------------------------------------------------------------------------------
 	void Update();
-	//------------------------------------------------------------------------------
+
 	//Is called after Update and is used for things that need to be updated last    
 	//    for example: collision detection or resetting the timer                   
-	//------------------------------------------------------------------------------
 	void LateUpdate();
 
-	//----------------------------------------------------------------------
 	//Clears the back buffer, and then is used to render all game entities  
 	//Is called after Late Update                                           
-	//----------------------------------------------------------------------
 	void Render();
 };

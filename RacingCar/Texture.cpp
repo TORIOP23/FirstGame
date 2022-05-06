@@ -1,14 +1,13 @@
-//-----------------------------------------------------------------//
 // Texture.cpp                                                     //
 // Singleton                                                       //
 // The base class for all textures to be rendered on screen        //
 // Can load full textures, or clipped textures from a spritesheet  //
 // or convert a string into a texture to be rendered               //
-//-----------------------------------------------------------------//
+
 #include "Texture.h"
 
 
-Texture::Texture(std::string filename) 
+Texture::Texture(std::string filename)
 {
 	mGraphics = Graphics::Instance();
 
@@ -69,6 +68,16 @@ Texture::~Texture()
 {
 	mTex = NULL;
 	mGraphics = NULL;
+}
+
+int Texture::Width()
+{
+	return static_cast<int> (mWidth * Scale(world).x);
+}
+
+int Texture::Height()
+{
+	return static_cast<int> (mHeight * Scale(world).y);
 }
 
 void Texture::Render() 

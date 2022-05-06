@@ -1,13 +1,13 @@
 #pragma once
 #include "InputManager.h"
-#include "Texture.h"
-#include "Timer.h"
-#include "Scoreboard.h"
+#include "PlayTopBar.h"
 
 class Level : public GameEntity
 {
 private:
 	Timer* mTimer;
+
+	PlayTopBar* mTopBar;
 
 	int mStage;
 	bool mStageStarted;
@@ -29,7 +29,8 @@ private:
 	void StartStage();
 
 public:
-	Level(int stage);
+	Level(int stage, PlayTopBar* topBar);
+
 	~Level();
 
 	void Update();

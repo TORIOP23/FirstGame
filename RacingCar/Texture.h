@@ -1,17 +1,12 @@
-//-----------------------------------------------------------------//
 // Texture.h                                                       //
 // The base class for all textures to be rendered on screen        //
-// Can load full textures, or clipped textures from a spritesheet  //
-// or convert a string into a texture to be rendered               //
-//-----------------------------------------------------------------//
+
 #pragma once
-//---------------------------------------------------------------
+
 #include "GameEntity.h"
 #include "AssetManager.h"
 
-//-----------------------------------------------------------
-// Texture : public GameEntity
-//-----------------------------------------------------------
+
 class Texture : public GameEntity 
 {
 protected:
@@ -36,31 +31,30 @@ protected:
 	SDL_Rect mClipRect;
 
 public:
-	//--------------------------------------------------------------
 	//Loads a whole texture from a file (relative to the exe path)
 	//Note: For spritesheets use the other contructor
-	//--------------------------------------------------------------
 	Texture(std::string filename);
-	//-------------------------------------------------------------
+
 	//Loads a texture from from file (relative to the exe path)
 	//Supports spritesheets
-	//x - Starting pixel's X on the spritesheet
-	//y - Starting pixel's Y on the spritesheet
-	//w - The width of the clipped sprite
-	//h - The height of the clipped sprite
-	//-------------------------------------------------------------
+	//x : Start X
+	//y : Start Y
+	//w : the Width 
+	//h	: the Height
 	Texture(std::string filename, int x, int y, int w, int h);
-	//------------------------------------------------------------
+	
 	//Converts the given text into a texture to be rendered
 	//Note: fontpath is relative to the exe path
-	//size - The size of the text to be rendered
-	//color - The color of the text to be rendered
-	//------------------------------------------------------------
+	//size - The size of the text
+	//color - The color of the text
 	Texture(std::string text, std::string fontpath, int size, SDL_Color color);
 	~Texture();
 
-	//----------------------------------------------
+	// return the width after scale
+	int Width();
+	// return the height after scale
+	int Height();
+
 	//Called to render the texture to the screen, might want to inherit the texture class later 
-	//----------------------------------------------
 	virtual void Render();
 };

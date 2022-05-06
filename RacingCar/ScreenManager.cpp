@@ -22,17 +22,19 @@ void ScreenManager::Release()
 ScreenManager::ScreenManager()
 {
 	mInput = InputManager::Instance();
+	mAudio = AudioManager::Instance();
 
 
 	mStartScreen = new StartScreen();
 	mPlayScreen = new PlayScreen();
 
-	mCurrentScreen = start;
+	mCurrentScreen = START;
 }
 
 ScreenManager::~ScreenManager()
 {
 	mInput = NULL;
+	mAudio = NULL;
 
 	delete mStartScreen;
 	mStartScreen = NULL;
@@ -46,21 +48,26 @@ void ScreenManager::Update()
 
 	switch (mCurrentScreen)
 	{
-	case ScreenManager::start:
+	case ScreenManager::START:
 		mStartScreen->Update();
-		if (mInput->KeyPressed(SDL_SCANCODE_RETURN))
+		if (mStartScreen->SelectedMode() == StartScreen::PLAY)
 		{
-			mCurrentScreen = play;
-			mStartScreen->ResetAnimation();
-			mPlayScreen->StartNewGame();
+			if (mInput->MouseButtonPressed(InputManager::LEFT))
+			{
+				mAudio->PlaySFX("SFX/click1.ogg");
+				mCurrentScreen = PLAY;
+				mStartScreen->ResetAnimation();
+				mPlayScreen->StartNewGame();
+			}
 		}
 		break;
-	case ScreenManager::play:
+	case ScreenManager::PLAY:
 
 		mPlayScreen->Update();
 		if (mInput->KeyPressed(SDL_SCANCODE_ESCAPE))
 		{
-			mCurrentScreen = start;
+			mCurrentScreen = START;
+			mAudio->PlayMusic("Music/pickBan.wav");
 		}
 		break;
 	default:
@@ -72,10 +79,10 @@ void ScreenManager::Render()
 {
 	switch (mCurrentScreen)
 	{
-	case ScreenManager::start:
+	case ScreenManager::START:
 		mStartScreen->Render();
 		break;
-	case ScreenManager::play:
+	case ScreenManager::PLAY:
 		mPlayScreen->Render();
 		break;
 	default:

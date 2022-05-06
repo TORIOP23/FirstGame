@@ -7,68 +7,75 @@ StartScreen::StartScreen()
 {
 	mTimer = Timer::Instance();
 	mInput = InputManager::Instance();
+	mAudio = AudioManager::Instance();
+	
+	mAudio->PlayMusic("Music/pickBan.wav");
+
+	// Background
+	mBkg = new Texture("bkg.jpg");
+	mBkg->Pos(Vector2(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.5f));
 
 	//Top Bar Entities
-	mTopBar = new GameEntity(Vector2(Graphics::SCREEN_WIDTH * 0.5f, 80.0f));
+	mTopBar = new GameEntity(Vector2(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.05f));
 	mVersion = new Texture("Version 1.0 beta", "fonts/Starcraft.ttf", 22, { 200, 0, 0 });
+	mDates = new Texture("2022 MADE BY TORIOP", "fonts/starcraft.ttf", 22, { 200, 0, 0 });
 
 	mVersion->Parent(mTopBar);
+	mDates->Parent(mTopBar);
 
 	mVersion->Pos(VEC2_ZERO);
+	mDates->Pos(Vector2(0.0f, - 30.0f));
 
 	//this is a pointer to our startScreen
-	mTopBar->Parent(this);
+	//mTopBar->Parent(this);
 
-	// Logo Entities
-	mLogo = new Texture("logo.jpg");
-	//mAnimatedLogo = new AnimatedTexture("");
-
-	mLogo->Pos(Vector2(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.35f));
-	//mLogo->Scale(Vector2(1.3f, 1.3f));
-	mLogo->Parent(this);
 
 	// Play mode Entities
-	mPlayModes = new GameEntity(Vector2(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.55f));
+	mPlayModes = new GameEntity(Vector2(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.75f));
+	mPlayButton = new Texture("UI/blue_button00.png");
 	mPlayMode = new Texture("Play", "fonts/starcraft.ttf", 50, { 230, 230, 230 });
+	mExitButton = new Texture("UI/blue_button00.png");
 	mExitMode = new Texture("Exit", "fonts/starcraft.ttf", 50, { 230, 230, 230 });
-	mCursor = new Texture("cursor.jpeg");
 
+	mPlayButton->Scale(Vector2(1.30f, 1.3f));
+	mExitButton->Scale(Vector2(1.30f, 1.3f));
+
+	mPlayButton->Parent(mPlayModes);
 	mPlayMode->Parent(mPlayModes);
+	mExitButton->Parent(mPlayModes);
 	mExitMode->Parent(mPlayModes);
-	mCursor->Parent(mPlayModes);
 
-
+	mPlayButton->Pos(Vector2(0.0f, -40.0f));
 	mPlayMode->Pos(Vector2(0.0f, -40.0f));
+	mExitButton->Pos(Vector2(0.0f, 40.0f));
 	mExitMode->Pos(Vector2(0.0f, 40.0f));
-	mCursor->Pos(Vector2(-195.0f, -50.0f));
 
 	mPlayModes->Parent(this);
 
-	mCursorStartPos = mCursor->Pos(local);
-	mCursorOffset = Vector2(0.0f, 80.0f);
-	mSelectedMode = 0;
 
 	//Bottom Bar Entities
-	mBotBar = new GameEntity(Vector2(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.7f));
-	mCompany = new Texture("RIOT", "fonts/LOL1.ttf", 25, { 200, 0, 0 });
-	mDates = new Texture("2022 MADE BY TORIOP", "fonts/starcraft.ttf", 30, { 129, 129, 129 });
-	mRights = new Texture("ALL RIGHTS RESERVED", "fonts/starcraft.ttf", 30, { 129, 129, 129 });
+	mBotBar = new GameEntity(Vector2(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.8f));
+	mCompany = new Texture("RIOT", "fonts/LOL1.ttf", 30, { 200, 0, 0 });
+	mRights = new Texture("ALL RIGHTS RESERVED", "fonts/starcraft.ttf", 20, { 129, 129, 129 });
 
 	mCompany->Parent(mBotBar);
-	mDates->Parent(mBotBar);
 	mRights->Parent(mBotBar);
 
-	mCompany->Pos(Vector2(0.0f, 200.0f));
-	mDates->Pos(Vector2(0.0f, 70.0f));
+	mCompany->Pos(Vector2(0.0f, 100.0f));
 	mRights->Pos(Vector2(0.0f, 130.0f));
 
-	mBotBar->Parent(this);
+	//mBotBar->Parent(this);
 
 	ResetAnimation();
 }
 
 StartScreen::~StartScreen()
 {
+	mAudio = NULL;
+
+	// Freeing background
+	delete mBkg;
+	mBkg = NULL;
 
 	// Freeing Top Bar Entities
 	delete mTopBar;
@@ -77,22 +84,24 @@ StartScreen::~StartScreen()
 	delete mVersion;
 	mVersion = NULL;
 
-	// Freeing logo Entities
-	delete mLogo;
-	mLogo = NULL;
+	delete mDates;
+	mDates = NULL;
 
 	// Freeing Play Mode Entities
 	delete mPlayModes;
 	mPlayModes = NULL;
 
+	delete mPlayButton;
+	mPlayButton = NULL;
+
 	delete mPlayMode;
 	mPlayMode = NULL;
 
+	delete mExitButton;
+	mExitButton = NULL;
+
 	delete mExitMode;
 	mExitMode = NULL;
-
-	delete mCursor;
-	mCursor = NULL;
 
 	// Freeing Bot Bar Entities
 	delete mBotBar;
@@ -100,9 +109,6 @@ StartScreen::~StartScreen()
 
 	delete mCompany;
 	mCompany = NULL;
-
-	delete mDates;
-	mDates = NULL;
 
 	delete mRights;
 	mRights = NULL;
@@ -112,30 +118,38 @@ void StartScreen::ResetAnimation()
 {
 	// Screen Animation Variables
 	// scrren has pos VEC2_ZERO, everything setup with (0, 0) position in the world
-	mAnimationStartPos = Vector2(0.0f, Graphics::SCREEN_HEIGHT);
+	mAnimationStartPos = Vector2(0.0f, Graphics::SCREEN_HEIGHT * 0.5f);
 	mAnimationEndPos = VEC2_ZERO;
 	mAnimationTimer = 0.0f;
-	mAnimationTotalTime = 5.0f;
+	mAnimationTotalTime = 4.0f;
 	mAnimationDone = false;
 
 	Pos(mAnimationStartPos);
 }
 
-int StartScreen::SelectedMode()
+void StartScreen::Mode()
 {
-	return mSelectedMode;
+	mSeLectedMode = NONE;
+
+	float xPos = mInput->MousePos().x - mPlayButton->Pos().x;
+	float yPos = mInput->MousePos().y;
+
+	if ((xPos > (-mPlayButton->Width() * 0.5f)) && (xPos < (mPlayButton->Width() * 0.5f)))
+	{
+		if (yPos > (mPlayButton->Pos().y - mPlayButton->Height() * 0.5f) && yPos < (mPlayButton->Pos().y + mPlayButton->Height() * 0.5f))
+		{
+			mSeLectedMode = PLAY;
+		}
+		else if (yPos > (mExitButton->Pos().y - mExitButton->Height() * 0.5f) && yPos < (mExitButton->Pos().y + mExitButton->Height() * 0.5f))
+		{
+			mSeLectedMode = EXIT;
+		}
+	}
 }
 
-void StartScreen::ChangeSelectedMode(int change)
+StartScreen::MODE StartScreen::SelectedMode()
 {
-	mSelectedMode += change;
-	
-	if (mSelectedMode < 0)
-		mSelectedMode = 1;
-	else if (mSelectedMode > 1)
-		mSelectedMode = 0;
-
-	mCursor->Pos(mCursorStartPos + mCursorOffset * mSelectedMode);
+	return mSeLectedMode;
 }
 
 void StartScreen::Update()
@@ -153,24 +167,21 @@ void StartScreen::Update()
 	}
 	else
 	{
-		if (mInput->KeyPressed(SDL_SCANCODE_DOWN))
-			ChangeSelectedMode(1);
-		else if (mInput->KeyPressed(SDL_SCANCODE_UP))
-			ChangeSelectedMode(-1);
+		Mode();
 	}
 }
 
 void StartScreen::Render()
 {
+	mBkg->Render();
 	mVersion->Render();
+	mDates->Render();
 
-	mLogo->Render();
-
+	mPlayButton->Render();
 	mPlayMode->Render();
+	mExitButton->Render();
 	mExitMode->Render();
-	mCursor->Render();
 
 	mCompany->Render();
-	mDates->Render();
 	mRights->Render();
 }

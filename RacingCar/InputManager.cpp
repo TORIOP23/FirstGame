@@ -1,7 +1,5 @@
-//---------------------------------------------------------------------//
 // InputManager.cpp                                                    //
 // Handles all Input related functionality for keyboard and mouse.     //
-//---------------------------------------------------------------------//
 #include <string.h>
 #include <cstdio>
 
@@ -71,23 +69,23 @@ bool InputManager::MouseButtonDown(MOUSE_BUTTON button)
 
 	switch (button) 
 	{
-	case left:
+	case LEFT:
 		mask = SDL_BUTTON_LMASK;
 		break;
 
-	case right:
+	case RIGHT:
 		mask = SDL_BUTTON_RMASK;
 		break;
 
-	case middle:
+	case MIDDLE:
 		mask = SDL_BUTTON_MMASK;
 		break;
 
-	case back:
+	case BACK:
 		mask = SDL_BUTTON_X1MASK;
 		break;
 
-	case forward:
+	case FORWARD:
 		mask = SDL_BUTTON_X2MASK;
 		break;
 	}
@@ -103,23 +101,23 @@ bool InputManager::MouseButtonPressed(MOUSE_BUTTON button)
 
 	switch (button) 
 	{
-	case left:
+	case LEFT:
 		mask = SDL_BUTTON_LMASK;
 		break;
 
-	case right:
+	case RIGHT:
 		mask = SDL_BUTTON_RMASK;
 		break;
 
-	case middle:
+	case MIDDLE:
 		mask = SDL_BUTTON_MMASK;
 		break;
 
-	case back:
+	case BACK:
 		mask = SDL_BUTTON_X1MASK;
 		break;
 
-	case forward:
+	case FORWARD:
 		mask = SDL_BUTTON_X2MASK;
 		break;
 	}
@@ -134,23 +132,23 @@ bool InputManager::MouseButtonReleased(MOUSE_BUTTON button)
 
 	switch (button) 
 	{
-	case left:
+	case LEFT:
 		mask = SDL_BUTTON_LMASK;
 		break;
 
-	case right:
+	case RIGHT:
 		mask = SDL_BUTTON_RMASK;
 		break;
 
-	case middle:
+	case MIDDLE:
 		mask = SDL_BUTTON_MMASK;
 		break;
 
-	case back:
+	case BACK:
 		mask = SDL_BUTTON_X1MASK;
 		break;
 
-	case forward:
+	case FORWARD:
 		mask = SDL_BUTTON_X2MASK;
 		break;
 	}

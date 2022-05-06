@@ -1,9 +1,7 @@
-//----------------------------------------------------//
 // Timer.h                                            //
 // Singleton                                          //
 // Used to keep track of the time between each reset  //
 // A reset is usually called after each frame         //
-//----------------------------------------------------//
 
 #pragma once
 
@@ -49,13 +47,10 @@ public:
 	void Update();
 
 private:
-	//------------------------------------------------------------------------------------------
 	//Contructor is private so that Instance() must be used to get an instance when needed  
-	//------------------------------------------------------------------------------------------
 	Timer();
-	//--------------------------------------------------------------------------------------
+	
 	//Destructor is private so that the instance can only be destroyed using Release()  
-	//--------------------------------------------------------------------------------------
 	~Timer();
 };
 

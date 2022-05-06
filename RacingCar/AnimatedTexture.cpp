@@ -1,8 +1,7 @@
-//-----------------------------------------------------------------//
 // AnimatedTexture.cpp                                             //
 // Extends the Texture class' functionality to handle animations   //
 // Uses the Texture class' spritesheet constructor                 //
-//-----------------------------------------------------------------//
+
 #include "AnimatedTexture.h"
 
 AnimatedTexture::AnimatedTexture(std::string filename, int x, int y, int w, int h, int frameCount, float animationSpeed, ANIM_DIR animationDir)

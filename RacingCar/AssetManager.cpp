@@ -1,11 +1,8 @@
-//---------------------------------------------------------------------//
 // AssetManager.cpp                                                    //
 // Singleton                                                           //
 // Used to load all assets used in the game,                           //
 // Caches all loaded assets so that nothing is loaded more than once   //
-//---------------------------------------------------------------------//
 #include "AssetManager.h"
-
 
 //Initializing to NULL
 AssetManager* AssetManager::sInstance = NULL;

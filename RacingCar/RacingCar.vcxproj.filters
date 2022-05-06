@@ -84,6 +84,9 @@
     <ClCompile Include="Scoreboard.cpp">
       <Filter>Source Files\Racing</Filter>
     </ClCompile>
+    <ClCompile Include="PlayTopBar.cpp">
+      <Filter>Source Files\Racing</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Collision.h">
@@ -135,6 +138,9 @@
       <Filter>Header Files\Racing</Filter>
     </ClInclude>
     <ClInclude Include="Scoreboard.h">
+      <Filter>Header Files\Racing</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayTopBar.h">
       <Filter>Header Files\Racing</Filter>
     </ClInclude>
   </ItemGroup>

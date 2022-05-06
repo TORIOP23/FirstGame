@@ -1,10 +1,9 @@
-//-------------------------------------------------------------------------------------------------------------------//
 // GameEntity.cpp                                                                                                    //
 // The base class for all game entities, providing position, rotation, and scaling functionality to all entities.    //
 //                                                                                                                   //
 // Sets up a system to parent GameEntity objects to one another                                                      //
 // making the child's position, rotation, and scale relative to the parent's instead of the world origin             //
-//-------------------------------------------------------------------------------------------------------------------//
+
 #include "GameEntity.h"
 
 GameEntity::GameEntity(Vector2 pos) 
@@ -18,7 +17,6 @@ GameEntity::GameEntity(Vector2 pos)
 
 GameEntity::~GameEntity() 
 {
-	// mActive = false ??? why not
 	mParent = NULL;
 }
 
@@ -27,12 +25,11 @@ void GameEntity::Pos(Vector2 pos)
 {
 	mPos = pos;
 }
-//----------------------------------------------------------------------------------------------------------------
+
 //Returns the position of the GameEntity                                                                          
 //If space = world, the world position is returned (relative to the origin)                                       
 //if space = local, if the object has a parent, the local position is returned (relative to the parent position)  
 //       otherwise if the object has no parent, the world position is returned instead (relative to the origim)   
-//----------------------------------------------------------------------------------------------------------------
 Vector2 GameEntity::Pos(SPACE space) 
 {
 	if(space == local || mParent == NULL)
@@ -44,7 +41,7 @@ Vector2 GameEntity::Pos(SPACE space)
 	//The object's local position is rotated by the parent's rotation
 	Vector2 rotPos = RotateVector(mPosScaled, mParent->Rotation(local));
 
-	//Vector2 rotPos = RotateVector(mPos, mParent->Rotation(local));
+	//Vector2 rotPos = RotateVector(mPos, mParent->Rotation(local));   // not scale
 
 	//The final position also depends on the parent's scale (if the parent is scaled up, the object should be further away from the parent)
 	return mParent->Pos(world) + rotPos;
@@ -68,12 +65,11 @@ void GameEntity::Rotation(float r)
 		mRotation -= 360.0f * mul;
 	}
 }
-//-----------------------------------------------------------------------------------------------------------------
+
 //Returns the rotation of the GameEntity                                                                           
 //If space = world, the world rotation is returned (total rotation of parent[if it has one] and object)            
 //If space = local, if the object has a parent, the local rotation is returned (relative to the parent's rotation)
 //			otherwise if the object has no parent, the world rotation is returned (relative to the origin)
-//-----------------------------------------------------------------------------------------------------------------
 float GameEntity::Rotation(SPACE space) 
 {
 	if(space == local || mParent == NULL)
@@ -175,16 +171,4 @@ void GameEntity::Rotate(float amount)
 		int mul = static_cast<int>((mRotation / 360) - 1);
 		mRotation -= 360.0f * mul;
 	}
-}
-
-void GameEntity::Update() 
-{
-
-
-}
-
-void GameEntity::Render() 
-{
-
-
 }

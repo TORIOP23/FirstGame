@@ -6,34 +6,40 @@
 
 #include "AnimatedTexture.h"
 #include "InputManager.h"
+#include "AudioManager.h"
 
 class StartScreen : public GameEntity
 {
+public:
+
+	enum MODE { NONE, PLAY, EXIT };
+
 private:
+
 	Timer* mTimer;
 	InputManager* mInput;
+	AudioManager* mAudio;
+
+	// Background
+	Texture* mBkg;
 
 	// Top Bar Entities
 	GameEntity* mTopBar;
+	Texture* mDates; 
 	Texture* mVersion;
 
-	//logo Entities
-	Texture* mLogo;
-	//AnimatedTexture* mAnimatedLogo;
 
 	//Play Mode Entities
 	GameEntity* mPlayModes;
+	Texture* mPlayButton;
 	Texture* mPlayMode;
+	Texture* mExitButton;
 	Texture* mExitMode;
-	Texture* mCursor;
 
-	Vector2 mCursorStartPos;
-	Vector2 mCursorOffset;
-	int mSelectedMode;
+	MODE mSeLectedMode;
 
 	//Bottom Bar Entities
 	GameEntity* mBotBar;
-	Texture* mDates;
 	Texture* mCompany;
 	Texture* mRights;
 
@@ -44,16 +50,20 @@ private:
 	float mAnimationTimer;
 	bool mAnimationDone;
 
+
 public:
 
 	StartScreen();
+
 	~StartScreen();
 
 	void ResetAnimation();
 
-	int SelectedMode();
+	// set mode
+	void Mode();
 
-	void ChangeSelectedMode(int change);
+	// get mode
+	MODE SelectedMode();
 
 	void Update();
 

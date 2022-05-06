@@ -1,27 +1,21 @@
-//-----------------------------------------------------------------//
 // AnimatedTexture.h                                               //
 // Extends the Texture class' functionality to handle animations   //
 // Use the Texture class' spritesheet constructor                  //
-//-----------------------------------------------------------------//
 #pragma once
-//--------------------------------------------------------------
+
 #include "Timer.h"
 #include "Texture.h"
-//----------------------------------------------------------
-// AnimatedTexture : public Texture
-//----------------------------------------------------------
+
+
 class AnimatedTexture : public Texture {
 
 public:
-	//---------------------------------------------------------
 	//WRAP_MODE enum - wrap mode used by the animation
 	//once / loop 
-	//---------------------------------------------------------
 	enum WRAP_MODE { once = 0, loop = 1 };
-	//-----------------------------------------------------------------------------------
+
 	//ANIM_DIR enum - The way the animation sprites are arranged in the spritesheet
 	//horizontal / vertical
-	//------------------------------------------------------------------------------------
 	enum ANIM_DIR { horizontal = 0, vertical = 1 };
 
 private:
@@ -53,7 +47,7 @@ private:
 	bool mAnimationDone;
 
 public:
-	//---------------------------------------------------------------------------------
+
 	//Loads a texture from from file (relative to the exe path)
 	//Supports spritesheets
 	//x - Starting pixel's X on the spritesheet
@@ -63,17 +57,13 @@ public:
 	//frameCount - The number of frames in the animation
 	//animationSpeed - How long it takes to run the animation in seconds
 	//animationDirection - How the animation sprites are arranges in the spritesheet
-	//---------------------------------------------------------------------------------
+	
 	AnimatedTexture(std::string filename, int x, int y, int w, int h, int frameCount, float animationSpeed, ANIM_DIR animationDir);
 	~AnimatedTexture();
 
-	//---------------------------------------
 	//Sets the wrap mode of the animation
-	//---------------------------------------
 	void WrapMode(WRAP_MODE mode);
 
-	//---------------------------------------------------------------------------
 	//Used to update the animation frames and loop the animation if needed
-	//---------------------------------------------------------------------------
 	void Update();
 };

@@ -1,9 +1,7 @@
-//--------------------------------------------------------------//
 // AudioManager.cpp                                             //
 // Singleton                                                    //
 // Plays WAV files                                              //
 // Can play one BGM at a time, and many sound effects at once   //
-//--------------------------------------------------------------//
 #include "AudioManager.h"
 
 //Initializing to NULL

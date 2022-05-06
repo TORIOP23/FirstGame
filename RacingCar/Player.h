@@ -8,6 +8,7 @@ private:
 	Timer* mTimer;
 	InputManager* mInput;
 
+
 	bool mVisible;
 	bool mAnimating;
 
@@ -16,6 +17,11 @@ private:
 
 	Texture* mTank;
 	Texture* mBarrel;
+
+	// Healthbar 
+	std::vector<Texture*> mHealthBar;
+
+	int mHealth;
 
 	float mRotation;
 
