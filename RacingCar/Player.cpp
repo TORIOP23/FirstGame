@@ -10,7 +10,7 @@ Player::Player()
 	mAnimating = false;
 
 	mScore = 0;
-	mHealth = 2; // full = 20
+	mHealth = 20; // full = 20
 
 	// Tanks
 	mTank = new Texture("PNG/tanks/tankBeige.png");
@@ -21,6 +21,10 @@ Player::Player()
 	mBarrel->Parent(this);
 	mBarrel->Pos(Vector2(0.0f, 0.0f));
 
+	mHeadBarrel = new GameEntity();
+	mHeadBarrel->Parent(mBarrel);
+	mHeadBarrel->Pos(Vector2(0.0f, 50.0f));
+
 	mDeathAnimation = new AnimatedTexture("PNG/Death/tankBeige.png", 0, 0, 100, 100, 4, 1.0f, AnimatedTexture::VERTICAL);
 	mDeathAnimation->Parent(this);
 	mDeathAnimation->Pos(VEC2_ZERO);
@@ -28,13 +32,13 @@ Player::Player()
 
 	// Health Bar
 	std::string filename = "PNG/Health_Bars/health_";
-	for (int i = 0; i < 21; i++)
+	for (int i = 0; i < MAX_HEALTH; i++)
 	{
 		std::string file = filename + std::to_string(i) + ".png";
-		mHealthBar.push_back(new Texture(file));
+		mHealthBar[i] = new Texture(file);
 	}
 
-	for (int i = 0; i < 21; i++)
+	for (int i = 0; i < MAX_HEALTH; i++)
 	{
 		mHealthBar[i]->Parent(this);
 		mHealthBar[i]->Pos(Vector2(0.0f, -50.0f));
@@ -44,6 +48,11 @@ Player::Player()
 	mRotationSpeed = 90.0f;
 
 	mMoveSpeed = 300.0f;
+
+	for (int i = 0; i < MAX_BULLETS; i++)
+	{
+		mBullets[i] = new Bullet();
+	}
 }
 
 Player::~Player()
@@ -53,6 +62,9 @@ Player::~Player()
 	mAudio = NULL;
 
 	// Free Player
+	delete mHeadBarrel;
+	mHeadBarrel = NULL;
+
 	delete mBarrel;
 	mBarrel = NULL;
 
@@ -62,12 +74,19 @@ Player::~Player()
 	delete mDeathAnimation;
 	mDeathAnimation = NULL;
 
-	for (int i = 0; i < 21; i++)
+	// Freeing HealthBar 
+	for (int i = 0; i < MAX_HEALTH; i++)
 	{
 		delete mHealthBar[i];
 		mHealthBar[i] = NULL;
 	}
-	mHealthBar.clear();
+
+	// Freeing Bullets
+	for (int i = 0; i < MAX_BULLETS; i++)
+	{
+		delete mBullets[i];
+		mBullets[i] = NULL;
+	}
 }
 
 void Player::HandleMovement()
@@ -88,31 +107,31 @@ void Player::HandleMovement()
 	int tankRotation = static_cast<int>(mTank->Rotation());
 	if (mInput->KeyDown(SDL_SCANCODE_RIGHT))
 	{
-		Translate(VEC2_RIGHT * mMoveSpeed * mTimer->DeltaTime());
+		Translate(VEC2_RIGHT * mMoveSpeed * mTimer->DeltaTime(), GameEntity::world);
 		if (tankRotation != 90 && tankRotation != 270)
 			mTank->Rotate(mRotationSpeed * mTimer->DeltaTime());
 	}
 	if (mInput->KeyDown(SDL_SCANCODE_LEFT))
 	{
-		Translate(-VEC2_RIGHT * mMoveSpeed * mTimer->DeltaTime());
+		Translate(-VEC2_RIGHT * mMoveSpeed * mTimer->DeltaTime(), GameEntity::world);
 		if (tankRotation != 90 && tankRotation != 270)
 			mTank->Rotate(mRotationSpeed * mTimer->DeltaTime());
 	}
 
 	if (mInput->KeyDown(SDL_SCANCODE_UP))
 	{
-		Translate(VEC2_UP * mMoveSpeed * mTimer->DeltaTime());
+		Translate(VEC2_UP * mMoveSpeed * mTimer->DeltaTime(), GameEntity::world);
 		if (tankRotation != 0 && tankRotation != 180)
 			mTank->Rotate(-mRotationSpeed * mTimer->DeltaTime());
 	}
 	if (mInput->KeyDown(SDL_SCANCODE_DOWN))
 	{
-		Translate(VEC2_DOWN * mMoveSpeed * mTimer->DeltaTime());
+		Translate(VEC2_DOWN * mMoveSpeed * mTimer->DeltaTime(), GameEntity::world);
 		if (tankRotation != 0 && tankRotation != 180)
 			mTank->Rotate(-mRotationSpeed * mTimer->DeltaTime());
 	}
 
-
+	// Check map
 	Vector2 pos = Pos(local);
 	if (pos.x < 0 + 50)
 		pos.x = 0 + 50;
@@ -125,6 +144,22 @@ void Player::HandleMovement()
 		pos.y = Graphics::SCREEN_HEIGHT - 50;
 
 	Pos(pos);
+}
+
+void Player::HandleFiring()
+{
+	if (mInput->MouseButtonPressed(InputManager::LEFT))
+	{
+		for (int i = 0; i < MAX_BULLETS; i++)
+		{
+			if (!mBullets[i]->Active())
+			{
+				mBullets[i]->Fire(mHeadBarrel->Pos(), mInput->MousePos());
+				mAudio->PlaySFX("SFX/shoot_01.ogg");
+				break;
+			}
+		}
+	}
 }
 
 void Player::Visible(bool visible)
@@ -155,10 +190,13 @@ void Player::AddScore(int change)
 void Player::WasHit()
 {
 	mHealth--;
-	//if (mHealth == 0)
+	if (mHealth == 0)
 	{
 		mDeathAnimation->ResetAnimation();
 		mAnimating = true;
+		mAudio->PlaySFX("SFX/explosion.wav");
+	}
+	else {
 		mAudio->PlaySFX("SFX/tribe_d.wav");
 	}
 }
@@ -175,12 +213,23 @@ void Player::Update()
 		if (Active())
 		{
 			HandleMovement();
+			HandleFiring();
 		}
+	}
+
+	for (int i = 0; i < MAX_BULLETS; i++)
+	{
+		mBullets[i]->Update();
 	}
 }
 
 void Player::Render()
 {
+	for (int i = 0; i < MAX_BULLETS; i++)
+	{
+		mBullets[i]->Render();
+	}
+
 	if (mVisible)
 	{
 		if (mAnimating)
@@ -194,6 +243,7 @@ void Player::Render()
 			mBarrel->Render();
 		}
 	}
+
 }
 
 

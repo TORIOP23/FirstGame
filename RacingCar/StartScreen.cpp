@@ -72,6 +72,7 @@ StartScreen::StartScreen()
 StartScreen::~StartScreen()
 {
 	mAudio = NULL;
+	mInput = NULL;
 
 	// Freeing background
 	delete mBkg;
@@ -121,7 +122,7 @@ void StartScreen::ResetAnimation()
 	mAnimationStartPos = Vector2(0.0f, Graphics::SCREEN_HEIGHT * 0.5f);
 	mAnimationEndPos = VEC2_ZERO;
 	mAnimationTimer = 0.0f;
-	mAnimationTotalTime = 4.0f;
+	mAnimationTotalTime = 3.5f;
 	mAnimationDone = false;
 
 	Pos(mAnimationStartPos);

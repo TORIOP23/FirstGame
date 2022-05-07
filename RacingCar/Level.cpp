@@ -3,6 +3,7 @@
 Level::Level(int stage, PlayTopBar* topBar, Player* player)
 {
 	mTimer = Timer::Instance();
+
 	mTopBar = topBar;
 	mTopBar->SetLevel(stage);
 
@@ -32,19 +33,19 @@ Level::Level(int stage, PlayTopBar* topBar, Player* player)
 	mReadyLabelOnScreen = mStageLabelOffScreen;
 	mReadyLabelOffScreen = mReadyLabelOnScreen + 3.0f;
 
-
+	// Player
 	mPlayer = player;
 	mPlayerHit = false;
-	mPlayerRespawnDelay = 3.0f;
-	mPlayerRespawnTimer = 0.0f;
-	mPlayerRespawnLabelOnScreen = 2.0f;
+	//mPlayerRespawnDelay = 3.0f;
+	//mPlayerRespawnTimer = 0.0f;
+	//mPlayerRespawnLabelOnScreen = 2.0f;
 
-	mGameOverLabel = new Texture("GAME OVER!!", "fonts/lol1.ttf", 50, { 150, 0, 0 });
+	mGameOverLabel = new Texture("GAME OVER!!", "fonts/lol1.ttf", 60, { 150, 0, 0 });
 	mGameOverLabel->Parent(this);
 	mGameOverLabel->Pos(Vector2(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.5f));
 
 	mGameOver = false;
-	mGameOverDelay = 6.0f;
+	mGameOverDelay = 5.0f;
 	mGameOverTimer = 0.0f;
 	mGameOverLabelOnScreen = 1.0f;
 
@@ -84,6 +85,8 @@ void Level::HandleStartLabels()
 		if (mStage > 1)
 		{
 			StartStage();
+			mPlayer->Active(true);
+			mPlayer->Visible(true);
 		}
 		else {
 			if (mLabelTimer >= mReadyLabelOffScreen)
@@ -104,8 +107,9 @@ void Level::HandleCollisions()
 		{
 			mPlayer->WasHit();
 			mPlayerHit = true;
-			mPlayerRespawnTimer = 0.0f;
-			mPlayer->Active(false);
+			//mPlayerRespawnTimer = 0.0f;
+			if (mPlayer->Health() == 0)
+				mPlayer->Active(false);
 
 		}
 	}
@@ -117,7 +121,7 @@ void Level::HandlePlayerDeath()
 	{
 		if (mPlayer->Health() > 0)
 		{
-			if (mPlayerRespawnTimer == 0.0f)
+			/*if (mPlayerRespawnTimer == 0.0f)
 			{
 				mPlayer->Visible(false);
 			}
@@ -126,9 +130,9 @@ void Level::HandlePlayerDeath()
 			if (mPlayerRespawnTimer >= mPlayerRespawnDelay)
 			{
 				mPlayer->Active(true);
-				mPlayer->Visible(true);
+				mPlayer->Visible(true);*/
 				mPlayerHit = false;
-			}
+			//}
 		}
 		else {
 			if (mGameOverTimer == 0.0f)
@@ -188,8 +192,8 @@ void Level::Render()
 	{
 		if (mPlayerHit)
 		{
-			if (mPlayerRespawnTimer >= mPlayerRespawnLabelOnScreen)
-				mReadyLabel->Render();
+			/*if (mPlayerRespawnTimer >= mPlayerRespawnLabelOnScreen)
+				mReadyLabel->Render();*/
 
 			if (mGameOverTimer >= mGameOverLabelOnScreen)
 				mGameOverLabel->Render();

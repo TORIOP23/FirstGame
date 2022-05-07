@@ -55,8 +55,11 @@ void ScreenManager::Update()
 			if (mInput->MouseButtonPressed(InputManager::LEFT))
 			{
 				mAudio->PlaySFX("SFX/click1.ogg");
+
 				mCurrentScreen = PLAY;
+
 				mStartScreen->ResetAnimation();
+
 				mPlayScreen->StartNewGame();
 			}
 		}
@@ -64,6 +67,7 @@ void ScreenManager::Update()
 	case ScreenManager::PLAY:
 
 		mPlayScreen->Update();
+
 		if (mPlayScreen->GameOver())
 		{
 			mCurrentScreen = START;

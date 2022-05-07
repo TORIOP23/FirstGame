@@ -1,8 +1,9 @@
 #pragma once
-#include <vector>
+
 #include "AnimatedTexture.h"
 #include "InputManager.h"
 #include "AudioManager.h"
+#include "Bullet.h"
 
 class Player : public GameEntity
 {
@@ -21,20 +22,27 @@ private:
 	// Tanks
 	Texture* mTank;
 	Texture* mBarrel;
+	GameEntity* mHeadBarrel;
 
 	// Death
 	AnimatedTexture* mDeathAnimation;
 
 	// Healthbar 
-	std::vector<Texture*> mHealthBar;
+	static const unsigned int MAX_HEALTH = 21; // full = 20
+	Texture* mHealthBar[MAX_HEALTH];
 
 	float mRotationSpeed;
 
 	float mMoveSpeed;
 
+	static const unsigned int MAX_BULLETS = 5;
+	Bullet* mBullets[MAX_BULLETS];
+
 private:
 
 	void HandleMovement();
+	
+	void HandleFiring();
 
 public:
 	
@@ -42,8 +50,10 @@ public:
 
 	~Player();
 
+	// Setter
 	void Visible(bool visible);
 
+	// Getter mAnimating
 	bool IsAnimating();
 
 	int Score();

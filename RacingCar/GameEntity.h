@@ -83,8 +83,8 @@ public:
 	//Returns NULL if the GameEntity has no parent   
 	GameEntity* Parent();
 
-	//Translates the GameEntity's lcoal position by the given amount 
-	void Translate(Vector2 vec);
+	//Translates the GameEntity's 'space' position by the given amount 
+	void Translate(Vector2 vec, SPACE space = local);
 
 	//Rotates the GameEntity's locally by the given amount  
 	void Rotate(float amount);

@@ -4,6 +4,7 @@
 // Sets up a system to parent GameEntity objects to one another                                                      //
 // making the child's position, rotation, and scale relative to the parent's instead of the world origin             //
 
+#include <iostream>
 #include "GameEntity.h"
 
 GameEntity::GameEntity(Vector2 pos) 
@@ -149,9 +150,16 @@ GameEntity* GameEntity::Parent()
 	return mParent;
 }
 
-void GameEntity::Translate(Vector2 vec) 
+void GameEntity::Translate(Vector2 vec, SPACE space) 
 {
-	mPos += vec;
+	if (space == world)
+	{
+		mPos += vec;
+	}
+	else
+	{
+		mPos += RotateVector(vec, Rotation());
+	}
 }
 
 void GameEntity::Rotate(float amount) 

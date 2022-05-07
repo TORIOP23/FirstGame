@@ -93,6 +93,9 @@
     <ClCompile Include="PlayTopBar.cpp">
       <Filter>Source Files\Tanks\Screen</Filter>
     </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Source Files\Tanks</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Collision.h">
@@ -148,6 +151,9 @@
     </ClInclude>
     <ClInclude Include="PlayTopBar.h">
       <Filter>Header Files\Tanks\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Header Files\Tanks</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

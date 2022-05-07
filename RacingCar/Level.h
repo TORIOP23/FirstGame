@@ -31,9 +31,9 @@ private:
 
 	Player* mPlayer;
 	bool mPlayerHit;
-	float mPlayerRespawnDelay;
-	float mPlayerRespawnTimer;
-	float mPlayerRespawnLabelOnScreen;
+	//float mPlayerRespawnDelay;
+	//float mPlayerRespawnTimer;
+	//float mPlayerRespawnLabelOnScreen;
 
 	Texture* mGameOverLabel;
 	bool mGameOver;

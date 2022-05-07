@@ -53,7 +53,7 @@ void Scoreboard::Score(int score)
 	}
 	else {
 		std::string str = std::to_string(score);
-		int lastIndex = str.length() - 1;
+		int lastIndex = static_cast<int>(str.length() - 1);
 
 		for (int i = 0; i <= lastIndex; i++)
 		{
