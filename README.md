@@ -1,2 +1,2 @@
 # FirstGame
-RacingCar use SDL lib
+Bang Bang use SDL lib
