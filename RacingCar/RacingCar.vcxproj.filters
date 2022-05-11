@@ -96,6 +96,12 @@
     <ClCompile Include="Bullet.cpp">
       <Filter>Source Files\Tanks</Filter>
     </ClCompile>
+    <ClCompile Include="Enermy.cpp">
+      <Filter>Source Files\Tanks</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Collision.h">
@@ -154,6 +160,12 @@
     </ClInclude>
     <ClInclude Include="Bullet.h">
       <Filter>Header Files\Tanks</Filter>
+    </ClInclude>
+    <ClInclude Include="Enermy.h">
+      <Filter>Header Files\Tanks</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -2,6 +2,7 @@
 #include "InputManager.h"
 #include "PlayTopBar.h"
 #include "Player.h"
+#include "Enermy.h"
 
 class Level : public GameEntity
 {
@@ -42,6 +43,8 @@ private:
 	float mGameOverLabelOnScreen;
 
 	LEVEL_STATES mCurrentState;
+
+	Enermy* mEnermy;
 
 private:
 

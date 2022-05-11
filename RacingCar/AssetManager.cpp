@@ -2,6 +2,7 @@
 // Singleton                                                           //
 // Used to load all assets used in the game,                           //
 // Caches all loaded assets so that nothing is loaded more than once   //
+// All path relative to assets/ ...                                    //
 #include "AssetManager.h"
 
 //Initializing to NULL

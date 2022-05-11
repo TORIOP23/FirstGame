@@ -4,6 +4,8 @@
 #include "Player.h"
 #include "PlayTopBar.h"
 #include "Level.h"
+#include "Map.h"
+#include "Enermy.h"
 
 
 class PlayScreen : public GameEntity
@@ -13,6 +15,9 @@ private:
 	Timer* mTimer;
 	InputManager* mInput;
 	AudioManager* mAudio;
+
+	// Map
+	Map* mMap;
 
 	// Top bar Entities
 	PlayTopBar* mTopBar;
@@ -28,11 +33,10 @@ private:
 	// Level
 	Level* mLevel;
 	bool mLevelStarted;
-	int mCurrentStage; // Level
+	unsigned int mCurrentStage; // Level
 
 	// Player Entitiy
 	Player* mPlayer;
-	Texture* mBoxCollision;
 
 
 private:

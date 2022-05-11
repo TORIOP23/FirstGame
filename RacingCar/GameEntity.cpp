@@ -54,7 +54,6 @@ void GameEntity::Rotation(float r)
 	mRotation = r;
 
 	//Wraps the angle between 0 and 360 degrees, addition and subtraction is sed to avoid snapping
-	//Updated to deal with degrees higher than 360 and -360
 	if(mRotation > 360.0f) 
 	{
 		int mul = static_cast<int>(mRotation / 360);
@@ -167,7 +166,6 @@ void GameEntity::Rotate(float amount)
 	mRotation += amount;
 
 	//Wraps the angle between 0 and 360 degrees
-	//Updated to deal with degrees higher than 360 and -360
 	if (mRotation > 360.0f)
 	{
 		int mul = static_cast<int>(mRotation / 360);

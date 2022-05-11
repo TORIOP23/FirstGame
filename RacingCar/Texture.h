@@ -45,8 +45,8 @@ public:
 	
 	//Converts the given text into a texture to be rendered
 	//Note: fontpath is relative to the exe path
-	//size - The size of the text
-	//color - The color of the text
+	//size : The size of the text
+	//color : The color of the text
 	Texture(std::string text, std::string fontpath, int size, SDL_Color color);
 	~Texture();
 
@@ -55,6 +55,11 @@ public:
 	// return the height after scale
 	int Height();
 
+
 	//Called to render the texture to the screen, might want to inherit the texture class later 
 	virtual void Render();
+
+	// Use for tile Map
+	void Render(int x, int y);
+
 };

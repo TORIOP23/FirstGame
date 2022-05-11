@@ -3,14 +3,14 @@
 
 #include "Scoreboard.h"
 
-Scoreboard::Scoreboard(int size)
+Scoreboard::Scoreboard(unsigned int size)
 {
 	mColor = { 230, 230, 230 };
 	mSize = size;
 	Score(0);
 }
 
-Scoreboard::Scoreboard(SDL_Color color, int size)
+Scoreboard::Scoreboard(SDL_Color color, unsigned int size)
 {
 	mColor = color;
 	mSize = size;
@@ -35,7 +35,7 @@ void Scoreboard::ClearScore()
 	mScore.clear();
 }
 
-void Scoreboard::Score(int score)
+void Scoreboard::Score(unsigned int score)
 {
 	ClearScore();
 
@@ -53,9 +53,9 @@ void Scoreboard::Score(int score)
 	}
 	else {
 		std::string str = std::to_string(score);
-		int lastIndex = static_cast<int>(str.length() - 1);
+		unsigned int lastIndex = static_cast<int>(str.length() - 1);
 
-		for (int i = 0; i <= lastIndex; i++)
+		for (unsigned int i = 0; i <= lastIndex; i++)
 		{
 			// cache 1 character one by one 
 			mScore.push_back(new Texture(str.substr(i, 1), "fonts/2.ttf", mSize, mColor));

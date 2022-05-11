@@ -21,6 +21,11 @@ Player::Player()
 	mBarrel->Parent(this);
 	mBarrel->Pos(Vector2(0.0f, 0.0f));
 
+	mBoxCollision = new Texture("PNG/boxCollision.png");
+	mBoxCollision->Parent(this);
+	mBoxCollision->Pos(Vector2(VEC2_ZERO));
+	mBoxCollision->Active(true);
+
 	mHeadBarrel = new GameEntity();
 	mHeadBarrel->Parent(mBarrel);
 	mHeadBarrel->Pos(Vector2(0.0f, 50.0f));
@@ -32,13 +37,13 @@ Player::Player()
 
 	// Health Bar
 	std::string filename = "PNG/Health_Bars/health_";
-	for (int i = 0; i < MAX_HEALTH; i++)
+	for (unsigned int i = 0; i < MAX_HEALTH; i++)
 	{
 		std::string file = filename + std::to_string(i) + ".png";
 		mHealthBar[i] = new Texture(file);
 	}
 
-	for (int i = 0; i < MAX_HEALTH; i++)
+	for (unsigned int i = 0; i < MAX_HEALTH; i++)
 	{
 		mHealthBar[i]->Parent(this);
 		mHealthBar[i]->Pos(Vector2(0.0f, -50.0f));
@@ -49,7 +54,7 @@ Player::Player()
 
 	mMoveSpeed = 300.0f;
 
-	for (int i = 0; i < MAX_BULLETS; i++)
+	for (unsigned int i = 0; i < MAX_BULLETS; i++)
 	{
 		mBullets[i] = new Bullet();
 	}
@@ -65,6 +70,9 @@ Player::~Player()
 	delete mHeadBarrel;
 	mHeadBarrel = NULL;
 
+	delete mBoxCollision;
+	mBoxCollision = NULL;
+
 	delete mBarrel;
 	mBarrel = NULL;
 
@@ -75,18 +83,20 @@ Player::~Player()
 	mDeathAnimation = NULL;
 
 	// Freeing HealthBar 
-	for (int i = 0; i < MAX_HEALTH; i++)
+	for (unsigned int i = 0; i < MAX_HEALTH; i++)
 	{
 		delete mHealthBar[i];
 		mHealthBar[i] = NULL;
 	}
 
 	// Freeing Bullets
-	for (int i = 0; i < MAX_BULLETS; i++)
+	for (unsigned int i = 0; i < MAX_BULLETS; i++)
 	{
 		delete mBullets[i];
 		mBullets[i] = NULL;
 	}
+
+
 }
 
 void Player::HandleMovement()
@@ -238,6 +248,11 @@ void Player::Render()
 		}
 		else
 		{
+			if (mBoxCollision->Active())
+			{
+				mBoxCollision->Render();
+			}
+
 			mHealthBar[mHealth]->Render();
 			mTank->Render();
 			mBarrel->Render();

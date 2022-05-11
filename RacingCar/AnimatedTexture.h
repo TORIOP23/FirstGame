@@ -11,11 +11,9 @@ class AnimatedTexture : public Texture {
 
 public:
 	//WRAP_MODE enum - wrap mode used by the animation
-	//once / loop 
 	enum WRAP_MODE { ONCE = 0, LOOP = 1 };
 
 	//ANIM_DIR enum - The way the animation sprites are arranged in the spritesheet
-	//horizontal / vertical
 	enum ANIM_DIR { HORIZONTAL = 0, VERTICAL = 1 };
 
 private:

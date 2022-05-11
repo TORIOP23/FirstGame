@@ -80,6 +80,7 @@ int Texture::Height()
 	return static_cast<int> (mHeight * Scale(world).y);
 }
 
+
 void Texture::Render() 
 {
 	Vector2 pos = Pos(world);
@@ -94,4 +95,15 @@ void Texture::Render()
 	mRenderRect.h = static_cast<int>(mHeight * scale.y);
 
 	mGraphics->DrawTexture(mTex, (mClipped) ? &mClipRect : NULL, &mRenderRect, Rotation(world));
+}
+
+void Texture::Render(int x, int y)
+{
+	SDL_Rect DesRect;
+	DesRect.x = x * Width();
+	DesRect.y = y * Height();
+	DesRect.w = Width();
+	DesRect.h = Height();
+
+	mGraphics->DrawTexture(mTex, NULL, &DesRect);
 }

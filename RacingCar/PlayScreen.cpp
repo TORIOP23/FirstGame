@@ -7,6 +7,9 @@ PlayScreen::PlayScreen()
 	mInput = InputManager::Instance();
 	mAudio = AudioManager::Instance();
 
+	// Map
+	mMap = Map::Instance();
+
 	// Top Bar
 	mTopBar = new PlayTopBar();
 
@@ -31,7 +34,6 @@ PlayScreen::PlayScreen()
 
 	// Player 
 	mPlayer = NULL;
-	mBoxCollision = NULL;
 }
 
 PlayScreen::~PlayScreen()
@@ -40,6 +42,9 @@ PlayScreen::~PlayScreen()
 	mTimer = NULL;
 	mInput = NULL;
 	mAudio = NULL;
+
+	Map::Release();
+	mMap = NULL;
 
 	// TopBar
 	delete mTopBar;
@@ -57,8 +62,6 @@ PlayScreen::~PlayScreen()
 	delete mPlayer;
 	mPlayer = NULL;
 
-	delete mBoxCollision;
-	mBoxCollision = NULL;
 
 }
 
@@ -86,17 +89,11 @@ void PlayScreen::StartNewGame()
 	mPlayer->Active(true);
 	mPlayer->Visible(false);
 
+
 	// Top Bar
 	mTopBar->SetHightScore(3000);
 	mTopBar->SetPlayerScore(mPlayer->Score());
 	//mTopBar->SetLevel(0);
-	
-	// because mBoxCollision's parent is mPlayer so if we delete mPlayer we have a bug
-	delete mBoxCollision;
-	mBoxCollision = new Texture("PNG/boxCollision.png");
-	mBoxCollision->Parent(mPlayer);
-	mBoxCollision->Pos(Vector2(VEC2_ZERO));
-	mBoxCollision->Active(true);
 
 	
 	mGameStarted = false;
@@ -157,6 +154,7 @@ void PlayScreen::Update()
 
 void PlayScreen::Render()
 {
+	mMap->Render();
 	mTopBar->Render();
 
 	if (!mGameStarted)
@@ -169,10 +167,6 @@ void PlayScreen::Render()
 			mLevel->Render();
 		}
 
-		if (mBoxCollision->Active())
-		{
-			mBoxCollision->Render();
-		}
 		mPlayer->Render();
 
 	}

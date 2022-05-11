@@ -16,12 +16,13 @@ private:
 	bool mVisible;
 	bool mAnimating;
 
-	int mScore;
-	int mHealth;;
+	unsigned int mScore;
+	unsigned int mHealth;;
 
 	// Tanks
 	Texture* mTank;
 	Texture* mBarrel;
+	Texture* mBoxCollision;
 	GameEntity* mHeadBarrel;
 
 	// Death

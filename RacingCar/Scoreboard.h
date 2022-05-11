@@ -13,19 +13,19 @@ private:
 	std::vector<Texture*> mScore;
 
 	SDL_Color mColor;
-	int mSize;
-	int mScore1;
+	unsigned int mSize;
+	unsigned int mScore1;
 
 public:
 
-	Scoreboard(int size = 32);
+	Scoreboard(unsigned int size = 32);
 
-	Scoreboard(SDL_Color color, int size = 32);
+	Scoreboard(SDL_Color color, unsigned int size = 32);
 
 	~Scoreboard();
 
 	// setter
-	void Score(int score);
+	void Score(unsigned int score);
 
 	//getter
 	int Score();

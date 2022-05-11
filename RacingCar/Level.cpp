@@ -50,6 +50,8 @@ Level::Level(int stage, PlayTopBar* topBar, Player* player)
 	mGameOverLabelOnScreen = 1.0f;
 
 	mCurrentState = RUNNING;
+
+	mEnermy = new Enermy();
 }
 
 Level::~Level()
@@ -70,6 +72,9 @@ Level::~Level()
 
 	delete mGameOverLabel;
 	mGameOverLabel = NULL;
+
+	delete mEnermy;
+	mEnermy = NULL;
 }
 
 void Level::StartStage()
@@ -159,6 +164,8 @@ void Level::Update()
 		HandleStartLabels();
 	} 
 	else {
+		mEnermy->Update();
+
 		HandleCollisions();
 
 		if (mPlayerHit)
@@ -190,6 +197,8 @@ void Level::Render()
 	}
 	else
 	{
+		mEnermy->Render();
+
 		if (mPlayerHit)
 		{
 			/*if (mPlayerRespawnTimer >= mPlayerRespawnLabelOnScreen)
