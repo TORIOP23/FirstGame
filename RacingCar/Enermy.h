@@ -19,11 +19,12 @@ private:
 	bool mAnimating;
 
 	//unsigned int mScore;
-	unsigned int mHealth;;
+	unsigned int mHealth;
 
 	// Tanks
 	Texture* mTank;
 	Texture* mBarrel;
+	Texture* mBoxCollision;
 	GameEntity* mHeadBarrel;
 
 	// Death
@@ -39,10 +40,13 @@ private:
 
 	static const unsigned int MAX_BULLETS = 5;
 	Bullet* mBullets[MAX_BULLETS];
+	float mBulletsTimer;
+	float mBulletsDelay;
+
 
 	STATES mCurrentState;
 
-	Vector2 mTargetPosition;
+	Vector2 mPlayerPos;
 
 private:
 
@@ -52,57 +56,28 @@ private:
 
 	void HandleStates();
 
+	void HandleFiring();
+
 public:
 
 	Enermy();
 
 	~Enermy();
 
+	// Setter
+	void Visible(bool visible);
+
+	// Getter mAnimating
+	bool IsAnimating();
+
 	STATES CurrentState();
 
-	void Update();
+	void WasHit();
+
+	int Health();
+
+	void Update(Vector2 playerPos);
 
 	void Render();
 
 };
-
-
-
-
-
-
-
-
-//#include "GameObject.h"
-//#include "Map.h"
-//
-//
-//class Enermy : public GameObject
-//{
-//public:
-//	Enermy(Colors color);
-//	~Enermy();
-//
-//	enum class Status { UP, DOWN, LEFT, RIGHT };
-//
-//	void CheckMap(const Map* data);
-//	void Update(const Map* data);
-//	void Draw();
-//	
-//private:
-//	int speed;
-//
-//	int velocX;
-//	int velocY;
-//
-//	double angle;
-//
-//	SDL_Rect desR;
-//
-//	Status status;
-//};
-//
-//class Enermy
-//{
-//};
-

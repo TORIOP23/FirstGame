@@ -1,5 +1,6 @@
 #include "Bullet.h"
 
+
 Bullet::Bullet()
 {
 	mTimer = Timer::Instance();
@@ -24,6 +25,7 @@ Bullet::~Bullet()
 void Bullet::Fire(Vector2 pos, Vector2 mousePos)
 {
 	Pos(pos);
+	mStartPos = pos;
 	mBulletDirection = (mousePos - Pos()).Normalized();
 	Active(true);
 }
@@ -35,22 +37,19 @@ void Bullet::Reload()
 
 void Bullet::Update()
 {
+	float range = (Pos() - mStartPos).MagnitudeSqr();
+
 	if (Active())
 	{
-		Translate(mBulletDirection * mSpeed * mTimer->DeltaTime(), world);
-
-		if (mBulletDirection.x >= 0)
-			Rotation(-AngleBetweenVector(Vector2(0.0f, 1.0f), mBulletDirection));
-		else Rotation(AngleBetweenVector(Vector2(0.0f, 1.0f), mBulletDirection));
-
-		Vector2 pos = Pos();
-
-		if (pos.y < -OFFSCREEN_BUFFER || pos.y > Graphics::SCREEN_HEIGHT + OFFSCREEN_BUFFER)
+		if (range < FIRING_RANGE * FIRING_RANGE)
 		{
-			Reload();
-		}
+			Translate(mBulletDirection * mSpeed * mTimer->DeltaTime(), world);
 
-		if (pos.x < -OFFSCREEN_BUFFER || pos.x > Graphics::SCREEN_WIDTH + OFFSCREEN_BUFFER)
+			if (mBulletDirection.x >= 0)
+				Rotation(-AngleBetweenVector(Vector2(0.0f, 1.0f), mBulletDirection));
+			else Rotation(AngleBetweenVector(Vector2(0.0f, 1.0f), mBulletDirection));
+		} 
+		else
 		{
 			Reload();
 		}

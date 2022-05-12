@@ -32,6 +32,9 @@ private:
 	static const unsigned int MAX_HEALTH = 21; // full = 20
 	Texture* mHealthBar[MAX_HEALTH];
 
+	// Arrow
+	Texture* mArrow;
+
 	float mRotationSpeed;
 
 	float mMoveSpeed;

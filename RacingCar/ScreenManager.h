@@ -7,8 +7,10 @@
 
 class ScreenManager
 {
-private:
+public:
 	enum SCREENS { START, PLAY };
+
+private:
 	
 	//Needed to make AssetManager a singleton class
 	static ScreenManager* sInstance;
@@ -19,12 +21,16 @@ private:
 	PlayScreen* mPlayScreen;
 
 	SCREENS mCurrentScreen;
+
+	bool mQuit;
 public:
 	//Returns a pointer to the class instance 
 	static ScreenManager* Instance();
 
 	//Releases the class instance and sets it back to NULL 
 	static void Release();
+
+	bool Exit();
 
 	void Update();
 

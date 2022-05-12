@@ -21,17 +21,26 @@ private:
 
 	float mLabelTimer;
 
+	// Stage Label
 	Texture* mStageLabel;
 	Scoreboard* mStageNumber;
 	float mStageLabelOnScreen;
 	float mStageLabelOffScreen;
 
+	// Ready Label
 	Texture* mReadyLabel;
 	float mReadyLabelOnScreen;
 	float mReadyLabelOffScreen;
 
+	// Player
 	Player* mPlayer;
 	bool mPlayerHit;
+
+	// Enermy
+	Enermy* mEnermy;
+	bool mEnermyHit;
+
+	// Respawn
 	//float mPlayerRespawnDelay;
 	//float mPlayerRespawnTimer;
 	//float mPlayerRespawnLabelOnScreen;
@@ -43,8 +52,6 @@ private:
 	float mGameOverLabelOnScreen;
 
 	LEVEL_STATES mCurrentState;
-
-	Enermy* mEnermy;
 
 private:
 

@@ -1,4 +1,5 @@
 #include "Enermy.h"
+#include <iostream>
 
 Enermy::Enermy()
 {
@@ -18,6 +19,11 @@ Enermy::Enermy()
 	mBarrel = new Texture("PNG/tanks/barrelBeige.png");
 	mBarrel->Parent(this);
 	mBarrel->Pos(Vector2(0.0f, 0.0f));
+
+	mBoxCollision = new Texture("PNG/boxCollision.png");
+	mBoxCollision->Parent(this);
+	mBoxCollision->Pos(Vector2(VEC2_ZERO));
+	mBoxCollision->Active(true);
 
 	mHeadBarrel = new GameEntity();
 	mHeadBarrel->Parent(mBarrel);
@@ -40,20 +46,24 @@ Enermy::Enermy()
 	for (unsigned int i = 0; i < MAX_HEALTH; i++)
 	{
 		mHealthBar[i]->Parent(this);
-		mHealthBar[i]->Pos(Vector2(0.0f, -50.0f));
+		mHealthBar[i]->Pos(Vector2(0.0f, 50.0f));
 		mHealthBar[i]->Scale(Vector2(0.25f, 0.3f));
 	}
 
-	mRotationSpeed = 70.0f;
+	mRotationSpeed = 60.0f;
 
-	mMoveSpeed = 200.0f;
+	mMoveSpeed = 100.0f;
 
+	// Bullets
 	for (unsigned int i = 0; i < MAX_BULLETS; i++)
 	{
 		mBullets[i] = new Bullet();
 	}
+	mBulletsTimer = 0.0f;
+	mBulletsDelay = 0.8f;
 
-	mCurrentState = AUTO;
+	mCurrentState = CHASE;
+
 }
 
 Enermy::~Enermy()
@@ -64,6 +74,9 @@ Enermy::~Enermy()
 	// Free Player
 	delete mHeadBarrel;
 	mHeadBarrel = NULL;
+
+	delete mBoxCollision;
+	mBoxCollision = NULL;
 
 	delete mBarrel;
 	mBarrel = NULL;
@@ -115,7 +128,55 @@ void Enermy::HandleAutoState()
 
 void Enermy::HandleChaseState()
 {
+	// Update barrel
+	Vector2 direct = mPlayerPos - Pos();
+	float barrelRotation = AngleBetweenVector(Vector2(0.0f, 1.0f), direct);
+	if (mPlayerPos.x - Pos().x >= 0)
+	{
+		mBarrel->Rotation(-barrelRotation);
+	}
+	else {
+		mBarrel->Rotation(barrelRotation);
+	}
 
+	// Move 
+	float distance = (mHeadBarrel->Pos() - mPlayerPos).Magnitude();
+
+	int tankRotation = static_cast<int>(mTank->Rotation());
+	if (distance > mBullets[0]->FIRING_RANGE + 10.0f)
+	{
+		// Move horizontal
+		if (mPlayerPos.x - Pos().x > 5.0f)
+		{
+			Translate(VEC2_RIGHT * mMoveSpeed * mTimer->DeltaTime(), GameEntity::world);
+			if (tankRotation != 90 && tankRotation != 270)
+				mTank->Rotate(mRotationSpeed * mTimer->DeltaTime());
+
+		}
+		else if (mPlayerPos.x - Pos().x < -5.0f) 
+		{
+			Translate(-VEC2_RIGHT * mMoveSpeed * mTimer->DeltaTime(), GameEntity::world);
+			if (tankRotation != 90 && tankRotation != 270)
+				mTank->Rotate(mRotationSpeed * mTimer->DeltaTime());
+		}
+		else {
+			// Move vertical
+			if (mPlayerPos.y - Pos().y >= 0)
+			{
+				Translate(VEC2_DOWN * mMoveSpeed * mTimer->DeltaTime(), GameEntity::world);
+				if (tankRotation != 0 && tankRotation != 180)
+					mTank->Rotate(-mRotationSpeed * mTimer->DeltaTime());
+			}
+			else {
+				Translate(VEC2_UP * mMoveSpeed * mTimer->DeltaTime(), GameEntity::world);
+				if (tankRotation != 0 && tankRotation != 180)
+					mTank->Rotate(-mRotationSpeed * mTimer->DeltaTime());
+			}
+		}
+	}
+	else {
+		HandleFiring();
+	}
 }
 
 void Enermy::HandldeDeadState()
@@ -123,19 +184,87 @@ void Enermy::HandldeDeadState()
 
 }
 
+void Enermy::HandleFiring()
+{
+	mBulletsTimer += mTimer->DeltaTime();
+	if (mBulletsTimer >= mBulletsDelay)
+	{
+		mBulletsTimer = 0.0f;
+		for (int i = 0; i < MAX_BULLETS; i++)
+		{
+			if (!mBullets[i]->Active())
+			{
+				mBullets[i]->Fire(mHeadBarrel->Pos(), mPlayerPos);
+				mAudio->PlaySFX("SFX/shoot_01.ogg");
+				break;
+			}
+		}
+	}
+}
+
+void Enermy::Visible(bool visible)
+{
+	mVisible = visible;
+}
+
+bool Enermy::IsAnimating()
+{
+	return mAnimating;
+}
+
 Enermy::STATES Enermy::CurrentState()
 {
 	return mCurrentState;
 }
 
-void Enermy::Update()
+void Enermy::WasHit()
 {
-	if (Active())
-		HandleStates();
+	mHealth--;
+	if (mHealth == 0)
+	{
+		mDeathAnimation->ResetAnimation();
+		mAnimating = true;
+		mAudio->PlaySFX("SFX/explosion.wav");
+	}
+	else {
+		mAudio->PlaySFX("SFX/tribe_d.wav");
+	}
+}
+
+int Enermy::Health()
+{
+	return mHealth;
+}
+
+void Enermy::Update(Vector2 playerPos)
+{
+	if (mAnimating)
+	{
+		mDeathAnimation->Update();
+		mAnimating = mDeathAnimation->IsAnimating();
+	}
+	else
+	{
+		if (Active())
+		{
+			mPlayerPos = playerPos;
+			HandleStates();
+		}
+	}
+
+	for (int i = 0; i < MAX_BULLETS; i++)
+	{
+		mBullets[i]->Update();
+	}	
 }
 
 void Enermy::Render()
 {
+	for (int i = 0; i < MAX_BULLETS; i++)
+	{
+		mBullets[i]->Render();
+	}
+
 	if (mVisible)
 	{
 		if (mAnimating)
@@ -144,58 +273,14 @@ void Enermy::Render()
 		}
 		else
 		{
+			if (mBoxCollision->Active())
+			{
+				mBoxCollision->Render();
+			}
+
 			mHealthBar[mHealth]->Render();
 			mTank->Render();
 			mBarrel->Render();
 		}
 	}
 }
-
-//Enermy::Enermy(Colors color) : GameObject(color)
-//{
-//	speed = rand() % 5 + 7;
-//	std::cout << speed << '\n';
-//	velocX = 0;
-//	velocY = 0;
-//
-//	angle = 90.0;
-//
-//	desR.w = desR.h = 64;
-//	desR.x = 385;
-//	desR.y = 512;
-//
-//	status = Status::LEFT;
-//}
-//
-//Enermy::~Enermy() {}
-//
-//void Enermy::CheckMap(const Map* data) 
-//{
-//	if (status == Status::LEFT)
-//	{
-//		int row, col;
-//		row = (desR.x / 64) + 1;
-//		col = desR.y / 64;
-//		if (data->map[col][row] == 28) 
-//		{
-//			velocX = 1;
-//		}
-//		else if (data->map[col - 1][row - 1] == 23)
-//		{
-//			velocX = 0;
-//			velocY = -1;
-//		}
-//
-//	}
-//}
-//
-//void Enermy::Update(const Map* data) 
-//{
-//	desR.x += (velocX * speed);
-//	desR.y += (velocY * speed);
-//}
-//
-//void Enermy::Draw()
-//{
-//	SDL_RenderCopyEx(GameManager::renderer, objTexture, NULL, &desR, angle, NULL, SDL_FLIP_NONE);
-//}

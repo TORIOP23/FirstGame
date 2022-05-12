@@ -29,6 +29,8 @@ ScreenManager::ScreenManager()
 	mPlayScreen = new PlayScreen();
 
 	mCurrentScreen = START;
+
+	mQuit = false;
 }
 
 ScreenManager::~ScreenManager()
@@ -41,6 +43,11 @@ ScreenManager::~ScreenManager()
 
 	delete mPlayScreen;
 	mPlayScreen = NULL;
+}
+
+bool ScreenManager::Exit()
+{
+	return mQuit;
 }
 
 void ScreenManager::Update()
@@ -61,6 +68,13 @@ void ScreenManager::Update()
 				mStartScreen->ResetAnimation();
 
 				mPlayScreen->StartNewGame();
+			}
+		}
+		else if (mStartScreen->SelectedMode() == StartScreen::EXIT)
+		{
+			if (mInput->MouseButtonPressed(InputManager::LEFT))
+			{
+				mQuit = true;
 			}
 		}
 		break;

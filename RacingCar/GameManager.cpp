@@ -80,6 +80,7 @@ void GameManager::Update()
 {
 	//GameEntity Update should happen here;
 	mScreenMgr->Update();
+	mQuit = mScreenMgr->Exit();
 }
 
 void GameManager::LateUpdate()

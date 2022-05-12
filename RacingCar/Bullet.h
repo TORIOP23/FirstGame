@@ -5,9 +5,11 @@
 
 class Bullet : public GameEntity
 {
+public:
+
+	const float FIRING_RANGE = 500.0f;
+
 private:
-	// 10 pixel, disable the bullet
-	const int OFFSCREEN_BUFFER = 10;
 
 	Timer* mTimer;
 
@@ -16,6 +18,8 @@ private:
 	Texture* mTexture;
 
 	Vector2 mBulletDirection;
+
+	Vector2 mStartPos;
 
 public:
 

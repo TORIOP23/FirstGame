@@ -46,9 +46,14 @@ Player::Player()
 	for (unsigned int i = 0; i < MAX_HEALTH; i++)
 	{
 		mHealthBar[i]->Parent(this);
-		mHealthBar[i]->Pos(Vector2(0.0f, -50.0f));
+		mHealthBar[i]->Pos(Vector2(0.0f, 50.0f));
 		mHealthBar[i]->Scale(Vector2(0.25f, 0.3f));
 	}
+
+	// Arrow 
+	mArrow = new Texture("PNG/arrowPlayer.png");
+	mArrow->Parent(this);
+	mArrow->Pos(Vector2(0.0f, -80.0f));
 
 	mRotationSpeed = 90.0f;
 
@@ -89,6 +94,10 @@ Player::~Player()
 		mHealthBar[i] = NULL;
 	}
 
+	// Arrow 
+	delete mArrow;
+	mArrow = NULL;
+
 	// Freeing Bullets
 	for (unsigned int i = 0; i < MAX_BULLETS; i++)
 	{
@@ -102,7 +111,7 @@ Player::~Player()
 void Player::HandleMovement()
 {
 	// Move barrel
-	Vector2 MousePosToPlayer = { mInput->MousePos().x - Pos().x,  mInput->MousePos().y - Pos().y };
+	Vector2 MousePosToPlayer = mInput->MousePos() - Pos();
 
 	float barrelRotation = AngleBetweenVector(Vector2(0.0f, 1.0f), MousePosToPlayer);
 	if (mInput->MousePos().x - Pos().x >= 0)
@@ -253,6 +262,7 @@ void Player::Render()
 				mBoxCollision->Render();
 			}
 
+			mArrow->Render();
 			mHealthBar[mHealth]->Render();
 			mTank->Render();
 			mBarrel->Render();

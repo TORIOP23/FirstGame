@@ -20,7 +20,7 @@ Level::Level(int stage, PlayTopBar* topBar, Player* player)
 	mStageNumber = new Scoreboard({ 75, 75, 200}, 60);
 	mStageNumber->Score(mStage);
 	mStageNumber->Parent(this);
-	mStageNumber->Pos(Vector2(Graphics::SCREEN_WIDTH * 0.6f, Graphics::SCREEN_HEIGHT * 0.5f));
+	mStageNumber->Pos(Vector2(Graphics::SCREEN_WIDTH * 0.55f, Graphics::SCREEN_HEIGHT * 0.5f));
 
 	mStageLabelOnScreen = 0.0f;
 	mStageLabelOffScreen = 1.5f;
@@ -31,7 +31,7 @@ Level::Level(int stage, PlayTopBar* topBar, Player* player)
 	mReadyLabel->Pos(Vector2(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.5f));
 
 	mReadyLabelOnScreen = mStageLabelOffScreen;
-	mReadyLabelOffScreen = mReadyLabelOnScreen + 3.0f;
+	mReadyLabelOffScreen = mReadyLabelOnScreen + 2.5f;
 
 	// Player
 	mPlayer = player;
@@ -39,6 +39,11 @@ Level::Level(int stage, PlayTopBar* topBar, Player* player)
 	//mPlayerRespawnDelay = 3.0f;
 	//mPlayerRespawnTimer = 0.0f;
 	//mPlayerRespawnLabelOnScreen = 2.0f;
+
+	// Enermy
+	mEnermy = new Enermy();
+	mEnermy->Pos(Vector2(Graphics::SCREEN_WIDTH * 0.2f, Graphics::SCREEN_HEIGHT * 0.2f));
+	mEnermyHit = false;
 
 	mGameOverLabel = new Texture("GAME OVER!!", "fonts/lol1.ttf", 60, { 150, 0, 0 });
 	mGameOverLabel->Parent(this);
@@ -50,8 +55,6 @@ Level::Level(int stage, PlayTopBar* topBar, Player* player)
 	mGameOverLabelOnScreen = 1.0f;
 
 	mCurrentState = RUNNING;
-
-	mEnermy = new Enermy();
 }
 
 Level::~Level()
@@ -70,11 +73,11 @@ Level::~Level()
 
 	mPlayer = NULL;
 
-	delete mGameOverLabel;
-	mGameOverLabel = NULL;
-
 	delete mEnermy;
 	mEnermy = NULL;
+
+	delete mGameOverLabel;
+	mGameOverLabel = NULL;
 }
 
 void Level::StartStage()
@@ -118,6 +121,20 @@ void Level::HandleCollisions()
 
 		}
 	}
+
+	if (!mEnermyHit)
+	{
+		if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_Z))
+		{
+			mEnermy->WasHit();
+			mEnermyHit = true;
+			//mPlayerRespawnTimer = 0.0f;
+			if (mEnermy->Health() == 0)
+				mEnermy->Active(false);
+
+		}
+	}
+
 }
 
 void Level::HandlePlayerDeath()
@@ -164,7 +181,7 @@ void Level::Update()
 		HandleStartLabels();
 	} 
 	else {
-		mEnermy->Update();
+		mEnermy->Update(mPlayer->Pos());
 
 		HandleCollisions();
 

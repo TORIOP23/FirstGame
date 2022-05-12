@@ -20,7 +20,7 @@ public:
 
 	static const int SCREEN_HEIGHT = 960;
 
-	const char* WINDOW_TITLE = "Racing Game";
+	const char* WINDOW_TITLE = "Bang Bang";
 
 private:
 	//Needed to make Graphics a singleton class
