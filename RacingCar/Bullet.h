@@ -1,9 +1,9 @@
 #pragma once
 
 #include "Timer.h"
-#include "Texture.h"
+#include "PhysicEntity.h"
 
-class Bullet : public GameEntity
+class Bullet : public PhysicEntity
 {
 public:
 

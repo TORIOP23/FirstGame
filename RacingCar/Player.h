@@ -4,8 +4,9 @@
 #include "InputManager.h"
 #include "AudioManager.h"
 #include "Bullet.h"
+#include "PhysicEntity.h"
 
-class Player : public GameEntity
+class Player : public PhysicEntity
 {
 private:
 	Timer* mTimer;
@@ -17,12 +18,11 @@ private:
 	bool mAnimating;
 
 	unsigned int mScore;
-	unsigned int mHealth;;
+	unsigned int mHealth;
 
 	// Tanks
 	Texture* mTank;
 	Texture* mBarrel;
-	Texture* mBoxCollision;
 	GameEntity* mHeadBarrel;
 
 	// Death
@@ -63,6 +63,8 @@ public:
 	int Score();
 
 	int Health();
+
+	float Speed();
 
 	void AddScore(int change);
 

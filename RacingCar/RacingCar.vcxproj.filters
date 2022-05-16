@@ -37,6 +37,12 @@
     <Filter Include="Source Files\Tanks\Screen">
       <UniqueIdentifier>{a6693738-4541-431b-964d-0b1bee54373a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Tanks\Physic">
+      <UniqueIdentifier>{e0c608c4-f73f-41c8-9696-683aad05e1c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tanks\Physic">
+      <UniqueIdentifier>{d086cb3f-05e0-48ca-966c-6d98ff87de95}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -100,13 +106,19 @@
       <Filter>Source Files\Tanks</Filter>
     </ClCompile>
     <ClCompile Include="Map.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Tanks</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>Source Files\Tanks\Physic</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicEntity.cpp">
+      <Filter>Source Files\Tanks\Physic</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxCollider.cpp">
+      <Filter>Source Files\Tanks\Physic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Collision.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="AssetManager.h">
       <Filter>Header Files\Manager</Filter>
     </ClInclude>
@@ -165,7 +177,19 @@
       <Filter>Header Files\Tanks</Filter>
     </ClInclude>
     <ClInclude Include="Map.h">
+      <Filter>Header Files\Tanks</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>Header Files\Tanks\Physic</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicEntity.h">
+      <Filter>Header Files\Tanks\Physic</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxCollider.h">
+      <Filter>Header Files\Tanks\Physic</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

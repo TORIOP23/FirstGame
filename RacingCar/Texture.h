@@ -55,6 +55,7 @@ public:
 	// return the height after scale
 	int Height();
 
+	Vector2 ScaleDimensions();
 
 	//Called to render the texture to the screen, might want to inherit the texture class later 
 	virtual void Render();

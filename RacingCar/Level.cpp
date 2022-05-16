@@ -181,6 +181,7 @@ void Level::Update()
 		HandleStartLabels();
 	} 
 	else {
+		// Enermy 
 		mEnermy->Update(mPlayer->Pos());
 
 		HandleCollisions();

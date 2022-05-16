@@ -79,6 +79,16 @@ inline Vector2 operator *(const float& lhs, const Vector2& rhs)
 	return Vector2(lhs * rhs.x, lhs * rhs.y);
 }
 
+inline Vector2 operator /(const Vector2& lhs, const float& rhs)
+{
+	return Vector2(lhs.x / rhs, lhs.y / rhs);
+}
+
+inline Vector2 operator /(const float& lhs, const Vector2& rhs)
+{
+	return Vector2(lhs / rhs.x, lhs / rhs.y);
+}
+
 //Rotates the given vector by the given angle around the origin (clockwise)
 //(Does not change the original vector)    
 // https://matthew-brett.github.io/teaching/rotation_2d.html      

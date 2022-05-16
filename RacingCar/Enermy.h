@@ -3,8 +3,9 @@
 #include "AnimatedTexture.h"
 #include "AudioManager.h"
 #include "Bullet.h"
+#include "PhysicEntity.h"
 
-class Enermy : public GameEntity
+class Enermy : public PhysicEntity
 {
 public: 
 
@@ -24,7 +25,6 @@ private:
 	// Tanks
 	Texture* mTank;
 	Texture* mBarrel;
-	Texture* mBoxCollision;
 	GameEntity* mHeadBarrel;
 
 	// Death

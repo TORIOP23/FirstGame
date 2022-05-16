@@ -17,13 +17,28 @@ private:
 
 	int mLayer1[MAX_ROW][MAX_COL];
 
+	float mScale;
+
+	const float mTileSize = 64;
+
+	// position upper left conner 
+	//Vector2 mPosCamera;
+
+private:
+
+	void Scale();
+
 public:
 
 	static Map* Instance();
 
 	static void Release();
 
+	void SetScale(float scale);
+
 	void ChangeMap(std::string filename);
+
+	Vector2 Dimension();
 
 	void Update();
 
@@ -35,36 +50,5 @@ private:
 
 	~Map();
 };
-
-
-
-//#include "GameManager.h"
-//#include <string>
-//
-//class Map
-//{
-//public:
-//
-//	Map();
-//	//Map(std::string tID, int ms, int ts);
-//	~Map();
-//
-//	int map[15][25];
-//
-//	void LoadMap(std::string filename);
-//	void DrawMap();
-//	
-//private:
-//	/*std::string texID;
-//	int mapScale;
-//	int tileSize;
-//	int scaledSize;*/
-//
-//	SDL_Rect src, dest;
-//	SDL_Texture* road[92];
-//	SDL_Texture* grass[14];
-//
-//	//int map[15][25];
-//};
 
 

@@ -80,6 +80,14 @@ int Texture::Height()
 	return static_cast<int> (mHeight * Scale(world).y);
 }
 
+Vector2 Texture::ScaleDimensions()
+{
+	Vector2 scaleDimension = Scale();
+	scaleDimension.x *= mWidth;
+	scaleDimension.y *= mHeight;
+
+	return scaleDimension;
+}
 
 void Texture::Render() 
 {

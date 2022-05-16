@@ -38,8 +38,14 @@ private:
 	// Player Entitiy
 	Player* mPlayer;
 
+	// zoom 
+	//float mZoom;
+
 
 private:
+
+	void MoveScreen();
+
 	// Load the next level after we just finished 
 	void StartNextLevel();
 
@@ -52,6 +58,8 @@ public:
 	void StartNewGame();
 
 	bool GameOver();
+
+	//void Zoom();
 
 	void Update();
 

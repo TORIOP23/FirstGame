@@ -1,5 +1,6 @@
 #include "Enermy.h"
-#include <iostream>
+#include "BoxCollider.h"
+
 
 Enermy::Enermy()
 {
@@ -10,7 +11,7 @@ Enermy::Enermy()
 	mAnimating = false;
 
 	mHealth = 20; 
-
+	
 	// Tank
 	mTank = new Texture("PNG/tanks/tankBlue.png");
 	mTank->Parent(this);
@@ -19,11 +20,6 @@ Enermy::Enermy()
 	mBarrel = new Texture("PNG/tanks/barrelBeige.png");
 	mBarrel->Parent(this);
 	mBarrel->Pos(Vector2(0.0f, 0.0f));
-
-	mBoxCollision = new Texture("PNG/boxCollision.png");
-	mBoxCollision->Parent(this);
-	mBoxCollision->Pos(Vector2(VEC2_ZERO));
-	mBoxCollision->Active(true);
 
 	mHeadBarrel = new GameEntity();
 	mHeadBarrel->Parent(mBarrel);
@@ -64,6 +60,9 @@ Enermy::Enermy()
 
 	mCurrentState = CHASE;
 
+	// Collider 
+	AddCollider(new BoxCollider(mTank->ScaleDimensions()));
+
 }
 
 Enermy::~Enermy()
@@ -74,9 +73,6 @@ Enermy::~Enermy()
 	// Free Player
 	delete mHeadBarrel;
 	mHeadBarrel = NULL;
-
-	delete mBoxCollision;
-	mBoxCollision = NULL;
 
 	delete mBarrel;
 	mBarrel = NULL;
@@ -273,14 +269,11 @@ void Enermy::Render()
 		}
 		else
 		{
-			if (mBoxCollision->Active())
-			{
-				mBoxCollision->Render();
-			}
-
 			mHealthBar[mHealth]->Render();
 			mTank->Render();
 			mBarrel->Render();
 		}
 	}
+
+	PhysicEntity::Render();
 }

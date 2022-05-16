@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "BoxCollider.h"
 
 Player::Player()
 {
@@ -20,11 +21,6 @@ Player::Player()
 	mBarrel = new Texture("PNG/tanks/barrelBeige.png");
 	mBarrel->Parent(this);
 	mBarrel->Pos(Vector2(0.0f, 0.0f));
-
-	mBoxCollision = new Texture("PNG/boxCollision.png");
-	mBoxCollision->Parent(this);
-	mBoxCollision->Pos(Vector2(VEC2_ZERO));
-	mBoxCollision->Active(true);
 
 	mHeadBarrel = new GameEntity();
 	mHeadBarrel->Parent(mBarrel);
@@ -63,6 +59,9 @@ Player::Player()
 	{
 		mBullets[i] = new Bullet();
 	}
+
+	// Collider
+	AddCollider(new BoxCollider(mTank->ScaleDimensions()));
 }
 
 Player::~Player()
@@ -74,9 +73,6 @@ Player::~Player()
 	// Free Player
 	delete mHeadBarrel;
 	mHeadBarrel = NULL;
-
-	delete mBoxCollision;
-	mBoxCollision = NULL;
 
 	delete mBarrel;
 	mBarrel = NULL;
@@ -200,6 +196,10 @@ int Player::Health()
 {
 	return mHealth;
 }
+float Player::Speed()
+{
+	return mMoveSpeed;
+}
 
 void Player::AddScore(int change)
 {
@@ -257,11 +257,6 @@ void Player::Render()
 		}
 		else
 		{
-			if (mBoxCollision->Active())
-			{
-				mBoxCollision->Render();
-			}
-
 			mArrow->Render();
 			mHealthBar[mHealth]->Render();
 			mTank->Render();
@@ -269,6 +264,7 @@ void Player::Render()
 		}
 	}
 
+	PhysicEntity::Render();
 }
 
 

@@ -34,6 +34,8 @@ PlayScreen::PlayScreen()
 
 	// Player 
 	mPlayer = NULL;
+
+	//mZoom = 1.0f;
 }
 
 PlayScreen::~PlayScreen()
@@ -63,6 +65,21 @@ PlayScreen::~PlayScreen()
 	mPlayer = NULL;
 
 
+}
+
+void PlayScreen::MoveScreen()
+{
+	if ( (mPlayer->Pos(GameEntity::world).x > Graphics::SCREEN_WIDTH * 0.5f && mPlayer->Pos(GameEntity::world).x < mMap->Dimension().x - Graphics::SCREEN_WIDTH * 0.5f) ||
+		(mPlayer->Pos(GameEntity::world).y > Graphics::SCREEN_HEIGHT * 0.5f && mPlayer->Pos(GameEntity::world).x < mMap->Dimension().y - Graphics::SCREEN_HEIGHT * 0.5f) )
+	{
+		if (mPlayer->Pos(GameEntity::local).x > Graphics::SCREEN_WIDTH * 0.5f)
+		{
+			
+		}
+		else if (mPlayer->Pos(GameEntity::local).x < Graphics::SCREEN_WIDTH * 0.5f) {
+			
+		}
+	}
 }
 
 void PlayScreen::StartNextLevel()
@@ -113,6 +130,24 @@ bool PlayScreen::GameOver()
 	return (mLevel->State() == Level::GAMEOVER);
 }
 
+//void PlayScreen::Zoom()
+//{
+//
+//	mPlayer->Scale(Vector2(mZoom, mZoom));
+//	mMap->SetScale(mZoom);
+//
+//	if (mInput->MouseButtonDown(InputManager::FORWARD) && mZoom < 3.0f)
+//	{
+//		printf("Zoom in\n");
+//		mZoom += 0.2f;
+//	}
+//	else if (mInput->MouseButtonDown(InputManager::BACK) && mZoom > 0.5f)
+//	{
+//		printf("Zoom out\n");
+//		mZoom -= 0.2f;
+//	}
+//}
+
 void PlayScreen::Update()
 {
 
@@ -132,6 +167,10 @@ void PlayScreen::Update()
 			}
 		}
 		else {
+
+			//Zoom();
+			mMap->Update();
+
 			mLevel->Update();
 
 			if (mLevel->State() == Level::FINISHED)
@@ -139,7 +178,9 @@ void PlayScreen::Update()
 				mLevelStarted = false;
 			}
 
+			//MoveScreen();
 			mPlayer->Update();
+
 		}
 	}
 	else
@@ -165,9 +206,8 @@ void PlayScreen::Render()
 		if (mLevelStarted)
 		{
 			mLevel->Render();
+			mPlayer->Render();
 		}
-
-		mPlayer->Render();
 
 	}
 }
