@@ -7,6 +7,8 @@ Player::Player()
 	mInput = InputManager::Instance();
 	mAudio = AudioManager::Instance();
 
+	mMap = Map::Instance();
+
 	mVisible = true;
 	mAnimating = false;
 
@@ -70,6 +72,8 @@ Player::~Player()
 	mInput = NULL;
 	mAudio = NULL;
 
+	mMap = NULL;
+
 	// Free Player
 	delete mHeadBarrel;
 	mHeadBarrel = NULL;
@@ -122,26 +126,42 @@ void Player::HandleMovement()
 	int tankRotation = static_cast<int>(mTank->Rotation());
 	if (mInput->KeyDown(SDL_SCANCODE_RIGHT))
 	{
-		Translate(VEC2_RIGHT * mMoveSpeed * mTimer->DeltaTime(), GameEntity::world);
+		if (Pos().x > Graphics::SCREEN_WIDTH * 0.5f && mMap->PosCamera().x < mMap->Dimension().x - Graphics::SCREEN_WIDTH)
+			mMap->MoveCamera(VEC2_RIGHT * mMoveSpeed * mTimer->DeltaTime());
+		else {
+			Translate(VEC2_RIGHT * mMoveSpeed * mTimer->DeltaTime(), GameEntity::world);
+		}
 		if (tankRotation != 90 && tankRotation != 270)
 			mTank->Rotate(mRotationSpeed * mTimer->DeltaTime());
 	}
 	if (mInput->KeyDown(SDL_SCANCODE_LEFT))
 	{
-		Translate(-VEC2_RIGHT * mMoveSpeed * mTimer->DeltaTime(), GameEntity::world);
-		if (tankRotation != 90 && tankRotation != 270)
+		if (Pos().x < Graphics::SCREEN_WIDTH * 0.5f && mMap->PosCamera().x > 0)
+			mMap->MoveCamera(-VEC2_RIGHT * mMoveSpeed * mTimer->DeltaTime());
+		else {
+			Translate(-VEC2_RIGHT * mMoveSpeed * mTimer->DeltaTime(), GameEntity::world);
+		}
+			if (tankRotation != 90 && tankRotation != 270)
 			mTank->Rotate(mRotationSpeed * mTimer->DeltaTime());
 	}
 
 	if (mInput->KeyDown(SDL_SCANCODE_UP))
 	{
-		Translate(VEC2_UP * mMoveSpeed * mTimer->DeltaTime(), GameEntity::world);
+		if (Pos().y < Graphics::SCREEN_HEIGHT * 0.5f && mMap->PosCamera().y > 0)
+			mMap->MoveCamera(VEC2_UP * mMoveSpeed * mTimer->DeltaTime());
+		else {
+			Translate(VEC2_UP * mMoveSpeed * mTimer->DeltaTime(), GameEntity::world);
+		}
 		if (tankRotation != 0 && tankRotation != 180)
 			mTank->Rotate(-mRotationSpeed * mTimer->DeltaTime());
 	}
 	if (mInput->KeyDown(SDL_SCANCODE_DOWN))
 	{
-		Translate(VEC2_DOWN * mMoveSpeed * mTimer->DeltaTime(), GameEntity::world);
+		if (Pos().y > Graphics::SCREEN_HEIGHT * 0.5f && mMap->PosCamera().y < mMap->Dimension().y - Graphics::SCREEN_HEIGHT)
+			mMap->MoveCamera(VEC2_DOWN * mMoveSpeed * mTimer->DeltaTime());
+		else {
+			Translate(VEC2_DOWN * mMoveSpeed * mTimer->DeltaTime(), GameEntity::world);
+		}
 		if (tankRotation != 0 && tankRotation != 180)
 			mTank->Rotate(-mRotationSpeed * mTimer->DeltaTime());
 	}

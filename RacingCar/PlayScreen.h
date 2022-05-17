@@ -44,8 +44,6 @@ private:
 
 private:
 
-	void MoveScreen();
-
 	// Load the next level after we just finished 
 	void StartNextLevel();
 

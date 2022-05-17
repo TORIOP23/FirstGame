@@ -5,6 +5,7 @@
 #include "AudioManager.h"
 #include "Bullet.h"
 #include "PhysicEntity.h"
+#include "Map.h"
 
 class Player : public PhysicEntity
 {
@@ -12,6 +13,9 @@ private:
 	Timer* mTimer;
 	InputManager* mInput;
 	AudioManager* mAudio;
+
+	// Map
+	Map* mMap;
 
 	//Set to true if the object is to be updated and not rendered  
 	bool mVisible;

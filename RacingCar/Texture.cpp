@@ -108,8 +108,8 @@ void Texture::Render()
 void Texture::Render(int x, int y)
 {
 	SDL_Rect DesRect;
-	DesRect.x = x * Width();
-	DesRect.y = y * Height();
+	DesRect.x = x;
+	DesRect.y = y;
 	DesRect.w = Width();
 	DesRect.h = Height();
 

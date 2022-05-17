@@ -67,21 +67,6 @@ PlayScreen::~PlayScreen()
 
 }
 
-void PlayScreen::MoveScreen()
-{
-	if ( (mPlayer->Pos(GameEntity::world).x > Graphics::SCREEN_WIDTH * 0.5f && mPlayer->Pos(GameEntity::world).x < mMap->Dimension().x - Graphics::SCREEN_WIDTH * 0.5f) ||
-		(mPlayer->Pos(GameEntity::world).y > Graphics::SCREEN_HEIGHT * 0.5f && mPlayer->Pos(GameEntity::world).x < mMap->Dimension().y - Graphics::SCREEN_HEIGHT * 0.5f) )
-	{
-		if (mPlayer->Pos(GameEntity::local).x > Graphics::SCREEN_WIDTH * 0.5f)
-		{
-			
-		}
-		else if (mPlayer->Pos(GameEntity::local).x < Graphics::SCREEN_WIDTH * 0.5f) {
-			
-		}
-	}
-}
-
 void PlayScreen::StartNextLevel()
 {
 
@@ -169,17 +154,21 @@ void PlayScreen::Update()
 		else {
 
 			//Zoom();
-			mMap->Update();
-
-			mLevel->Update();
 
 			if (mLevel->State() == Level::FINISHED)
 			{
 				mLevelStarted = false;
 			}
 
-			//MoveScreen();
+			// Update first to move camera
 			mPlayer->Update();
+
+			// Move Enermy 
+			mLevel->Update();
+
+			// Update mPrePosCamera
+			mMap->Update();
+
 
 		}
 	}

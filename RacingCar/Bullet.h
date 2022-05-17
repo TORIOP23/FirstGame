@@ -2,6 +2,7 @@
 
 #include "Timer.h"
 #include "PhysicEntity.h"
+#include "Map.h"
 
 class Bullet : public PhysicEntity
 {
@@ -12,6 +13,8 @@ public:
 private:
 
 	Timer* mTimer;
+
+	Map* mMap;
 
 	float mSpeed;
 

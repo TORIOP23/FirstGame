@@ -7,6 +7,8 @@ Enermy::Enermy()
 	mTimer = Timer::Instance();
 	mAudio = AudioManager::Instance();
 
+	mMap = Map::Instance();
+
 	mVisible = true;
 	mAnimating = false;
 
@@ -69,6 +71,8 @@ Enermy::~Enermy()
 {
 	mTimer = NULL;
 	mAudio = NULL;
+
+	mMap = NULL;
 
 	// Free Player
 	delete mHeadBarrel;
@@ -234,6 +238,9 @@ int Enermy::Health()
 
 void Enermy::Update(Vector2 playerPos)
 {
+	//printf("(X, Y) = (%f, %f)\n", mMap->MoveCamera().Approximate().x, mMap->MoveCamera().Approximate().y);
+	Translate(-mMap->MoveCamera().Approximate());
+
 	if (mAnimating)
 	{
 		mDeathAnimation->Update();

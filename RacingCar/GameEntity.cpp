@@ -157,7 +157,8 @@ void GameEntity::Translate(Vector2 vec, SPACE space)
 	}
 	else
 	{
-		mPos += RotateVector(vec, Rotation());
+		//mPos += RotateVector(vec, Rotation());
+		mPos += vec;
 	}
 }
 

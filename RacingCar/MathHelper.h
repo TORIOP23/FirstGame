@@ -35,6 +35,12 @@ struct Vector2
 		return Vector2(x / mag, y / mag);
 	}
 
+	// cast to int 
+	Vector2 Approximate() const
+	{
+		return Vector2(static_cast<int>(x), static_cast<int>(y));
+	}
+
 	//The return value of the function is a variable
 	Vector2& operator +=(const Vector2& rhs) 
 	{

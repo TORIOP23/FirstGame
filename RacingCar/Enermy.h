@@ -3,7 +3,6 @@
 #include "AnimatedTexture.h"
 #include "AudioManager.h"
 #include "Bullet.h"
-#include "PhysicEntity.h"
 
 class Enermy : public PhysicEntity
 {
@@ -15,6 +14,8 @@ private:
 
 	Timer* mTimer;
 	AudioManager* mAudio;
+
+	Map* mMap;
 
 	bool mVisible;
 	bool mAnimating;

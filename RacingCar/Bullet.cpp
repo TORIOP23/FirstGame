@@ -5,7 +5,9 @@ Bullet::Bullet()
 {
 	mTimer = Timer::Instance();
 
-	mSpeed = 500.0f;
+	mMap = Map::Instance();
+
+	mSpeed = 700.0f;
 
 	mTexture = new Texture("PNG/Bullets/bulletBeige.png");
 	mTexture->Parent(this);
@@ -19,6 +21,8 @@ Bullet::Bullet()
 Bullet::~Bullet()
 {
 	mTimer = NULL;
+
+	mMap = NULL;
 
 	delete mTexture;
 	mTexture = NULL;
@@ -39,6 +43,8 @@ void Bullet::Reload()
 
 void Bullet::Update()
 {
+	Translate(-mMap->MoveCamera().Approximate());
+
 	float range = (Pos() - mStartPos).MagnitudeSqr();
 
 	if (Active())

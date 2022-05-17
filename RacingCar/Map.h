@@ -22,7 +22,8 @@ private:
 	const float mTileSize = 64;
 
 	// position upper left conner 
-	//Vector2 mPosCamera;
+	Vector2 mPrePosCamera;
+	Vector2 mPosCamera;
 
 private:
 
@@ -39,6 +40,13 @@ public:
 	void ChangeMap(std::string filename);
 
 	Vector2 Dimension();
+
+	Vector2 PosCamera();
+
+	//getter
+	Vector2 MoveCamera();
+
+	void MoveCamera(Vector2 move);
 
 	void Update();
 
