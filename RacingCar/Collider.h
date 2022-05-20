@@ -21,10 +21,14 @@ public:
 	Collider(ColliderType type);
 	virtual ~Collider();
 
+	// because the base collider class doesn't know what a furthest point is 
+	virtual Vector2 GetFurthestPoint() = 0;
+
 	virtual void Render();
 
-protected:
+	ColliderType GetType();
 
+protected:
 	void SetDebugTexture(Texture* texture);
 };
 

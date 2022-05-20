@@ -1,20 +1,21 @@
-// Graphics.cpp                                                        //
-// Singleton                                                           //
-// Handle the initialization of the graphics related SDL libraries     //
-// and their release												   //
-// Also handles texture and text loading							   //
+// Graphics.cpp
+// Singleton
+// Handle the initialization of the graphics related SDL libraries
+// and their release
+// Also handles texture and text loading
 
 #include "Graphics.h"
 
 //Initializing to NULL
-Graphics* Graphics::sInstance = NULL;
+Graphics* Graphics::sInstance = nullptr;
+
 //Initializing to false
 bool Graphics::sInitialized = false;
 
 Graphics* Graphics::Instance() 
 {
 	//Create a new instance if no instance was created before
-	if (sInstance == NULL)
+	if (sInstance == nullptr)
 		sInstance = new Graphics();
 
 	return sInstance;
@@ -23,7 +24,7 @@ Graphics* Graphics::Instance()
 void Graphics::Release() 
 {
 	delete sInstance;
-	sInstance = NULL;
+	sInstance = nullptr;
 
 	sInitialized = false;
 }
@@ -41,10 +42,10 @@ Graphics::Graphics()
 Graphics::~Graphics() 
 {
 	SDL_DestroyWindow(mWindow);
-	mWindow = NULL;
+	mWindow = nullptr;
 
 	SDL_DestroyRenderer(mRenderer);
-	mRenderer = NULL;
+	mRenderer = nullptr;
 
 	//Closing all open SDL graphic libraries
 	TTF_Quit();
@@ -65,7 +66,7 @@ bool Graphics::Init()
 	mWindow = SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 
 	//Handling with window creation errors
-	if (mWindow == NULL) 
+	if (mWindow == nullptr) 
 	{
 		printf("Window Creation Error: %s\n", SDL_GetError());
 		return false;
@@ -75,7 +76,7 @@ bool Graphics::Init()
 	mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED);
 
 	//Handling with the renderer creation errors
-	if (mRenderer == NULL) 
+	if (mRenderer == nullptr) 
 	{
 		printf("Renderer Creation Error: %s\n", SDL_GetError());
 		return false;
@@ -105,12 +106,12 @@ bool Graphics::Init()
 
 SDL_Texture* Graphics::LoadTexture(std::string path) 
 {
-	SDL_Texture* tex = NULL;
+	SDL_Texture* tex = nullptr;
 
 	//load the image onto a surface
 	SDL_Surface* surface = IMG_Load(path.c_str());
 	//Handling image loading errors
-	if (surface == NULL) 
+	if (surface == nullptr) 
 	{
 		printf("Image Load Error: Path(%s) - Error(%s)\n", path.c_str(), IMG_GetError());
 		return tex;
@@ -121,7 +122,7 @@ SDL_Texture* Graphics::LoadTexture(std::string path)
 	//Converting the surface into a texture to be able to render it using the renderer
 	tex = SDL_CreateTextureFromSurface(mRenderer, surface);
 	//Handling texture creation errors
-	if (tex == NULL) 
+	if (tex == nullptr) 
 	{
 		printf("Create Texture Error: %s\n", SDL_GetError());
 		return tex;
@@ -138,19 +139,19 @@ SDL_Texture* Graphics::CreateTextTexture(TTF_Font* font, std::string text, SDL_C
 	//Render the text onto a surface using the provided font and color
 	SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), color);
 	//Handling font rendering errors
-	if (surface == NULL) 
+	if (surface == nullptr) 
 	{
 		printf("Text Render Error: %s\n", TTF_GetError());
-		return NULL;
+		return nullptr;
 	}
 
 	//Converting the surface into a texture to be able to render it using the renderer
 	SDL_Texture* tex = SDL_CreateTextureFromSurface(mRenderer, surface);
 	//Handle texture creation errors
-	if (tex == NULL) 
+	if (tex == nullptr) 
 	{
 		printf("Text Texture Creation Error: %s\n", SDL_GetError());
-		return NULL;
+		return nullptr;
 	}
 
 	//free the surface since only the texture is needed

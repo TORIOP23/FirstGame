@@ -1,8 +1,8 @@
-// Graphics.h                                                          //
-// Singleton                                                           //
-// Handle the initialization of the graphics related SDL libraries     //
-// and their release												   //
-// Also handles texture and text loading							   //
+// Graphics.h
+// Singleton
+// Handle the initialization of the graphics related SDL libraries
+// and their release
+// Also handles texture and text loading
 
 #pragma once
 

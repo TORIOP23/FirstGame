@@ -26,7 +26,7 @@ private:
 
 public:
 
-	Bullet();
+	Bullet(bool friendly);
 
 	~Bullet();
 
@@ -35,8 +35,14 @@ public:
 	// get ready to be fired again
 	void Reload();
 
+	void Hit(PhysicEntity* other) override;
+
 	void Update();
 
 	void Render();
+
+private:
+
+	bool IgnoreCollision() override;
 };
 

@@ -20,6 +20,7 @@ private:
 	//Set to true if the object is to be updated and not rendered  
 	bool mVisible;
 	bool mAnimating;
+	bool mWasHit;
 
 	unsigned int mScore;
 	unsigned int mHealth;
@@ -48,6 +49,8 @@ private:
 
 private:
 
+	bool IgnoreCollision() override;
+
 	void HandleMovement();
 	
 	void HandleFiring();
@@ -61,6 +64,10 @@ public:
 	// Setter
 	void Visible(bool visible);
 
+	void Hit(PhysicEntity* other) override;
+
+	bool WasHit();
+
 	// Getter mAnimating
 	bool IsAnimating();
 
@@ -71,8 +78,6 @@ public:
 	float Speed();
 
 	void AddScore(int change);
-
-	void WasHit();
 
 	void Update();
 

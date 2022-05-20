@@ -5,7 +5,7 @@
 #include "PlayTopBar.h"
 #include "Level.h"
 #include "Map.h"
-#include "Enermy.h"
+//#include "Enermy.h"
 
 
 class PlayScreen : public GameEntity
@@ -30,7 +30,7 @@ private:
 
 	bool mGameStarted;
 
-	// Level
+	// Level contain enermy
 	Level* mLevel;
 	bool mLevelStarted;
 	unsigned int mCurrentStage; // Level

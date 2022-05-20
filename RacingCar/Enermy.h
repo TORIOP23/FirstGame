@@ -59,6 +59,8 @@ private:
 
 	void HandleFiring();
 
+	bool IgnoreCollision() override;
+
 public:
 
 	Enermy();

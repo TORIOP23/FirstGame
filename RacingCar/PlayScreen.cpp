@@ -28,12 +28,12 @@ PlayScreen::PlayScreen()
 	mLevelStartDelay = 1.0f;
 	mGameStarted = false;
 
-	mLevel = NULL;
+	mLevel = nullptr;
 	mLevelStarted =  false;
 	mCurrentStage = 0;
 
 	// Player 
-	mPlayer = NULL;
+	mPlayer = nullptr;
 
 	//mZoom = 1.0f;
 }
@@ -41,42 +41,39 @@ PlayScreen::PlayScreen()
 PlayScreen::~PlayScreen()
 {
 	// Manager
-	mTimer = NULL;
-	mInput = NULL;
-	mAudio = NULL;
+	mTimer = nullptr;
+	mInput = nullptr;
+	mAudio = nullptr;
 
 	Map::Release();
-	mMap = NULL;
+	mMap = nullptr;
 
 	// TopBar
 	delete mTopBar;
-	mTopBar = NULL;
+	mTopBar = nullptr;
 
 	// start label
 	delete mStartLabel;
-	mStartLabel = NULL;
+	mStartLabel = nullptr;
 
 	// Level
 	delete mLevel;
-	mLevel = NULL;
+	mLevel = nullptr;
 
 	// Freeing Player
 	delete mPlayer;
-	mPlayer = NULL;
-
+	mPlayer = nullptr;
 
 }
 
 void PlayScreen::StartNextLevel()
 {
-
 	mCurrentStage++;
 	mLevelStartTimer = 0.0f;
 	mLevelStarted = true;
 
 	delete mLevel;
 	mLevel = new Level(mCurrentStage, mTopBar, mPlayer);
-
 
 	//mAudio->PlaySFX("SFX/levelUp.wav", 0, 0);
 }
@@ -168,7 +165,6 @@ void PlayScreen::Update()
 
 			// Update mPrePosCamera
 			mMap->Update();
-
 
 		}
 	}

@@ -1,17 +1,17 @@
-// InputManager.cpp                                                    //
-// Handles all Input related functionality for keyboard and mouse.     //
+// InputManager.cpp
+// Handles all Input related functionality for keyboard and mouse.
 #include <string.h>
 #include <cstdio>
 
 #include "InputManager.h"
 
 //Initializing to NULL
-InputManager* InputManager::sInstance = NULL;
+InputManager* InputManager::sInstance = nullptr;
 
 InputManager* InputManager::Instance() 
 {
 	//Create a new instance if no instance was created before
-	if (sInstance == NULL)
+	if (sInstance == nullptr)
 		sInstance = new InputManager();
 
 	return sInstance;
@@ -20,7 +20,7 @@ InputManager* InputManager::Instance()
 void InputManager::Release() 
 {
 	delete sInstance;
-	sInstance = NULL;
+	sInstance = nullptr;
 }
 
 InputManager::InputManager() 
@@ -36,7 +36,7 @@ InputManager::~InputManager()
 {
 	//Clearing the previous keyboard state array
 	delete[] mPrevKeyboardState;
-	mPrevKeyboardState = NULL;
+	mPrevKeyboardState = nullptr;
 }
 
 bool InputManager::KeyDown(SDL_Scancode scanCode) 
@@ -59,7 +59,7 @@ bool InputManager::KeyReleased(SDL_Scancode scanCode)
 Vector2 InputManager::MousePos() 
 {
 	//Converting the mouse position into a Vector2 for ease of use since all entities use Vector2
-	return Vector2((float)mMouseXPos, (float)mMouseYPos);
+	return Vector2(static_cast<float>(mMouseXPos), static_cast<float>(mMouseYPos));
 }
 
 bool InputManager::MouseButtonDown(MOUSE_BUTTON button) 

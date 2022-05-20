@@ -1,8 +1,8 @@
-﻿// GameManager.h                                                       //
-// Singleton                                                           //
-// Used to intialize and release all other manager                     //
-// Contains the game loop as well as the Update and Render functions   //
-// Used to make sure all functions are called in the correct order     //
+﻿// GameManager.h
+// Singleton
+// Used to intialize and release all other manager
+// Contains the game loop as well as the Update and Render functions
+// Used to make sure all functions are called in the correct order
 
 #pragma once
 
@@ -11,6 +11,7 @@
 #include "Timer.h"
 #include "Texture.h"
 #include "ScreenManager.h"
+#include "PhysicManager.h"
 
 class GameManager
 {
@@ -29,6 +30,7 @@ private:
 	AssetManager* mAssetMgr;
 	InputManager* mInputMgr;
 	AudioManager* mAudioMgr;
+	PhysicManager* mPhysicMgr;
 
 	// Used to limit the frame rate
 	Timer* mTimer;

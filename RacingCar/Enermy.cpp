@@ -1,5 +1,6 @@
 #include "Enermy.h"
 #include "BoxCollider.h"
+#include "PhysicManager.h"
 
 
 Enermy::Enermy()
@@ -55,7 +56,7 @@ Enermy::Enermy()
 	// Bullets
 	for (unsigned int i = 0; i < MAX_BULLETS; i++)
 	{
-		mBullets[i] = new Bullet();
+		mBullets[i] = new Bullet(false);
 	}
 	mBulletsTimer = 0.0f;
 	mBulletsDelay = 0.8f;
@@ -65,6 +66,7 @@ Enermy::Enermy()
 	// Collider 
 	AddCollider(new BoxCollider(mTank->ScaleDimensions()));
 
+	mId = PhysicManager::Instance()->RegisterEntity(this, PhysicManager::CollisionLayers::Hostile);
 }
 
 Enermy::~Enermy()
@@ -202,6 +204,11 @@ void Enermy::HandleFiring()
 	}
 }
 
+bool Enermy::IgnoreCollision()
+{
+	return !mVisible || mAnimating;
+}
+
 void Enermy::Visible(bool visible)
 {
 	mVisible = visible;
@@ -263,6 +270,8 @@ void Enermy::Update(Vector2 playerPos)
 
 void Enermy::Render()
 {
+	PhysicEntity::Render();
+
 	for (int i = 0; i < MAX_BULLETS; i++)
 	{
 		mBullets[i]->Render();
@@ -281,6 +290,4 @@ void Enermy::Render()
 			mBarrel->Render();
 		}
 	}
-
-	PhysicEntity::Render();
 }

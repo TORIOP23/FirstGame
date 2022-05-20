@@ -1,8 +1,7 @@
-// Texture.cpp                                                     //
-// Singleton                                                       //
-// The base class for all textures to be rendered on screen        //
-// Can load full textures, or clipped textures from a spritesheet  //
-// or convert a string into a texture to be rendered               //
+// Texture.cpp
+// The base class for all textures to be rendered on screen
+// Can load full textures, or clipped textures from a spritesheet
+// or convert a string into a texture to be rendered
 
 #include "Texture.h"
 
@@ -66,8 +65,8 @@ Texture::Texture(std::string text, std::string fontPath, int size, SDL_Color col
 
 Texture::~Texture() 
 {
-	mTex = NULL;
-	mGraphics = NULL;
+	mTex = nullptr;
+	mGraphics = nullptr;
 }
 
 int Texture::Width()

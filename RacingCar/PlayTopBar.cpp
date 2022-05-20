@@ -37,26 +37,26 @@ PlayTopBar::PlayTopBar()
 
 PlayTopBar::~PlayTopBar()
 {
-	mTimer = NULL;
-	mAudio = NULL;
+	mTimer = nullptr;
+	mAudio = nullptr;
 
 	delete mLevelLabel;
-	mLevelLabel = NULL;
+	mLevelLabel = nullptr;
 
 	delete mLevelScoreboard;
-	mLevelScoreboard = NULL;
+	mLevelScoreboard = nullptr;
 
 	delete mHighScoreLabel;
-	mHighScoreLabel = NULL;
+	mHighScoreLabel = nullptr;
 
 	delete mHighScoreboard;
-	mHighScoreboard = NULL;
+	mHighScoreboard = nullptr;
 
 	delete mPlayerScoreLabel;
-	mPlayerScoreLabel = NULL;
+	mPlayerScoreLabel = nullptr;
 
 	delete mPlayerScoreBoard;
-	mPlayerScoreBoard = NULL;
+	mPlayerScoreBoard = nullptr;
 }
 
 void PlayTopBar::SetHightScore(int score)

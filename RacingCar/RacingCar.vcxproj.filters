@@ -48,9 +48,6 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Collision.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AssetManager.cpp">
       <Filter>Source Files\Manager</Filter>
     </ClCompile>
@@ -117,6 +114,12 @@
     <ClCompile Include="BoxCollider.cpp">
       <Filter>Source Files\Tanks\Physic</Filter>
     </ClCompile>
+    <ClCompile Include="CircleCollider.cpp">
+      <Filter>Source Files\Tanks\Physic</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicManager.cpp">
+      <Filter>Source Files\Tanks\Physic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetManager.h">
@@ -179,9 +182,6 @@
     <ClInclude Include="Map.h">
       <Filter>Header Files\Tanks</Filter>
     </ClInclude>
-    <ClInclude Include="Collision.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Collider.h">
       <Filter>Header Files\Tanks\Physic</Filter>
     </ClInclude>
@@ -189,6 +189,15 @@
       <Filter>Header Files\Tanks\Physic</Filter>
     </ClInclude>
     <ClInclude Include="BoxCollider.h">
+      <Filter>Header Files\Tanks\Physic</Filter>
+    </ClInclude>
+    <ClInclude Include="CircleCollider.h">
+      <Filter>Header Files\Tanks\Physic</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicManager.h">
+      <Filter>Header Files\Tanks\Physic</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsHelper.h">
       <Filter>Header Files\Tanks\Physic</Filter>
     </ClInclude>
   </ItemGroup>

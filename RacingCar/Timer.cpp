@@ -1,12 +1,12 @@
 #include "Timer.h"
 
 //Initializing sInstance to NULL
-Timer* Timer::sInstance = NULL;
+Timer* Timer::sInstance = nullptr;
 
 Timer* Timer::Instance() 
 {
 	//Create a new instance of Timer if no instance was created before
-	if (sInstance == NULL)
+	if (sInstance == nullptr)
 		sInstance = new Timer();
 	return sInstance;
 }
@@ -14,7 +14,7 @@ Timer* Timer::Instance()
 void Timer::Release() 
 {
 	delete sInstance;
-	sInstance = NULL;
+	sInstance = nullptr;
 }
 
 Timer::Timer() 

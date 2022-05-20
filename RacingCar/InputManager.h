@@ -1,6 +1,6 @@
-// InputManager.h                                                      //
-// Singleton                                                           //
-// Handles all Input related functionality for keyboard and mouse.     //
+// InputManager.h
+// Singleton
+// Handles all Input related functionality for keyboard and mouse.
 
 #pragma once
 

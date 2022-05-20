@@ -24,6 +24,27 @@ BoxCollider::~BoxCollider()
 	}
 }
 
+Vector2 BoxCollider::GetFurthestPoint()
+{
+	Vector2 localPos = Pos(GameEntity::local);
+
+	int furthestIndex = 0;
+	float dist = (localPos + mVerts[0]->Pos(GameEntity::local)).MagnitudeSqr();
+	float otherDist = 0.0f;
+
+	for (int i = 1; i < MAX_VERTS; i++)
+	{
+		otherDist = (local + mVerts[i]->Pos(GameEntity::local)).MagnitudeSqr();
+		if (otherDist > dist)
+		{
+			furthestIndex = i;
+			dist = otherDist;
+		}
+	}
+
+	return local + mVerts[furthestIndex]->Pos(GameEntity::local);
+}
+
 void BoxCollider::AddVert(int index, Vector2 pos)
 {
 	mVerts[index] = new GameEntity(pos);

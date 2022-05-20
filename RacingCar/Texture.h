@@ -1,5 +1,5 @@
-// Texture.h                                                       //
-// The base class for all textures to be rendered on screen        //
+// Texture.h
+// The base class for all textures to be rendered on screen
 
 #pragma once
 

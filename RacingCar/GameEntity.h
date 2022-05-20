@@ -1,8 +1,7 @@
-// GameEntity.h                                                                                                      //
-// The base class for all game entities, providng position, rotation, and scaling functionality to all entities.     //
-//                                                                                                                   //
-// Sets up a system to parent GameEntity objects to one another                                                      //
-// make the child's position, rotation, and scale relative to the parent's instead of the world origin              //
+// GameEntity.h
+// The base class for all game entities, providng position, rotation, and scaling functionality to all entities.
+// Sets up a system to parent GameEntity objects to one another
+// make the child's position, rotation, and scale relative to the parent's instead of the world origin
 
 #pragma once
 #include "MathHelper.h"
@@ -15,9 +14,9 @@ public:
 	enum SPACE { local = 0, world = 1 };
 
 private:
-	//Position/Rotation/Scale/Active/Parent set to private to make they are not set directly, but the functions are
-	// used instead                                                                                                 
+	//Position/Rotation/Scale/Active/Parent set to private to make they are not set directly, but the functions are used instead                                                                                                 
 	Vector2 mPos;
+
 	// clockwise, degree
 	float mRotation;
 	Vector2 mScale;

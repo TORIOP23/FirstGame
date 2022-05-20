@@ -1,14 +1,13 @@
 // ScreenManager.cpp
 // Singleton
-//
 
 #include "ScreenManager.h"
 
-ScreenManager* ScreenManager::sInstance = NULL;
+ScreenManager* ScreenManager::sInstance = nullptr;
 
 ScreenManager* ScreenManager::Instance()
 {
-	if (sInstance == NULL)
+	if (sInstance == nullptr)
 		sInstance = new ScreenManager();
 	return sInstance;
 }
@@ -16,7 +15,7 @@ ScreenManager* ScreenManager::Instance()
 void ScreenManager::Release()
 {
 	delete sInstance;
-	sInstance = NULL;
+	sInstance = nullptr;
 }
 
 ScreenManager::ScreenManager()
@@ -35,14 +34,14 @@ ScreenManager::ScreenManager()
 
 ScreenManager::~ScreenManager()
 {
-	mInput = NULL;
-	mAudio = NULL;
+	mInput = nullptr;
+	mAudio = nullptr;
 
 	delete mStartScreen;
-	mStartScreen = NULL;
+	mStartScreen = nullptr;
 
 	delete mPlayScreen;
-	mPlayScreen = NULL;
+	mPlayScreen = nullptr;
 }
 
 bool ScreenManager::Exit()

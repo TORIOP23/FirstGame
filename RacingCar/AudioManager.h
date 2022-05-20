@@ -1,7 +1,7 @@
-// AudioManager.h                                               //
-// Singleton                                                    //
-// Plays WAV files                                              //
-// Can play one BGM at a time, and many sound effects at once   //
+// AudioManager.h
+// Singleton
+// Plays WAV files
+// Can play one BGM at a time, and many sound effects at once
 #pragma once
 
 #include "AssetManager.h"

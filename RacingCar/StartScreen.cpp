@@ -71,48 +71,48 @@ StartScreen::StartScreen()
 
 StartScreen::~StartScreen()
 {
-	mAudio = NULL;
-	mInput = NULL;
+	mAudio = nullptr;
+	mInput = nullptr;
 
 	// Freeing background
 	delete mBkg;
-	mBkg = NULL;
+	mBkg = nullptr;
 
 	// Freeing Top Bar Entities
 	delete mTopBar;
-	mTopBar = NULL;
+	mTopBar = nullptr;
 
 	delete mVersion;
-	mVersion = NULL;
+	mVersion = nullptr;
 
 	delete mDates;
-	mDates = NULL;
+	mDates = nullptr;
 
 	// Freeing Play Mode Entities
 	delete mPlayModes;
-	mPlayModes = NULL;
+	mPlayModes = nullptr;
 
 	delete mPlayButton;
-	mPlayButton = NULL;
+	mPlayButton = nullptr;
 
 	delete mPlayMode;
-	mPlayMode = NULL;
+	mPlayMode = nullptr;
 
 	delete mExitButton;
-	mExitButton = NULL;
+	mExitButton = nullptr;
 
 	delete mExitMode;
-	mExitMode = NULL;
+	mExitMode = nullptr;
 
 	// Freeing Bot Bar Entities
 	delete mBotBar;
-	mBotBar = NULL;
+	mBotBar = nullptr;
 
 	delete mCompany;
-	mCompany = NULL;
+	mCompany = nullptr;
 
 	delete mRights;
-	mRights = NULL;
+	mRights = nullptr;
 }
 
 void StartScreen::ResetAnimation()

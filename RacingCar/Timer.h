@@ -1,7 +1,7 @@
-// Timer.h                                            //
-// Singleton                                          //
-// Used to keep track of the time between each reset  //
-// A reset is usually called after each frame         //
+// Timer.h
+// Singleton
+// Used to keep track of the time between each reset
+// A reset is usually called after each frame
 
 #pragma once
 

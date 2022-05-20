@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "BoxCollider.h"
+#include "PhysicManager.h"
 
 Player::Player()
 {
@@ -9,8 +10,9 @@ Player::Player()
 
 	mMap = Map::Instance();
 
-	mVisible = true;
+	mVisible = true; // false ??
 	mAnimating = false;
+	mWasHit = false;
 
 	mScore = 0;
 	mHealth = 20; // full = 20
@@ -59,11 +61,13 @@ Player::Player()
 
 	for (unsigned int i = 0; i < MAX_BULLETS; i++)
 	{
-		mBullets[i] = new Bullet();
+		mBullets[i] = new Bullet(true);
 	}
 
 	// Collider
 	AddCollider(new BoxCollider(mTank->ScaleDimensions()));
+
+	mId = PhysicManager::Instance()->RegisterEntity(this, PhysicManager::CollisionLayers::Friendly);
 }
 
 Player::~Player()
@@ -106,6 +110,11 @@ Player::~Player()
 	}
 
 
+}
+
+bool Player::IgnoreCollision()
+{
+	return !mVisible || mAnimating;
 }
 
 void Player::HandleMovement()
@@ -202,6 +211,27 @@ void Player::Visible(bool visible)
 	mVisible = visible;
 }
 
+void Player::Hit(PhysicEntity* other)
+{
+	mHealth--;
+	if (mHealth == 0)
+	{
+		mDeathAnimation->ResetAnimation();
+		mAnimating = true;
+		mAudio->PlaySFX("SFX/explosion.wav");
+	}
+	else {
+		mAudio->PlaySFX("SFX/tribe_d.wav");
+	}
+
+	mWasHit = true;
+}
+
+bool Player::WasHit()
+{
+	return mWasHit;
+}
+
 bool Player::IsAnimating()
 {
 	return mAnimating;
@@ -226,20 +256,6 @@ void Player::AddScore(int change)
 	mScore += change;
 }
 
-void Player::WasHit()
-{
-	mHealth--;
-	if (mHealth == 0)
-	{
-		mDeathAnimation->ResetAnimation();
-		mAnimating = true;
-		mAudio->PlaySFX("SFX/explosion.wav");
-	}
-	else {
-		mAudio->PlaySFX("SFX/tribe_d.wav");
-	}
-}
-
 void Player::Update()
 {
 	if (mAnimating)
@@ -249,6 +265,8 @@ void Player::Update()
 	}
 	else
 	{
+		if (mWasHit)
+			mWasHit = false;
 		if (Active())
 		{
 			HandleMovement();
@@ -264,6 +282,8 @@ void Player::Update()
 
 void Player::Render()
 {
+	PhysicEntity::Render();
+
 	for (int i = 0; i < MAX_BULLETS; i++)
 	{
 		mBullets[i]->Render();
@@ -283,8 +303,6 @@ void Player::Render()
 			mBarrel->Render();
 		}
 	}
-
-	PhysicEntity::Render();
 }
 
 

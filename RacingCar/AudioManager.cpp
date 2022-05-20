@@ -5,12 +5,12 @@
 #include "AudioManager.h"
 
 //Initializing to NULL
-AudioManager* AudioManager::sInstance = NULL;
+AudioManager* AudioManager::sInstance = nullptr;
 
 AudioManager* AudioManager::Instance() 
 {
 	//Create a new instance if no instance was created before
-	if(sInstance == NULL)
+	if(sInstance == nullptr)
 		sInstance = new AudioManager();
 
 	return sInstance;
@@ -19,7 +19,7 @@ AudioManager* AudioManager::Instance()
 void AudioManager::Release() 
 {
 	delete sInstance;
-	sInstance = NULL;
+	sInstance = nullptr;
 }
 
 AudioManager::AudioManager() 
@@ -35,7 +35,7 @@ AudioManager::AudioManager()
 
 AudioManager::~AudioManager() 
 {
-	mAssetMgr = NULL;
+	mAssetMgr = nullptr;
 
 	//Close the SDL_mixer
 	Mix_Quit();

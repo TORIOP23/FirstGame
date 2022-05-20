@@ -1,6 +1,6 @@
-// AnimatedTexture.cpp                                             //
-// Extends the Texture class' functionality to handle animations   //
-// Uses the Texture class' spritesheet constructor                 //
+// AnimatedTexture.cpp
+// Extends the Texture class' functionality to handle animations
+// Uses the Texture class' spritesheet constructor
 
 #include "AnimatedTexture.h"
 
@@ -26,6 +26,7 @@ AnimatedTexture::AnimatedTexture(std::string filename, int x, int y, int w, int 
 
 AnimatedTexture::~AnimatedTexture() 
 {
+	mTimer = nullptr;
 }
 
 void AnimatedTexture::WrapMode(WRAP_MODE mode) 

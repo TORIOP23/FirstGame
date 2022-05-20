@@ -6,12 +6,12 @@
 #include "AssetManager.h"
 
 //Initializing to NULL
-AssetManager* AssetManager::sInstance = NULL;
+AssetManager* AssetManager::sInstance = nullptr;
 
 AssetManager* AssetManager::Instance() 
 {
 	//Create a new instance if no instance was created before
-	if(sInstance == NULL)
+	if(sInstance == nullptr)
 		sInstance = new AssetManager();
 
 	return sInstance;
@@ -20,7 +20,7 @@ AssetManager* AssetManager::Instance()
 void AssetManager::Release() 
 {
 	delete sInstance;
-	sInstance = NULL;
+	sInstance = nullptr;
 }
 
 AssetManager::AssetManager() 
@@ -31,7 +31,7 @@ AssetManager::~AssetManager()
 	//Freeing all loaded Textures
 	for(auto tex : mTextures) 
 	{
-		if(tex.second != NULL) 
+		if(tex.second != nullptr) 
 		{
 			SDL_DestroyTexture(tex.second);
 		}
@@ -42,7 +42,7 @@ AssetManager::~AssetManager()
 	//Freeing all rendered text
 	for(auto text : mText) 
 	{
-		if(text.second != NULL) 
+		if(text.second != nullptr) 
 		{
 			SDL_DestroyTexture(text.second);
 		}
@@ -53,7 +53,7 @@ AssetManager::~AssetManager()
 	//Freeing all loaded fonts
 	for(auto font : mFonts) 
 	{
-		if(font.second != NULL) 
+		if(font.second != nullptr) 
 		{
 			TTF_CloseFont(font.second);
 		}
@@ -64,7 +64,7 @@ AssetManager::~AssetManager()
 	//Freeing all loaded music
 	for(auto music : mMusic) 
 	{
-		if(music.second != NULL) 
+		if(music.second != nullptr) 
 		{
 			Mix_FreeMusic(music.second);
 		}
@@ -75,7 +75,7 @@ AssetManager::~AssetManager()
 	//Freeing all loaded sound effects
 	for(auto sfx : mSFX) 
 	{
-		if(sfx.second != NULL) 
+		if(sfx.second != nullptr) 
 		{
 			Mix_FreeChunk(sfx.second);
 		}
@@ -147,7 +147,7 @@ Mix_Music* AssetManager::GetMusic(std::string filename)
 	{
 		mMusic[fullPath] = Mix_LoadMUS(fullPath.c_str());
 		//Error handling for file loading
-		if(mMusic[fullPath] == NULL)
+		if(mMusic[fullPath] == nullptr)
 			printf("Music Loading Error: File-%s Error-%s", filename.c_str(), Mix_GetError());
 	}
 
@@ -166,7 +166,7 @@ Mix_Chunk* AssetManager::GetSFX(std::string filename)
 	{
 		mSFX[fullPath] = Mix_LoadWAV(fullPath.c_str());
 		//Error handling for file loading
-		if(mSFX[fullPath] == NULL)
+		if(mSFX[fullPath] == nullptr)
 			printf("SFX Loading Error: File-%s Error-%s", filename.c_str(), Mix_GetError());
 	}
 

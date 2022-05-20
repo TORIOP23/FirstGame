@@ -1,17 +1,18 @@
-// GameManager.cpp                                                     //
-// Used to intialize and release all other manager                     //
-// Contains the game loop as well as the Update and Render functions   //
-// Used to make sure all functions are called in the correct order     //
+// GameManager.cpp
+// Used to intialize and release all other manager
+// Contains the game loop as well as the Update and Render functions
+// Used to make sure all functions are called in the correct order
 
 #include "GameManager.h"
+#include <time.h>
 
 //Initializing to NULL
-GameManager* GameManager::sInstance = NULL;
+GameManager* GameManager::sInstance = nullptr;
 
 GameManager* GameManager::Instance()
 {
 	//Create a new instance if no instance was created before
-	if (sInstance == NULL)
+	if (sInstance == nullptr)
 		sInstance = new GameManager();
 
 	return sInstance;
@@ -20,12 +21,15 @@ GameManager* GameManager::Instance()
 void GameManager::Release()
 {
 	delete sInstance;
-	sInstance = NULL;
+	sInstance = nullptr;
 }
 
 GameManager::GameManager()
 {
+	srand(time(0));
+
 	mQuit = false;
+	
 	mGraphics = Graphics::Instance();
 
 	if (!Graphics::Initialized())
@@ -43,6 +47,14 @@ GameManager::GameManager()
 	//Initialize Timer
 	mTimer = Timer::Instance();
 
+	// Physic Manager
+	mPhysicMgr = PhysicManager::Instance();
+	mPhysicMgr->SetLayerCollisionMask(PhysicManager::CollisionLayers::Friendly, PhysicManager::CollisionFlags::Hostile | PhysicManager::CollisionFlags::HostileProjectiles);
+	mPhysicMgr->SetLayerCollisionMask(PhysicManager::CollisionLayers::FriendlyProjectiles, PhysicManager::CollisionFlags::Hostile);
+	mPhysicMgr->SetLayerCollisionMask(PhysicManager::CollisionLayers::Hostile, PhysicManager::CollisionFlags::Friendly | PhysicManager::CollisionFlags::FriendlyProjectiles);
+	mPhysicMgr->SetLayerCollisionMask(PhysicManager::CollisionLayers::HostileProjectiles, PhysicManager::CollisionFlags::Friendly);
+
+
 	// Manager screen 
 	mScreenMgr = ScreenManager::Instance();
 }
@@ -50,29 +62,31 @@ GameManager::GameManager()
 GameManager::~GameManager()
 {
 	ScreenManager::Release();
-	mScreenMgr = NULL;
+	mScreenMgr = nullptr;
+
+	PhysicManager::Release();
+	mPhysicMgr = nullptr;
 
 	AudioManager::Release();
-	mAudioMgr = NULL;
+	mAudioMgr = nullptr;
 
 	AssetManager::Release();
-	mAssetMgr = NULL;
+	mAssetMgr = nullptr;
 
 	Graphics::Release();
-	mGraphics = NULL;
+	mGraphics = nullptr;
 
 	InputManager::Release();
-	mInputMgr = NULL;
+	mInputMgr = nullptr;
 
 	Timer::Release();
-	mTimer = NULL;
+	mTimer = nullptr;
 	
 }
 
 void GameManager::EarlyUpdate()
 {
 	//Updating the input state before any other updates are run to make sure the Input check is accrate
-	mTimer->Reset();
 	mInputMgr->Update();
 }
 
@@ -86,7 +100,10 @@ void GameManager::Update()
 void GameManager::LateUpdate()
 {
 	//Any collision detection should happen here
+	mPhysicMgr->Update();
+
 	mInputMgr->UpdatePrevInput();
+	mTimer->Reset();
 }
 
 void GameManager::Render()

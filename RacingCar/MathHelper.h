@@ -1,5 +1,5 @@
-// MathHelper.h                                                              //
-// Contains all the math functions that will be needed in the framework.     //
+// MathHelper.h
+// Contains all the math functions that will be needed in the framework.
 
 #pragma once
 #include <cmath>
@@ -38,7 +38,7 @@ struct Vector2
 	// cast to int 
 	Vector2 Approximate() const
 	{
-		return Vector2(static_cast<int>(x), static_cast<int>(y));
+		return Vector2(static_cast<float>(static_cast<int>(x)),static_cast<float>(static_cast<int>(y)));
 	}
 
 	//The return value of the function is a variable

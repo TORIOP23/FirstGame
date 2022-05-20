@@ -1,7 +1,7 @@
-// AssetManager.h                                                      //
-// Singleton                                                           //
-// Used to load all assets used in the game,                           //
-// Caches all loaded assets so that nothing is loaded more than once   //
+// AssetManager.h
+// Singleton
+// Used to load all assets used in the game
+// Caches all loaded assets so that nothing is loaded more than once
 #pragma once
 
 #include <map>

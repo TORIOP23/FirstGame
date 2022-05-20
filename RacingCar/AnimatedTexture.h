@@ -1,6 +1,7 @@
-// AnimatedTexture.h                                               //
-// Extends the Texture class' functionality to handle animations   //
-// Use the Texture class' spritesheet constructor                  //
+// AnimatedTexture.h
+// Extends the Texture class' functionality to handle animations
+// Use the Texture class' spritesheet constructor
+// Use Texture's render function             
 #pragma once
 
 #include "Timer.h"
