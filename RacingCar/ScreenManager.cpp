@@ -44,7 +44,7 @@ ScreenManager::~ScreenManager()
 	mPlayScreen = nullptr;
 }
 
-bool ScreenManager::Exit()
+bool ScreenManager::Exit() const
 {
 	return mQuit;
 }

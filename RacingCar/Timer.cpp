@@ -34,7 +34,7 @@ void Timer::Reset()
 	mStartTicks = SDL_GetTicks();
 }
 
-float Timer::DeltaTime() 
+float Timer::DeltaTime() const
 {
 	return mDeltaTime;
 }
@@ -44,7 +44,7 @@ void Timer::TimeScale(float t)
 	mTimeScale = t;
 }
 
-float Timer::TimeScale() 
+float Timer::TimeScale() const
 {
 	return mTimeScale;
 }

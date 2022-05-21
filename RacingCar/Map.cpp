@@ -92,6 +92,11 @@ Vector2 Map::PosCamera()
 	return mPosCamera;
 }
 
+void Map::PosCamera(Vector2 pos)
+{
+	mPosCamera = pos;
+}
+
 Vector2 Map::MoveCamera()
 {
 	return mPosCamera - mPrePosCamera;

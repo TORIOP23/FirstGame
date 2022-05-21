@@ -67,7 +67,7 @@ public:
 	void Active(bool active);
 
 	//Returns the active state of the GameEntity  
-	bool Active();
+	bool Active() const;
 
 	//Sets the parent of the GameEntity as the given GameEntity
 	//If the GameEntity has no parent, the given GameEntity is set as its parent

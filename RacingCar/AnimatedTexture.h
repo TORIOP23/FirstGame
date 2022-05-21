@@ -65,7 +65,7 @@ public:
 
 	void ResetAnimation();
 
-	bool IsAnimating();
+	bool IsAnimating() const;
 
 	//Used to update the animation frames and loop the animation if needed
 	void Update();

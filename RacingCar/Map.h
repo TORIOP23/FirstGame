@@ -41,6 +41,8 @@ public:
 
 	Vector2 Dimension();
 
+	void PosCamera(Vector2 pos);
+
 	Vector2 PosCamera();
 
 	//getter

@@ -33,14 +33,14 @@ public:
 	void Reset();
 
 	//Time elapsed in second since the last Reset 
-	float DeltaTime();
+	float DeltaTime() const;
 
 	//Sets the TimeScale default value: 1.0f (setter)
 	void TimeScale(float t = 1.0f);
 
 	//Can be used to speed up or slowdown all transformations
 	//by multiplying it by the change in position or rotation (getter)
-	float TimeScale();
+	float TimeScale() const;
 
 	//Should be called in the EarlyUpdate, updates the time elapsed,
 	//as well as the DeltaTime since the last Reset

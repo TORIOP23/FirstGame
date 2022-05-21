@@ -148,7 +148,7 @@ void StartScreen::Mode()
 	}
 }
 
-StartScreen::MODE StartScreen::SelectedMode()
+StartScreen::MODE StartScreen::SelectedMode() const
 {
 	return mSeLectedMode;
 }

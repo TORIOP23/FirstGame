@@ -25,7 +25,7 @@ PlayScreen::PlayScreen()
 	mStartLabel->Pos(Vector2(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.5f));
 
 	mLevelStartTimer = 0.0f;
-	mLevelStartDelay = 1.0f;
+	mLevelStartDelay = 5.0f;
 	mGameStarted = false;
 
 	mLevel = nullptr;
@@ -75,6 +75,10 @@ void PlayScreen::StartNextLevel()
 	delete mLevel;
 	mLevel = new Level(mCurrentStage, mTopBar, mPlayer);
 
+	mMap->PosCamera(VEC2_ZERO);
+
+	mPlayer->Pos(Vector2(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.5f));
+
 	//mAudio->PlaySFX("SFX/levelUp.wav", 0, 0);
 }
 
@@ -92,7 +96,7 @@ void PlayScreen::StartNewGame()
 	// Top Bar
 	mTopBar->SetHightScore(3000);
 	mTopBar->SetPlayerScore(mPlayer->Score());
-	//mTopBar->SetLevel(0);
+	mTopBar->SetLevel(0);
 
 	
 	mGameStarted = false;
@@ -101,7 +105,6 @@ void PlayScreen::StartNewGame()
 	mCurrentStage = 0;
 
 	mAudio->PlayMusic("Music/welcome.wav", 0);
-
 }
 
 bool PlayScreen::GameOver()
@@ -152,11 +155,6 @@ void PlayScreen::Update()
 
 			//Zoom();
 
-			if (mLevel->State() == Level::FINISHED)
-			{
-				mLevelStarted = false;
-			}
-
 			// Update first to move camera
 			mPlayer->Update();
 
@@ -166,6 +164,12 @@ void PlayScreen::Update()
 			// Update mPrePosCamera
 			mMap->Update();
 
+			mTopBar->SetPlayerScore(mPlayer->Score());
+
+			if (mLevel->State() == Level::FINISHED)
+			{
+				mLevelStarted = false;
+			}
 		}
 	}
 	else

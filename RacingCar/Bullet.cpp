@@ -19,20 +19,20 @@ Bullet::Bullet(bool friendly)
 	AddCollider(new BoxCollider(mTexture->ScaleDimensions()));
 
 	if (friendly)
-		PhysicManager::Instance()->RegisterEntity(this, PhysicManager::CollisionLayers::FriendlyProjectiles);
+		mId = PhysicManager::Instance()->RegisterEntity(this, PhysicManager::CollisionLayers::FriendlyProjectiles);
 	else
-		PhysicManager::Instance()->RegisterEntity(this, PhysicManager::CollisionLayers::HostileProjectiles);
+		mId = PhysicManager::Instance()->RegisterEntity(this, PhysicManager::CollisionLayers::HostileProjectiles);
 
 }
 
 Bullet::~Bullet()
 {
-	mTimer = NULL;
+	mTimer = nullptr;
 
-	mMap = NULL;
+	mMap = nullptr;
 
 	delete mTexture;
-	mTexture = NULL;
+	mTexture = nullptr;
 }
 
 void Bullet::Fire(Vector2 pos, Vector2 mousePos)

@@ -6,6 +6,7 @@
 PhysicEntity::PhysicEntity()
 {
 	mBroadPhaseCollider = nullptr;
+
 	mId = 0;
 }
 

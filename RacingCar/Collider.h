@@ -26,9 +26,10 @@ public:
 
 	virtual void Render();
 
-	ColliderType GetType();
+	ColliderType GetType() const;
 
 protected:
+	// Derive class will use
 	void SetDebugTexture(Texture* texture);
 };
 

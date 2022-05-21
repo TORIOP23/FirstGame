@@ -40,7 +40,7 @@ void AnimatedTexture::ResetAnimation()
 	mAnimationDone = false;
 }
 
-bool AnimatedTexture::IsAnimating()
+bool AnimatedTexture::IsAnimating() const
 {
 	return !mAnimationDone;
 }

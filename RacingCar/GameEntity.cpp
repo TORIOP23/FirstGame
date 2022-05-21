@@ -30,11 +30,7 @@ void GameEntity::Pos(Vector2 pos)
 	mPos = pos;
 }
 
-//Returns the position of the GameEntity                                                                          
-//If space = world, the world position is returned (relative to the origin)                                       
-//if space = local, if the object has a parent, the local position is returned (relative to the parent position)  
-//       otherwise if the object has no parent, the world position is returned instead (relative to the origim)   
-Vector2 GameEntity::Pos(SPACE space) 
+Vector2 GameEntity::Pos(SPACE space)
 {
 	if(space == local || mParent == nullptr)
 		return mPos;
@@ -67,11 +63,8 @@ void GameEntity::Rotation(float r)
 	}
 }
 
-//Returns the rotation of the GameEntity                                                                           
-//If space = world, the world rotation is returned (total rotation of parent[if it has one] and object)            
-//If space = local, if the object has a parent, the local rotation is returned (relative to the parent's rotation)
-//			otherwise if the object has no parent, the world rotation is returned (relative to the origin)
-float GameEntity::Rotation(SPACE space) 
+
+float GameEntity::Rotation(SPACE space)
 {
 	if(space == local || mParent == nullptr)
 		return mRotation;
@@ -85,10 +78,6 @@ void GameEntity::Scale(Vector2 scale)
 	mScale = scale;
 }
 
-//Returns the scale of the GameEntity                                                                              
-//If space = world, the world scale is returned (product of the parent and local scale)                            
-//if space = local, if the object has a parent, the local scale is returned (relative to the parent's scale)       
-//       otherwise if the object has no parent, the GameEntity's scale is returned instead      
 Vector2 GameEntity::Scale(SPACE space) 
 {
 	if(space == local || mParent == nullptr)
@@ -106,7 +95,7 @@ void GameEntity::Active(bool active)
 	mActive = active;
 }
 
-bool GameEntity::Active() 
+bool GameEntity::Active() const
 {
 	return mActive;
 }

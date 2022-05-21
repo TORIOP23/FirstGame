@@ -63,7 +63,7 @@ public:
 
 	
 	//Returns a Vector2 containing the current mouse position on screen 
-	Vector2 MousePos();
+	Vector2 MousePos() const;
 
 
 	//Updates the Input States (should be called once per frame before any input check) 

@@ -2,6 +2,12 @@
 #include "BoxCollider.h"
 #include "PhysicManager.h"
 
+Player* Enermy::sPlayer = nullptr;
+
+void Enermy::CurrentPlayer(Player* player)
+{
+	sPlayer = player;
+}
 
 Enermy::Enermy()
 {
@@ -12,6 +18,7 @@ Enermy::Enermy()
 
 	mVisible = true;
 	mAnimating = false;
+	mWasHit = false;
 
 	mHealth = 20; 
 	
@@ -183,7 +190,10 @@ void Enermy::HandleChaseState()
 
 void Enermy::HandldeDeadState()
 {
-
+	if (mDeathAnimation->IsAnimating())
+	{
+		mDeathAnimation->Update();
+	}
 }
 
 void Enermy::HandleFiring()
@@ -224,18 +234,29 @@ Enermy::STATES Enermy::CurrentState()
 	return mCurrentState;
 }
 
-void Enermy::WasHit()
+void Enermy::Hit(PhysicEntity* other)
 {
-	mHealth--;
+	if (mHealth > 0)
+		mHealth--;
 	if (mHealth == 0)
 	{
 		mDeathAnimation->ResetAnimation();
 		mAnimating = true;
 		mAudio->PlaySFX("SFX/explosion.wav");
+
+		sPlayer->AddScore(100);
 	}
 	else {
 		mAudio->PlaySFX("SFX/tribe_d.wav");
 	}
+
+	mWasHit = true;
+
+}
+
+bool Enermy::WasHit()
+{
+	return mWasHit;
 }
 
 int Enermy::Health()
@@ -255,6 +276,9 @@ void Enermy::Update(Vector2 playerPos)
 	}
 	else
 	{
+		if (mWasHit)
+			mWasHit = false;
+
 		if (Active())
 		{
 			mPlayerPos = playerPos;

@@ -3,6 +3,7 @@
 #include "AnimatedTexture.h"
 #include "AudioManager.h"
 #include "Bullet.h"
+#include "Player.h"
 
 class Enermy : public PhysicEntity
 {
@@ -15,10 +16,13 @@ private:
 	Timer* mTimer;
 	AudioManager* mAudio;
 
+	static Player* sPlayer;
+
 	Map* mMap;
 
 	bool mVisible;
 	bool mAnimating;
+	bool mWasHit;
 
 	//unsigned int mScore;
 	unsigned int mHealth;
@@ -63,6 +67,8 @@ private:
 
 public:
 
+	static void CurrentPlayer(Player* player);
+
 	Enermy();
 
 	~Enermy();
@@ -75,7 +81,9 @@ public:
 
 	STATES CurrentState();
 
-	void WasHit();
+	void Hit(PhysicEntity* other) override;
+
+	bool WasHit();
 
 	int Health();
 

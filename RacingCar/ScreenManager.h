@@ -30,7 +30,7 @@ public:
 	//Releases the class instance and sets it back to NULL 
 	static void Release();
 
-	bool Exit();
+	bool Exit() const;
 
 	void Update();
 

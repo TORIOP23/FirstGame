@@ -62,7 +62,7 @@ public:
 	void Mode();
 
 	// get mode
-	MODE SelectedMode();
+	MODE SelectedMode() const;
 
 	void Update();
 

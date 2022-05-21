@@ -55,6 +55,8 @@ Level::Level(int stage, PlayTopBar* topBar, Player* player)
 	mGameOverLabelOnScreen = 1.0f;
 
 	mCurrentState = RUNNING;
+
+	Enermy::CurrentPlayer(mPlayer);
 }
 
 Level::~Level()
@@ -123,9 +125,8 @@ void Level::HandleCollisions()
 
 	if (!mEnermyHit)
 	{
-		if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_Z))
+		if (mEnermy->WasHit())
 		{
-			mEnermy->WasHit();
 			mEnermyHit = true;
 			//mPlayerRespawnTimer = 0.0f;
 			if (mEnermy->Health() == 0)

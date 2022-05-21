@@ -21,7 +21,7 @@ void Collider::SetDebugTexture(Texture* texture)
 	mDebugTexture->Parent(this);
 }
 
-Collider::ColliderType Collider::GetType()
+Collider::ColliderType Collider::GetType() const
 {
 	return mType;
 }

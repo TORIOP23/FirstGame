@@ -56,7 +56,7 @@ bool InputManager::KeyReleased(SDL_Scancode scanCode)
 	return (mPrevKeyboardState[scanCode] != 0) && (mKeyboardState[scanCode] == 0);
 }
 
-Vector2 InputManager::MousePos() 
+Vector2 InputManager::MousePos() const
 {
 	//Converting the mouse position into a Vector2 for ease of use since all entities use Vector2
 	return Vector2(static_cast<float>(mMouseXPos), static_cast<float>(mMouseYPos));

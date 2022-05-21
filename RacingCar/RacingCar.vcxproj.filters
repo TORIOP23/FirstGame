@@ -120,6 +120,9 @@
     <ClCompile Include="PhysicManager.cpp">
       <Filter>Source Files\Tanks\Physic</Filter>
     </ClCompile>
+    <ClCompile Include="BaseTanks.cpp">
+      <Filter>Source Files\Tanks</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetManager.h">
@@ -199,6 +202,9 @@
     </ClInclude>
     <ClInclude Include="PhysicsHelper.h">
       <Filter>Header Files\Tanks\Physic</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseTanks.h">
+      <Filter>Header Files\Tanks</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
