@@ -1,11 +1,9 @@
 #pragma once
 
-#include "AnimatedTexture.h"
-#include "AudioManager.h"
-#include "Bullet.h"
+#include "BaseTanks.h"
 #include "Player.h"
 
-class Enermy : public PhysicEntity
+class Enermy : public BaseTanks
 {
 public: 
 
@@ -13,41 +11,11 @@ public:
 
 private:
 
-	Timer* mTimer;
-	AudioManager* mAudio;
-
 	static Player* sPlayer;
 
-	Map* mMap;
-
-	bool mVisible;
-	bool mAnimating;
-	bool mWasHit;
-
-	//unsigned int mScore;
-	unsigned int mHealth;
-
-	// Tanks
-	Texture* mTank;
-	Texture* mBarrel;
-	GameEntity* mHeadBarrel;
-
-	// Death
-	AnimatedTexture* mDeathAnimation;
-
-	// Healthbar 
-	static const unsigned int MAX_HEALTH = 21; // full = 20
-	Texture* mHealthBar[MAX_HEALTH];
-
-	float mRotationSpeed;
-
-	float mMoveSpeed;
-
-	static const unsigned int MAX_BULLETS = 5;
-	Bullet* mBullets[MAX_BULLETS];
+	// Delay Bullet
 	float mBulletsTimer;
 	float mBulletsDelay;
-
 
 	STATES mCurrentState;
 
@@ -73,19 +41,9 @@ public:
 
 	~Enermy();
 
-	// Setter
-	void Visible(bool visible);
-
-	// Getter mAnimating
-	bool IsAnimating();
-
 	STATES CurrentState();
 
 	void Hit(PhysicEntity* other) override;
-
-	bool WasHit();
-
-	int Health();
 
 	void Update(Vector2 playerPos);
 

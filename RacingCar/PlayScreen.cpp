@@ -25,7 +25,7 @@ PlayScreen::PlayScreen()
 	mStartLabel->Pos(Vector2(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.5f));
 
 	mLevelStartTimer = 0.0f;
-	mLevelStartDelay = 5.0f;
+	mLevelStartDelay = 2.0f;
 	mGameStarted = false;
 
 	mLevel = nullptr;
@@ -89,7 +89,7 @@ void PlayScreen::StartNewGame()
 
 	mPlayer->Parent(this);
 	mPlayer->Pos(Vector2(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.5f));
-	mPlayer->Active(true);
+	mPlayer->Active(false);
 	mPlayer->Visible(false);
 
 
@@ -103,6 +103,9 @@ void PlayScreen::StartNewGame()
 	mLevelStarted = false;
 	mLevelStartTimer = 0.0f;
 	mCurrentStage = 0;
+
+	mMap->PosCamera(VEC2_ZERO);
+	mMap->SetScale(1.0f);
 
 	mAudio->PlayMusic("Music/welcome.wav", 0);
 }

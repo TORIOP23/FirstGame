@@ -8,6 +8,8 @@ PhysicEntity::PhysicEntity()
 	mBroadPhaseCollider = nullptr;
 
 	mId = 0;
+
+	mColor = BEIGE;
 }
 
 PhysicEntity::~PhysicEntity()

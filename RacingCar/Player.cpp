@@ -1,114 +1,24 @@
 #include "Player.h"
-#include "BoxCollider.h"
-#include "PhysicManager.h"
 
-Player::Player()
+Player::Player() : BaseTanks(true)
 {
-	mTimer = Timer::Instance();
 	mInput = InputManager::Instance();
-	mAudio = AudioManager::Instance();
-
-	mMap = Map::Instance();
-
-	mVisible = true; // false ??
-	mAnimating = false;
-	mWasHit = false;
 
 	mScore = 0;
-	mHealth = 20; // full = 20
-
-	// Tanks
-	mTank = new Texture("PNG/tanks/tankBeige.png");
-	mTank->Parent(this);
-	mTank->Pos(VEC2_ZERO);
-
-	mBarrel = new Texture("PNG/tanks/barrelBeige.png");
-	mBarrel->Parent(this);
-	mBarrel->Pos(Vector2(0.0f, 0.0f));
-
-	mHeadBarrel = new GameEntity();
-	mHeadBarrel->Parent(mBarrel);
-	mHeadBarrel->Pos(Vector2(0.0f, 50.0f));
-
-	mDeathAnimation = new AnimatedTexture("PNG/Death/tankBeige.png", 0, 0, 100, 100, 4, 1.0f, AnimatedTexture::VERTICAL);
-	mDeathAnimation->Parent(this);
-	mDeathAnimation->Pos(VEC2_ZERO);
-	mDeathAnimation->WrapMode(AnimatedTexture::ONCE);
-
-	// Health Bar
-	std::string filename = "PNG/Health_Bars/health_";
-	for (unsigned int i = 0; i < MAX_HEALTH; i++)
-	{
-		std::string file = filename + std::to_string(i) + ".png";
-		mHealthBar[i] = new Texture(file);
-	}
-
-	for (unsigned int i = 0; i < MAX_HEALTH; i++)
-	{
-		mHealthBar[i]->Parent(this);
-		mHealthBar[i]->Pos(Vector2(0.0f, 50.0f));
-		mHealthBar[i]->Scale(Vector2(0.25f, 0.3f));
-	}
 
 	// Arrow 
 	mArrow = new Texture("PNG/arrowPlayer.png");
 	mArrow->Parent(this);
 	mArrow->Pos(Vector2(0.0f, -80.0f));
-
-	mRotationSpeed = 90.0f;
-
-	mMoveSpeed = 300.0f;
-
-	for (unsigned int i = 0; i < MAX_BULLETS; i++)
-	{
-		mBullets[i] = new Bullet(true);
-	}
-
-	// Collider
-	AddCollider(new BoxCollider(mTank->ScaleDimensions()));
-
-	mId = PhysicManager::Instance()->RegisterEntity(this, PhysicManager::CollisionLayers::Friendly);
 }
 
 Player::~Player()
 {
-	mTimer = NULL;
-	mInput = NULL;
-	mAudio = NULL;
-
-	mMap = NULL;
-
-	// Free Player
-	delete mHeadBarrel;
-	mHeadBarrel = NULL;
-
-	delete mBarrel;
-	mBarrel = NULL;
-
-	delete mTank;
-	mTank = NULL;
-
-	delete mDeathAnimation;
-	mDeathAnimation = NULL;
-
-	// Freeing HealthBar 
-	for (unsigned int i = 0; i < MAX_HEALTH; i++)
-	{
-		delete mHealthBar[i];
-		mHealthBar[i] = NULL;
-	}
+	mInput = nullptr;
 
 	// Arrow 
 	delete mArrow;
-	mArrow = NULL;
-
-	// Freeing Bullets
-	for (unsigned int i = 0; i < MAX_BULLETS; i++)
-	{
-		delete mBullets[i];
-		mBullets[i] = NULL;
-	}
-
+	mArrow = nullptr;
 
 }
 
@@ -206,10 +116,6 @@ void Player::HandleFiring()
 	}
 }
 
-void Player::Visible(bool visible)
-{
-	mVisible = visible;
-}
 
 void Player::Hit(PhysicEntity* other)
 {
@@ -227,29 +133,11 @@ void Player::Hit(PhysicEntity* other)
 	mWasHit = true;
 }
 
-bool Player::WasHit()
-{
-	return mWasHit;
-}
-
-bool Player::IsAnimating()
-{
-	return mAnimating;
-}
-
 int Player::Score()
 {
 	return mScore;
 }
 
-int Player::Health()
-{
-	return mHealth;
-}
-float Player::Speed()
-{
-	return mMoveSpeed;
-}
 
 void Player::AddScore(int change)
 {
@@ -304,121 +192,3 @@ void Player::Render()
 		}
 	}
 }
-
-
-//#include "Player.h"
-//#include "TextureManager.h"
-//#include "Collision.h"
-//#include <cmath>
-//
-//Player::Player(Colors color) : GameObject(color)
-//{
-//	desR.x = 385;
-//	desR.y = 389;
-//	desR.w = desR.h = 64;
-//	speed = 5;
-//	angle = 90.0;
-//	velocX = 0;
-//	velocY = 0;
-//}
-//
-//Player::~Player()
-//{
-//}
-//
-//void Player::HandleInput()
-//{
-//	if (GameManager::event.type == SDL_KEYDOWN)
-//	{
-//		switch (GameManager::event.key.keysym.sym)
-//		{
-//		case SDLK_w:
-//			std::cout << "W\n";
-//			velocX = sin(angle * M_PI / 180);
-//			velocY = -cos(angle * M_PI / 180);
-//			break;
-//		case SDLK_a:
-//			std::cout << "A\n";
-//			angle -= 30;
-//			break;
-//		case SDLK_d:
-//			std::cout << "D\n";
-//			angle += 30;
-//			break;
-//		case SDLK_s:
-//			std::cout << "S\n";
-//			velocX = -sin(angle * M_PI / 180);
-//			velocY = +cos(angle * M_PI / 180);
-//			break;
-//		default:
-//			break;
-//		}
-//	}
-//	if (GameManager::event.type == SDL_KEYUP)
-//	{
-//		switch (GameManager::event.key.keysym.sym)
-//		{
-//		case SDLK_w:
-//			velocY = 0;
-//			velocX = 0;
-//			break;
-//		case SDLK_a:
-//			break;
-//		case SDLK_d:
-//			break;
-//		case SDLK_s:
-//			velocX = 0;
-//			velocY = 0;
-//			break;
-//		case SDLK_ESCAPE:
-//			GameManager::isRunning = false;
-//			break;
-//		default:
-//			break;
-//		}
-//	}
-//}
-//
-//void Player::Update(const Map* data)
-//{
-//	if (angle > 360) angle -= 360;
-//	else if (angle < 0) angle += 360;
-//
-//	SDL_Rect preR = desR;
-//	desR.x += static_cast<int>(velocX * speed);
-//	desR.y += static_cast<int>(velocY * speed);
-//
-//	// check cham bien cua so
-//	if (desR.x >= (GameManager::SCREEN_WIDTH - 64)) desR.x = GameManager::SCREEN_WIDTH - 64 - 10;
-//	else if (desR.x <= 0) desR.x = 0 + 10;
-//
-//	if (desR.y >= (GameManager::SCREEN_HEIGHT - 64)) desR.y = GameManager::SCREEN_HEIGHT - 64 - 10;
-//	else if (desR.y <= 0) desR.y = 0 + 10;
-//
-//	// check di tren duong
-//	int startX = desR.x / 64;
-//	int endX = desR.x / 64 + 1;
-//
-//	int startY = desR.y / 64;
-//	int endY = desR.y / 64 + 1;
-//
-//	for (int row = startY; row <= endY; ++row) {
-//		for (int col = startX; col <= endX; ++col) {
-//			if (data->map[row][col] == 0) {
-//				SDL_Rect mapR = { col * 64, row * 64, 64, 64 };
-//				if (Collision::AABB(mapR, desR))
-//				{
-//					//std::cout << "k o duong" << " mapR: " << mapR.x << " " << mapR.y << " desR: " << desR.x << " " << desR.y << '\n';
-//					desR = preR;
-//				}
-//			}
-//		}
-//	}
-//
-//}
-//
-//void Player::Draw()
-//{
-//	SDL_RenderCopyEx(GameManager::renderer, objTexture, NULL, &desR, angle, NULL, SDL_FLIP_NONE);
-//}
-

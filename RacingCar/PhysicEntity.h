@@ -6,6 +6,11 @@
 
 class PhysicEntity : public GameEntity 
 {
+public:
+	enum Color {
+		BEIGE = 0, BLACK, BLUE, GREEN, RED, MAX
+	};
+
 protected:
 
 	// Id = 0 <=> Unregister
@@ -16,6 +21,9 @@ protected:
 
 	// Broad Phase Collider
 	Collider* mBroadPhaseCollider;
+
+	//Color
+	Color mColor;
 
 public:
 
