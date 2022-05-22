@@ -1,13 +1,13 @@
-#include "Enermy.h"
+#include "Enemy.h"
 
-Player* Enermy::sPlayer = nullptr;
+Player* Enemy::sPlayer = nullptr;
 
-void Enermy::CurrentPlayer(Player* player)
+void Enemy::CurrentPlayer(Player* player)
 {
 	sPlayer = player;
 }
 
-Enermy::Enermy() : BaseTanks(false)
+Enemy::Enemy() : BaseTanks(false)
 {
 
 	mRotationSpeed = 60.0f;
@@ -16,46 +16,77 @@ Enermy::Enermy() : BaseTanks(false)
 
 	// Delay Bullet
 	mBulletsTimer = 0.0f;
-	mBulletsDelay = 0.8f;
+	mBulletsDelay = 0.6f;
 
 	mCurrentState = CHASE;
+
+	mMoveAuto = 0.0f;
+
+	mPrePos = VEC2_ZERO;
 }
 
-Enermy::~Enermy()
+Enemy::~Enemy()
 {
 
 }
 
 
-void Enermy::HandleStates()
+void Enemy::HandleStates()
 {
+	Vector2 pos = Pos();
+	if (pos.x < 0 || pos.y < 0 || pos.x > Graphics::SCREEN_WIDTH || pos.y > Graphics::SCREEN_HEIGHT)
+	{
+		mCurrentState = AUTO;
+	}
+	else
+		mCurrentState = CHASE;
+
 	switch (mCurrentState)
 	{
-	case Enermy::AUTO:
+	case Enemy::AUTO:
 		HandleAutoState();
 		break;
-	case Enermy::CHASE:
+	case Enemy::CHASE:
 		HandleChaseState();
-		break;
-	case Enermy::DEAD:
-		HandldeDeadState();
 		break;
 	default:
 		break;
 	}
 }
 
-void Enermy::HandleAutoState()
+void Enemy::HandleAutoState()
 {
+	if (mId % 2 == 0)
+	{
+		if (mMoveAuto > mDistanceMoveAuto)
+		{
+			mSign = -1.0f;
+		}
+		else if (mMoveAuto < -mDistanceMoveAuto)
+			mSign = 1.0f;
 
+		mMoveAuto += mSign * (VEC2_RIGHT * mMoveSpeed * mTimer->DeltaTime()).Magnitude();
+		Translate(mSign * VEC2_RIGHT * mMoveSpeed * mTimer->DeltaTime(), GameEntity::world);
+	}
+	else {
+		if (mMoveAuto > mDistanceMoveAuto)
+		{
+			mSign = -1.0f;
+		}
+		else if (mMoveAuto < -mDistanceMoveAuto)
+			mSign = 1.0f;
+
+		mMoveAuto += (mSign * VEC2_UP * mMoveSpeed * mTimer->DeltaTime()).Magnitude();
+		Translate(mSign * VEC2_UP * mMoveSpeed * mTimer->DeltaTime(), GameEntity::world);
+	}
 }
 
-void Enermy::HandleChaseState()
+void Enemy::HandleChaseState()
 {
 	// Update barrel
-	Vector2 direct = mPlayerPos - Pos();
+	Vector2 direct = sPlayer->Pos() - Pos();
 	float barrelRotation = AngleBetweenVector(Vector2(0.0f, 1.0f), direct);
-	if (mPlayerPos.x - Pos().x >= 0)
+	if (sPlayer->Pos().x - Pos().x >= 0)
 	{
 		mBarrel->Rotation(-barrelRotation);
 	}
@@ -64,20 +95,20 @@ void Enermy::HandleChaseState()
 	}
 
 	// Move 
-	float distance = (mHeadBarrel->Pos() - mPlayerPos).Magnitude();
+	float distance = (mHeadBarrel->Pos() - sPlayer->Pos()).Magnitude();
 
 	int tankRotation = static_cast<int>(mTank->Rotation());
 	if (distance > mBullets[0]->FIRING_RANGE + 10.0f)
 	{
 		// Move horizontal
-		if (mPlayerPos.x - Pos().x > 5.0f)
+		if (sPlayer->Pos().x - Pos().x > 5.0f)
 		{
 			Translate(VEC2_RIGHT * mMoveSpeed * mTimer->DeltaTime(), GameEntity::world);
 			if (tankRotation != 90 && tankRotation != 270)
 				mTank->Rotate(mRotationSpeed * mTimer->DeltaTime());
 
 		}
-		else if (mPlayerPos.x - Pos().x < -5.0f) 
+		else if (sPlayer->Pos().x - Pos().x < -5.0f)
 		{
 			Translate(-VEC2_RIGHT * mMoveSpeed * mTimer->DeltaTime(), GameEntity::world);
 			if (tankRotation != 90 && tankRotation != 270)
@@ -85,7 +116,7 @@ void Enermy::HandleChaseState()
 		}
 		else {
 			// Move vertical
-			if (mPlayerPos.y - Pos().y >= 0)
+			if (sPlayer->Pos().y - Pos().y >= 0)
 			{
 				Translate(VEC2_DOWN * mMoveSpeed * mTimer->DeltaTime(), GameEntity::world);
 				if (tankRotation != 0 && tankRotation != 180)
@@ -103,15 +134,7 @@ void Enermy::HandleChaseState()
 	}
 }
 
-void Enermy::HandldeDeadState()
-{
-	if (mDeathAnimation->IsAnimating())
-	{
-		mDeathAnimation->Update();
-	}
-}
-
-void Enermy::HandleFiring()
+void Enemy::HandleFiring()
 {
 	mBulletsTimer += mTimer->DeltaTime();
 	if (mBulletsTimer >= mBulletsDelay)
@@ -121,7 +144,7 @@ void Enermy::HandleFiring()
 		{
 			if (!mBullets[i]->Active())
 			{
-				mBullets[i]->Fire(mHeadBarrel->Pos(), mPlayerPos);
+				mBullets[i]->Fire(mHeadBarrel->Pos(), sPlayer->Pos());
 				mAudio->PlaySFX("SFX/shoot_01.ogg");
 				break;
 			}
@@ -129,17 +152,17 @@ void Enermy::HandleFiring()
 	}
 }
 
-bool Enermy::IgnoreCollision()
+bool Enemy::IgnoreCollision()
 {
 	return !mVisible || mAnimating;
 }
 
-Enermy::STATES Enermy::CurrentState()
+Enemy::STATES Enemy::CurrentState()
 {
 	return mCurrentState;
 }
 
-void Enermy::Hit(PhysicEntity* other)
+void Enemy::Hit(PhysicEntity* other)
 {
 	if (mHealth > 0)
 		mHealth--;
@@ -159,15 +182,25 @@ void Enermy::Hit(PhysicEntity* other)
 
 }
 
-void Enermy::Update(Vector2 playerPos)
+void Enemy::PlayerHitEnemy(PhysicEntity* other)
 {
-	//printf("(X, Y) = (%f, %f)\n", mMap->MoveCamera().Approximate().x, mMap->MoveCamera().Approximate().y);
+	Pos(mPrePos);
+}
+
+void Enemy::Update()
+{
 	Translate(-mMap->MoveCamera().Approximate());
+
+	mPrePos = Pos(); // ?? 
 
 	if (mAnimating)
 	{
 		mDeathAnimation->Update();
 		mAnimating = mDeathAnimation->IsAnimating();
+		if (!mAnimating)
+		{
+			Visible(false);
+		}
 	}
 	else
 	{
@@ -176,7 +209,6 @@ void Enermy::Update(Vector2 playerPos)
 
 		if (Active())
 		{
-			mPlayerPos = playerPos;
 			HandleStates();
 		}
 	}
@@ -187,7 +219,7 @@ void Enermy::Update(Vector2 playerPos)
 	}	
 }
 
-void Enermy::Render()
+void Enemy::Render()
 {
 	PhysicEntity::Render();
 

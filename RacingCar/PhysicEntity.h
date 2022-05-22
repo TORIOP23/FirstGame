@@ -36,6 +36,8 @@ public:
 
 	virtual void Hit(PhysicEntity* other);
 
+	virtual void PlayerHitEnemy(PhysicEntity* other);
+
 	virtual void Render();
 
 protected:

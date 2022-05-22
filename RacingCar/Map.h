@@ -19,14 +19,14 @@ private:
 
 	float mScale;
 
-	const float mTileSize = 64;
+	const int mTileSize = 64;
 
 	// position upper left conner 
 	Vector2 mPrePosCamera;
 	Vector2 mPosCamera;
 
 private:
-
+	// Scale every tilemap
 	void Scale();
 
 public:
@@ -35,18 +35,17 @@ public:
 
 	static void Release();
 
+	// Setter
 	void SetScale(float scale);
-
 	void ChangeMap(std::string filename);
-
-	Vector2 Dimension();
-
 	void PosCamera(Vector2 pos);
 
-	Vector2 PosCamera();
+	Vector2 Dimension() const;
 
-	//getter
-	Vector2 MoveCamera();
+	Vector2 PosCamera() const;
+
+	// return mPos - mPrePos
+	Vector2 MoveCamera() const;
 
 	void MoveCamera(Vector2 move);
 

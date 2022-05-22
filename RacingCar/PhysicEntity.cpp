@@ -44,9 +44,38 @@ bool PhysicEntity::CheckCollision(PhysicEntity* other)
 		return false;
 
 	return ColliderColliderCheck(mBroadPhaseCollider, other->mBroadPhaseCollider);
+
+	bool narrowPhaseCheck = false;
+	if (mBroadPhaseCollider && other->mBroadPhaseCollider)
+	{
+		narrowPhaseCheck = ColliderColliderCheck(mBroadPhaseCollider, other->mBroadPhaseCollider);
+	}
+	else {
+		narrowPhaseCheck = true;
+	}
+
+	if (narrowPhaseCheck)
+	{
+		for (int i = 0; i < mColliders.size(); i++)
+		{
+			for (int j = 0; j < other->mColliders.size(); j++)
+			{
+				if (ColliderColliderCheck(mColliders[i], other->mColliders[j]))
+				{
+					return true;
+				}
+			}
+		}
+	}
+
+	return false;
+}
+void PhysicEntity::Hit(PhysicEntity* other)
+{
+
 }
 
-void PhysicEntity::Hit(PhysicEntity* other)
+void PhysicEntity::PlayerHitEnemy(PhysicEntity* other)
 {
 
 }

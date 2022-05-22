@@ -99,12 +99,27 @@ inline Vector2 operator /(const float& lhs, const Vector2& rhs)
 //(Does not change the original vector)    
 // https://matthew-brett.github.io/teaching/rotation_2d.html      
 //
-inline Vector2 RotateVector(Vector2& vec, float angle) 
+inline Vector2 RotateVector(Vector2 vec, float angle) 
 {
 	//converting the angle to radians to be used in sin and cos functions
 	float radAngle = static_cast<float>(angle * DEG_TO_RAD);
 
 	return Vector2(static_cast<float>(vec.x * cos(radAngle) - vec.y * sin(radAngle)), static_cast<float>(vec.x * sin(radAngle) + vec.y * cos(radAngle)));
+}
+
+// Dot product
+inline float Dot(const Vector2& vec1, const Vector2& vec2)
+{
+	return vec1.x * vec2.x + vec1.y * vec2.y;
+}
+
+inline float Clamp(const float& value, const float& min, const float& max)
+{
+	if (value > max)
+		return max;
+	if (value < min)
+		return min;
+	return value;
 }
 
 // Linear Interpolation

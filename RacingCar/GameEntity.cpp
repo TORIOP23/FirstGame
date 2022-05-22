@@ -35,14 +35,27 @@ Vector2 GameEntity::Pos(SPACE space)
 	if(space == local || mParent == nullptr)
 		return mPos;
 
-	Vector2 parentScale = mParent->Scale(world);
+	GameEntity* parent = mParent;
+	Vector2 finalPos = mPos, parentScale = VEC2_ZERO;
 
-	Vector2 mPosScaled(mPos.x * parentScale.x, mPos.y * parentScale.y);
-	//The object's local position is rotated by the parent's rotation
-	Vector2 rotPos = RotateVector(mPosScaled, mParent->Rotation(local));
+	// do to final parent
+	do
+	{
+		// Translate * (rotation * (scale P)))
+		parentScale = mParent->Scale(local);
+		finalPos = RotateVector(Vector2(finalPos.x * parentScale.x, finalPos.y * parentScale.y), parent->Rotation(local));
+		finalPos += parent->Pos(local);
+
+		parent = parent->Parent();
+	} while (parent);
+
+	//Vector2 mPosScaled(mPos.x * parentScale.x, mPos.y * parentScale.y);
+	////The object's local position is rotated by the parent's rotation
+	//Vector2 rotPos = RotateVector(mPosScaled, mParent->Rotation(local)); // bug ignore after parent
 
 	//The final position also depends on the parent's scale (if the parent is scaled up, the object should be further away from the parent)
-	return mParent->Pos(world) + rotPos;
+	//return mParent->Pos(world) + rotPos;
+	return finalPos;
 }
 
 //Sets the GameEntity's rotation, it only updates local space

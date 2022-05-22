@@ -25,7 +25,7 @@ PlayScreen::PlayScreen()
 	mStartLabel->Pos(Vector2(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.5f));
 
 	mLevelStartTimer = 0.0f;
-	mLevelStartDelay = 2.0f;
+	mLevelStartDelay = 1.5f;
 	mGameStarted = false;
 
 	mLevel = nullptr;
@@ -79,7 +79,7 @@ void PlayScreen::StartNextLevel()
 
 	mPlayer->Pos(Vector2(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.5f));
 
-	//mAudio->PlaySFX("SFX/levelUp.wav", 0, 0);
+	mAudio->PlaySFX("SFX/levelUp.wav", 0, 0);
 }
 
 void PlayScreen::StartNewGame()
@@ -192,13 +192,12 @@ void PlayScreen::Render()
 
 	if (!mGameStarted)
 		mStartLabel->Render();
-
-	if (mGameStarted)
+	else
 	{
 		if (mLevelStarted)
 		{
-			mLevel->Render();
 			mPlayer->Render();
+			mLevel->Render();
 		}
 
 	}

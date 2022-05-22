@@ -81,13 +81,11 @@ void ScreenManager::Update()
 
 		mPlayScreen->Update();
 
-		if (mPlayScreen->GameOver())
+		if (mPlayScreen->GameOver() || mInput->KeyPressed(SDL_SCANCODE_ESCAPE))
 		{
 			mCurrentScreen = START;
 			mAudio->PlayMusic("Music/pickBan.wav");
 		}
-		break;
-	default:
 		break;
 	}
 }
@@ -101,8 +99,6 @@ void ScreenManager::Render()
 		break;
 	case ScreenManager::PLAY:
 		mPlayScreen->Render();
-		break;
-	default:
 		break;
 	}
 }

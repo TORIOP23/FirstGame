@@ -22,7 +22,6 @@ private:
 
 	// Start 
 	Texture* mStartLabel;
-
 	float mLevelStartTimer;
 	float mLevelStartDelay;
 

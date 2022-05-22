@@ -13,6 +13,8 @@ private:
 	// Arrow
 	Texture* mArrow;
 
+	Vector2 mPrePos;
+
 private:
 
 	bool IgnoreCollision() override;
@@ -28,6 +30,8 @@ public:
 	~Player();
 
 	void Hit(PhysicEntity* other) override;
+
+	void PlayerHitEnemy(PhysicEntity* other) override;
 
 	int Score();
 

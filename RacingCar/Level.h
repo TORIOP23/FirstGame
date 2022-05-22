@@ -2,7 +2,8 @@
 #include "InputManager.h"
 #include "PlayTopBar.h"
 #include "Player.h"
-#include "Enermy.h"
+#include "Enemy.h"
+#include <vector>
 
 class Level : public GameEntity
 {
@@ -34,11 +35,14 @@ private:
 
 	// Player
 	Player* mPlayer;
-	bool mPlayerHit;
+	bool mPlayerDeath;
 
-	// Enermy
-	Enermy* mEnermy;
-	bool mEnermyHit;
+	// Enemy
+	const int ENEMIES;
+	int mCntEnemy;
+	std::vector<Enemy*> mEnemy;
+	Texture* mEnemyLabel;
+	Scoreboard* mEnemyNumber;
 
 	// Respawn
 	//float mPlayerRespawnDelay;

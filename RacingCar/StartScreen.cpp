@@ -12,7 +12,7 @@ StartScreen::StartScreen()
 	mAudio->PlayMusic("Music/pickBan.wav");
 
 	// Background
-	mBkg = new Texture("bkg.jpg");
+	mBkg = new Texture("bkg.png");
 	mBkg->Pos(Vector2(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.5f));
 
 	//Top Bar Entities

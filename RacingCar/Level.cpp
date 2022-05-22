@@ -1,6 +1,6 @@
 #include "Level.h"
 
-Level::Level(int stage, PlayTopBar* topBar, Player* player)
+Level::Level(int stage, PlayTopBar* topBar, Player* player) : ENEMIES(stage)
 {
 	mTimer = Timer::Instance();
 
@@ -35,16 +35,40 @@ Level::Level(int stage, PlayTopBar* topBar, Player* player)
 
 	// Player
 	mPlayer = player;
-	mPlayerHit = false;
+	mPlayerDeath = false;
 	//mPlayerRespawnDelay = 3.0f;
 	//mPlayerRespawnTimer = 0.0f;
 	//mPlayerRespawnLabelOnScreen = 2.0f;
 
-	// Enermy
-	mEnermy = new Enermy();
-	mEnermy->Pos(Vector2(Graphics::SCREEN_WIDTH * 0.2f, Graphics::SCREEN_HEIGHT * 0.2f));
-	mEnermyHit = false;
+	// Enemy
+	for (int i = 0; i < ENEMIES; i++)
+	{
+		int posX, posY;
+		Vector2 posPlayer = mPlayer->Pos();
+		do
+		{
+			posX = rand() % 31;
+			posY = rand() % 16;
+		} while (posX * 100 + 70.0f > posPlayer.x - 100 && posX * 100 + 70.0f < posPlayer.x + 100
+				&& posY * 100 + 70.0f > posPlayer.y - 100 && posY * 100 + 70.0f < posPlayer.y + 100);
+		
+		mEnemy.push_back(new Enemy());
+		mEnemy[i]->Pos(Vector2(posX * 100 + 70.0f, posY * 100 + 70.0f));
 
+		printf("(%f, %f)\n", mEnemy[i]->Pos().x, mEnemy[i]->Pos().y);
+	}
+	
+	mCntEnemy = ENEMIES;
+
+	mEnemyLabel = new Texture("ENEMIES : ", "fonts/lol1.ttf", 40, { 150, 200, 150 });
+	mEnemyLabel->Pos(Vector2(Graphics::SCREEN_WIDTH - 300.0f, 200.0f));
+
+	mEnemyNumber = new Scoreboard({ 150, 200, 150 });
+	mEnemyNumber->Parent(mEnemyLabel);
+	mEnemyNumber->Pos(Vector2(200.0f, 0.0f));
+	mEnemyNumber->Score(mCntEnemy);
+
+	// game over
 	mGameOverLabel = new Texture("GAME OVER!!", "fonts/lol1.ttf", 60, { 150, 0, 0 });
 	mGameOverLabel->Parent(this);
 	mGameOverLabel->Pos(Vector2(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.5f));
@@ -56,30 +80,41 @@ Level::Level(int stage, PlayTopBar* topBar, Player* player)
 
 	mCurrentState = RUNNING;
 
-	Enermy::CurrentPlayer(mPlayer);
+	Enemy::CurrentPlayer(mPlayer);
 }
 
 Level::~Level()
 {
-	mTimer = NULL;
-	mTopBar = NULL;
+	mTimer = nullptr;
+	mTopBar = nullptr;
 
 	delete mStageLabel;
-	mStageLabel = NULL;
+	mStageLabel = nullptr;
 
 	delete mStageNumber;
-	mStageNumber = NULL;
+	mStageNumber = nullptr;
 
 	delete mReadyLabel;
-	mReadyLabel = NULL;
+	mReadyLabel = nullptr;
 
-	mPlayer = NULL;
+	mPlayer = nullptr;
 
-	delete mEnermy;
-	mEnermy = NULL;
+	// Enemy
+	for (int i = 0; i < mEnemy.size(); i++)
+	{
+		delete mEnemy[i];
+		mEnemy[i] = nullptr;
+	}
+	mEnemy.clear();
+
+	delete mEnemyLabel;
+	mEnemyLabel = nullptr;
+
+	delete mEnemyNumber;
+	mEnemyNumber = nullptr;
 
 	delete mGameOverLabel;
-	mGameOverLabel = NULL;
+	mGameOverLabel = nullptr;
 }
 
 void Level::StartStage()
@@ -111,63 +146,41 @@ void Level::HandleStartLabels()
 
 void Level::HandleCollisions()
 {
-	if (!mPlayerHit)
+	if (!mPlayerDeath)
 	{
-		if (mPlayer->WasHit())
+		if (mPlayer->Health() == 0)
 		{
-			mPlayerHit = true;
-			//mPlayerRespawnTimer = 0.0f;
-			if (mPlayer->Health() == 0)
-				mPlayer->Active(false);
-
+			mPlayer->Active(false);
+			mPlayerDeath = true;
 		}
 	}
 
-	if (!mEnermyHit)
+	mCntEnemy = ENEMIES;
+	for (int i = 0; i < mEnemy.size(); i++)
 	{
-		if (mEnermy->WasHit())
+		if (mEnemy[i]->Health() == 0)
 		{
-			mEnermyHit = true;
-			//mPlayerRespawnTimer = 0.0f;
-			if (mEnermy->Health() == 0)
-				mEnermy->Active(false);
-
+			mEnemy[i]->Active(false);
+			mCntEnemy--;
 		}
 	}
-
 }
 
 void Level::HandlePlayerDeath()
 {
 	if (!mPlayer->IsAnimating())
 	{
-		if (mPlayer->Health() > 0)
+		if (mGameOverTimer == 0.0f)
+			mPlayer->Visible(false);
+
+		mGameOverTimer += mTimer->DeltaTime();
+		if (mGameOverTimer >= mGameOverDelay)
 		{
-			/*if (mPlayerRespawnTimer == 0.0f)
-			{
-				mPlayer->Visible(false);
-			}
-
-			mPlayerRespawnTimer += mTimer->DeltaTime();
-			if (mPlayerRespawnTimer >= mPlayerRespawnDelay)
-			{
-				mPlayer->Active(true);
-				mPlayer->Visible(true);*/
-				mPlayerHit = false;
-			//}
-		}
-		else {
-			if (mGameOverTimer == 0.0f)
-				mPlayer->Visible(false);
-
-			mGameOverTimer += mTimer->DeltaTime();
-			if (mGameOverTimer >= mGameOverDelay)
-			{
-				mCurrentState = GAMEOVER;
-			}
+			mCurrentState = GAMEOVER;
 		}
 	}
 }
+
 
 Level::LEVEL_STATES Level::State()
 {
@@ -182,20 +195,22 @@ void Level::Update()
 	} 
 	else {
 		// Enermy 
-		mEnermy->Update(mPlayer->Pos());
+		for (int i = 0; i < mEnemy.size(); i++)
+			mEnemy[i]->Update();
 
 		HandleCollisions();
 
-		if (mPlayerHit)
+		mEnemyNumber->Score(mCntEnemy);
+
+		if (mCntEnemy == 0)
+		{
+			mCurrentState = FINISHED;
+		}
+
+		if (mPlayerDeath)
 		{
 			HandlePlayerDeath();
-		}
-		else {
-			if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_N))
-			{
-				mCurrentState = FINISHED;
-			}
-		}
+		} 
 	}
 }
 
@@ -215,9 +230,13 @@ void Level::Render()
 	}
 	else
 	{
-		mEnermy->Render();
+		for (int i = 0; i < mEnemy.size(); i++)
+			mEnemy[i]->Render();
 
-		if (mPlayerHit)
+		mEnemyLabel->Render();
+		mEnemyNumber->Render();
+
+		if (mPlayerDeath)
 		{
 			/*if (mPlayerRespawnTimer >= mPlayerRespawnLabelOnScreen)
 				mReadyLabel->Render();*/

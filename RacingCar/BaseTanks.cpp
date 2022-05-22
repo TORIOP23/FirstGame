@@ -1,5 +1,6 @@
 #include "BaseTanks.h"
 #include "BoxCollider.h"
+#include "CircleCollider.h"
 #include "PhysicManager.h"
 #include <string>
 
@@ -61,6 +62,7 @@ BaseTanks::BaseTanks(bool player)
 	mMoveSpeed = 300.0f;
 
 	// Collider
+	//AddCollider(new CircleCollider(mTank->ScaleDimensions().x - 25.0f));
 	AddCollider(new BoxCollider(mTank->ScaleDimensions()));
 
 	// Register Collision

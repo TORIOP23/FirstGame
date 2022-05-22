@@ -10,6 +10,8 @@ Player::Player() : BaseTanks(true)
 	mArrow = new Texture("PNG/arrowPlayer.png");
 	mArrow->Parent(this);
 	mArrow->Pos(Vector2(0.0f, -80.0f));
+
+	mPrePos = VEC2_ZERO;
 }
 
 Player::~Player()
@@ -119,7 +121,8 @@ void Player::HandleFiring()
 
 void Player::Hit(PhysicEntity* other)
 {
-	mHealth--;
+	if (mHealth > 0)
+		mHealth--;
 	if (mHealth == 0)
 	{
 		mDeathAnimation->ResetAnimation();
@@ -131,6 +134,12 @@ void Player::Hit(PhysicEntity* other)
 	}
 
 	mWasHit = true;
+}
+
+void Player::PlayerHitEnemy(PhysicEntity* other)
+{
+	printf("Pos = (%f, %f) ; PrePos = (%f, %f)\n", Pos().x, Pos().y, mPrePos.x, mPrePos.y);
+	Pos(mPrePos);
 }
 
 int Player::Score()
@@ -146,6 +155,8 @@ void Player::AddScore(int change)
 
 void Player::Update()
 {
+	mPrePos = Pos();
+
 	if (mAnimating)
 	{
 		mDeathAnimation->Update();

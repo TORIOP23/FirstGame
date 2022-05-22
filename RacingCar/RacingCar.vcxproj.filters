@@ -99,7 +99,7 @@
     <ClCompile Include="Bullet.cpp">
       <Filter>Source Files\Tanks</Filter>
     </ClCompile>
-    <ClCompile Include="Enermy.cpp">
+    <ClCompile Include="Enemy.cpp">
       <Filter>Source Files\Tanks</Filter>
     </ClCompile>
     <ClCompile Include="Map.cpp">
@@ -179,7 +179,7 @@
     <ClInclude Include="Bullet.h">
       <Filter>Header Files\Tanks</Filter>
     </ClInclude>
-    <ClInclude Include="Enermy.h">
+    <ClInclude Include="Enemy.h">
       <Filter>Header Files\Tanks</Filter>
     </ClInclude>
     <ClInclude Include="Map.h">

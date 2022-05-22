@@ -73,14 +73,30 @@ void PhysicManager::Update()
 		{
 			if (mLayerMasks[i].test(j) && i <= j)
 			{
-				for (unsigned int k = 0; k < mCollisionLayers[i].size(); k++)
+				if (i == 0 && j == 2)
 				{
-					for (unsigned int l = 0; l < mCollisionLayers[j].size(); l++)
+					for (unsigned int k = 0; k < mCollisionLayers[i].size(); k++)
 					{
-						if (mCollisionLayers[i][k]->CheckCollision(mCollisionLayers[j][l]))
+						for (unsigned int l = 0; l < mCollisionLayers[j].size(); l++)
 						{
-							mCollisionLayers[i][k]->Hit(mCollisionLayers[j][l]);
-							mCollisionLayers[j][l]->Hit(mCollisionLayers[i][k]); 
+							if (mCollisionLayers[i][k]->CheckCollision(mCollisionLayers[j][l]))
+							{
+								mCollisionLayers[i][k]->PlayerHitEnemy(mCollisionLayers[j][l]);
+								mCollisionLayers[j][l]->PlayerHitEnemy(mCollisionLayers[i][k]);
+							}
+						}
+					}
+				}
+				else {
+					for (unsigned int k = 0; k < mCollisionLayers[i].size(); k++)
+					{
+						for (unsigned int l = 0; l < mCollisionLayers[j].size(); l++)
+						{
+							if (mCollisionLayers[i][k]->CheckCollision(mCollisionLayers[j][l]))
+							{
+								mCollisionLayers[i][k]->Hit(mCollisionLayers[j][l]);
+								mCollisionLayers[j][l]->Hit(mCollisionLayers[i][k]);
+							}
 						}
 					}
 				}

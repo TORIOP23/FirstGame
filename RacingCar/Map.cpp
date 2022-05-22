@@ -32,9 +32,8 @@ Map::Map()
 	mScale = 1.0f;
 	Scale();
 
-
+	// camera
 	mPosCamera = mPrePosCamera = VEC2_ZERO;
-
 }
 
 Map::~Map()
@@ -82,22 +81,34 @@ void Map::ChangeMap(std::string filename)
 	mapFile.close();
 }
 
-Vector2 Map::Dimension()
+void Map::PosCamera(Vector2 pos)
+{
+	mPosCamera = pos;
+
+	// wrap
+	if (mPosCamera.x < 0)
+		mPosCamera.x = 0.0f;
+	else if (mPosCamera.x > Dimension().x - Graphics::SCREEN_WIDTH)
+		mPosCamera.x = Dimension().x - Graphics::SCREEN_WIDTH;
+
+	if (mPosCamera.y < 0)
+		mPosCamera.y = 0.0f;
+	else if (mPosCamera.y > Dimension().y - Graphics::SCREEN_HEIGHT)
+		mPosCamera.y = Dimension().y - Graphics::SCREEN_HEIGHT;
+
+}
+
+Vector2 Map::Dimension() const
 {
 	return Vector2(mScale * mTileSize * MAX_COL, mScale * mTileSize * MAX_ROW);
 }
 
-Vector2 Map::PosCamera()
+Vector2 Map::PosCamera() const
 {
 	return mPosCamera;
 }
 
-void Map::PosCamera(Vector2 pos)
-{
-	mPosCamera = pos;
-}
-
-Vector2 Map::MoveCamera()
+Vector2 Map::MoveCamera() const
 {
 	return mPosCamera - mPrePosCamera;
 }
@@ -114,15 +125,15 @@ void Map::MoveCamera(Vector2 move)
 
 void Map::Update()
 {
-	SetScale(2.0f);
 	mPrePosCamera = mPosCamera;
+	SetScale(2.0f);
 	Scale();
 }
 
 void Map::Render()
 {
 	int type = 0;
-	int tileSizeScaled = mTileSize * mScale;
+	int tileSizeScaled = static_cast<int>(mTileSize * mScale);
 
 	if (mScale == 1.0f)
 	{
